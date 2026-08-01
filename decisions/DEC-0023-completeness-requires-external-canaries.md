@@ -1,6 +1,6 @@
 ---
 id: DEC-0023
-status: Proposed
+status: Accepted
 repos: []
 governs:
   types: []
@@ -34,6 +34,34 @@ unmeasurable**, never as an assumed rate.
 Absence detection is computed at the receiver from an expected-source inventory,
 and a minimal liveness heartbeat travels the control-plane channel rather than
 the data path.
+
+## Status note — accepted 2026-08-17
+
+Accepted so that DQM wave 2a — canary emitter, reconciler, receiver-side source
+inventory — has a settled position to be built against. The decision has no
+dependencies on the type catalogue, the transport, Golden or a published package,
+which is why it could be accepted while other work was blocked on a package feed.
+
+Acceptance settles the measurement principle and the two non-optional properties:
+duplication is counted separately from loss and never netted against it, and a
+source on a transport with no delivery guarantee is rendered as unmeasurable
+rather than assigned an assumed rate.
+
+Acceptance does **not** settle the two questions recorded under Consequences as
+open, and neither is treated as resolved by silence:
+
+- Canary injection into a Windows Security channel or an ETW session still has no
+  identified mechanism. The fallback of reading provider drop counters measures
+  something weaker, and adopting it would narrow what "completeness" claims for
+  those sources.
+- **Whether canaries are filtered from Bronze or retained and marked is still
+  open, and it blocks the emitter rather than the principle.** It needs its own
+  Decision before the emitter writes anything, because `DEC-0010` makes Bronze
+  write-once: filtering is a content-based routing judgement taken at write time
+  and cannot be undone afterwards, while retaining and marking can be reversed at
+  query time. The asymmetry is an argument about reversibility, not a resolution
+  — recorded here so the emitter is not built on an assumption nobody made
+  deliberately.
 
 ## Consequences
 

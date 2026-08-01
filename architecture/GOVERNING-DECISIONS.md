@@ -72,5 +72,5 @@ _No Decision names this repository yet._
 | [`DEC-0016`](../decisions/DEC-0016-best-effort-collection-mandatory-accounting.md) | Accepted | Best-effort collection, mandatory loss accounting |
 | [`DEC-0018`](../decisions/DEC-0018-lake-is-ducklake.md) | Accepted | Lake is DuckLake with a SQL catalogue database |
 | [`DEC-0021`](../decisions/DEC-0021-threshold-as-windowed-aggregate.md) | Proposed | Detection threshold expressed inside the KQL as a windowed aggregate |
-| [`DEC-0023`](../decisions/DEC-0023-completeness-requires-external-canaries.md) | Proposed | Completeness is measured by external canaries, and unmeasurable sources say so |
+| [`DEC-0023`](../decisions/DEC-0023-completeness-requires-external-canaries.md) | Accepted | Completeness is measured by external canaries, and unmeasurable sources say so |
 | [`DEC-0025`](../decisions/DEC-0025-adjudication-boundary.md) | Proposed | DeltaZulu measures precision, never recall, and splits a miss into its two causes |
