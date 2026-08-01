@@ -148,6 +148,12 @@ wrong in governance documents about a pipeline whose central discipline is
 "declare the type, never infer it; get the timestamp right" is the kind of
 detail worth being exact about rather than dismissing as cosmetic.
 
+**Disposition: raised, and left as written.** The repository owner's judgement
+on review was that ADR content is what matters and the dates are not worth
+correcting. Recorded here so this finding reads as closed rather than as an
+open item nobody looked at. The seven dates below stay wrong, deliberately,
+and this line is the reason.
+
 **Not fixed in this review.** Correcting seven already-pushed files changes
 governance-record content on a shared branch, which this review treats as a
 decision for you rather than something to do silently while reviewing. Two
@@ -179,6 +185,6 @@ this session touched, and every row matches.
 The functional content — the code changes in Platform, and the substance of
 the Decisions in `docs` — held up under re-execution and re-reading. Nothing
 found required reverting. Two real gaps in test coverage, one design note worth
-a comment, one cosmetic dash, and one real, systematic, low-risk defect: the
-date on everything this session wrote is wrong by six days, in a repository
-where dates are part of the record's meaning rather than metadata.
+a comment, one cosmetic dash, and one dating error, accepted as-is: the date on
+everything this session wrote is wrong by six days, and the repository owner's
+judgement is that ADR content is what matters, not the date stamps.
