@@ -1,6 +1,6 @@
 ---
 id: DEC-0022
-status: Proposed
+status: Accepted
 repos: [DeltaZulu.Platform]
 governs:
   types: []
@@ -35,6 +35,29 @@ Both sink adapters — `Data.DuckDb` and `Data.Proton`, the latter already shipp
 
 The separate-executable qualifier is load-bearing: ingest availability must not
 be coupled to the Blazor host's deployment lifecycle or its threat surface.
+
+## Status note — accepted 2026-08-17
+
+Accepted because the NRT pipeline work already depends on it as settled: `DEC-0027`
+places the collector's downstream consumers (Proton and DuckLake) without
+revisiting where the collector itself lives, and `DEC-0031`'s reorder buffer sits
+between Proton and DuckLake on the assumption that the write path Platform hosts
+is the one described here. Leaving this `Proposed` while later Decisions built on
+it as fact would have made the dependency silent.
+
+Acceptance does not resolve the open item this Decision itself names: the
+`RawLogNdjsonCodec` boundary. It remains confined to seeding — a fixtures path,
+not an ingest path — and stays that way until a Decision says otherwise. If it
+ever carries agent telemetry into Silver, it becomes the banned second ingest
+contract arriving through a different door, and this acceptance does not license
+that; it only settles where the collector that must not do that lives.
+
+No `governs:` entry is added by this acceptance. `DeltaZulu.Platform.Ingestion`
+remains a library project — no `OutputType` is set, so it builds as one, not the
+standalone executable this Decision requires — so there is no concrete symbol yet
+for `governs-check` to hold to the "separate executable" qualifier. That
+qualifier becomes checkable, and should be added to `governs:`, once the
+executable exists.
 
 ## Consequences
 

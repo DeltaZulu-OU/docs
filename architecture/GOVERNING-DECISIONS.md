@@ -58,7 +58,7 @@ _No Decision names this repository yet._
 | [`DEC-0013`](../decisions/DEC-0013-golden-semantic-model.md) | Proposed | Golden semantic model and naming |
 | [`DEC-0017`](../decisions/DEC-0017-proton-ingest-over-http.md) | Accepted | Proton ingest over HTTP |
 | [`DEC-0020`](../decisions/DEC-0020-golden-as-materialised-view.md) | Accepted | Golden is a materialised view into a declared target stream |
-| [`DEC-0022`](../decisions/DEC-0022-collector-lives-in-platform.md) | Proposed | The collector is a project inside `DeltaZulu.Platform`, deployed separately |
+| [`DEC-0022`](../decisions/DEC-0022-collector-lives-in-platform.md) | Accepted | The collector is a project inside `DeltaZulu.Platform`, deployed separately |
 | [`DEC-0024`](../decisions/DEC-0024-bronze-integrity-controls.md) | Proposed | Bronze carries integrity controls, not just a retention setting |
 | [`DEC-0027`](../decisions/DEC-0027-proton-is-not-a-query-surface.md) | Accepted | Proton is a streaming runtime, not a query surface |
 | [`DEC-0028`](../decisions/DEC-0028-gold-schema-generated-from-code.md) | Accepted | One Gold contract generated from C#; physical alignment is best effort |
