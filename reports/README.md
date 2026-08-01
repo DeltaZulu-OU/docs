@@ -16,3 +16,4 @@ later report.
 | 2026-08-16 | `2026-08-16-collector-ownership.md` | Collector belongs in `DeltaZulu.Platform` as its own deployable. Recorded as `DEC-0022`. Flags the existing `RawLogNdjsonCodec` boundary. |
 | 2026-08-16 | `2026-08-16-package-publishing-blocked.md` | `dotnet nuget push` returns 401: the session token has no `packages` scope. Blocks FWD-CONTRACT-v2 items 3–11 and Parse commits B/D. Publish workflow added to `DeltaZulu.Kql`. |
 | 2026-08-16 | `2026-08-16-schema-divergence-verification.md` | Section 11.1 verified against code: seven of thirteen divergences refuted, two confirmed, `_ => KustoType.String` never existed. Gap 9's "weeks" estimate should come down. |
+| 2026-08-16 | `2026-08-16-session-handoff.md` | State of all nine branches, the `packages:read` permission a continuing session must ask for, what is done, what is next, and the claims that did not survive contact with the source. |
