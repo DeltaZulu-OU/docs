@@ -12,6 +12,7 @@ what *is*, and there is only ever one present tense.
 | `PIPELINE-ERRATA.md` | Where Wave 0 verification found `PIPELINE.md`'s claims refuted, understated, mis-cited or unverified. |
 | `DATA-QUALITY-MONITORING.md` | DQM rev. 2, 16 August 2026. Metrics, measurement points M0–M17 plus the external MX and MZ, and the eight quality planes. **Imported verbatim.** |
 | `DATA-QUALITY-MONITORING-INTEGRATION.md` | What the DQM import changes about planned work — chiefly that FWD-CONTRACT-v2's record-field set grows from three to nine, all irreversible. |
+| `NRT-PIPELINE.md` | The phase-one near-real-time architecture, 17 August 2026. Rewritten in place; `DEC-0026`-`DEC-0031` are its binding form. |
 | `GOVERNING-DECISIONS.md` | Which Decisions govern which repository, generated from front-matter. |
 
 `PIPELINE.md` is left unedited so that citations to it stay stable and so that

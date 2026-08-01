@@ -60,6 +60,11 @@ _No Decision names this repository yet._
 | [`DEC-0020`](../decisions/DEC-0020-golden-as-materialised-view.md) | Accepted | Golden is a materialised view into a declared target stream |
 | [`DEC-0022`](../decisions/DEC-0022-collector-lives-in-platform.md) | Proposed | The collector is a project inside `DeltaZulu.Platform`, deployed separately |
 | [`DEC-0024`](../decisions/DEC-0024-bronze-integrity-controls.md) | Proposed | Bronze carries integrity controls, not just a retention setting |
+| [`DEC-0027`](../decisions/DEC-0027-proton-is-not-a-query-surface.md) | Accepted | Proton is a streaming runtime, not a query surface |
+| [`DEC-0028`](../decisions/DEC-0028-gold-schema-generated-from-code.md) | Accepted | One Gold contract generated from C#; physical alignment is best effort |
+| [`DEC-0029`](../decisions/DEC-0029-gold-is-governed-by-event-time.md) | Accepted | Gold is governed by extracted event time; ingest time is provenance |
+| [`DEC-0030`](../decisions/DEC-0030-alert-identity-and-replay.md) | Accepted | Alerts reference Gold by identifier; identity excludes rule version |
+| [`DEC-0031`](../decisions/DEC-0031-reorder-buffer-between-proton-and-ducklake.md) | Accepted | Short event-time reorder buffer between Proton and DuckLake |
 
 ## Estate-wide (no single repository)
 
@@ -74,3 +79,4 @@ _No Decision names this repository yet._
 | [`DEC-0021`](../decisions/DEC-0021-threshold-as-windowed-aggregate.md) | Proposed | Detection threshold expressed inside the KQL as a windowed aggregate |
 | [`DEC-0023`](../decisions/DEC-0023-completeness-requires-external-canaries.md) | Accepted | Completeness is measured by external canaries, and unmeasurable sources say so |
 | [`DEC-0025`](../decisions/DEC-0025-adjudication-boundary.md) | Proposed | DeltaZulu measures precision, never recall, and splits a miss into its two causes |
+| [`DEC-0026`](../decisions/DEC-0026-nrt-first-scheduled-deferred.md) | Accepted | Phase one builds the NRT path only; scheduled detections deferred |
