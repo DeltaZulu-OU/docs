@@ -19,11 +19,18 @@ because nothing recorded what would invalidate them.
 | `architecture/` | Per-repo and estate architecture | Always current. Rewritten in place. |
 | `roadmaps/` | Forward plans | Every roadmap carries a dated review trigger. |
 | `archive/` | Historical per-repo ADRs, content unchanged | Frozen. Read-only history. |
-| `reports/` | Verification output that Decisions cite as evidence | Append-only in practice; dated. |
+| `reports/` | Verification output and decision memos that Decisions cite as evidence | Append-only in practice; dated. |
 
 `reports/` is not in the original layout specification. It was added because
 Constraints must cite verified evidence and that evidence needs somewhere to
 live that is neither a fact nor a decision.
+
+## Where to start
+
+`architecture/PIPELINE.md` is the consolidated architecture — read it with
+`architecture/PIPELINE-ERRATA.md`, which records where Wave 0 verification found
+its claims refuted or understated. `decisions/` holds `DEC-0001`–`DEC-0021`
+seeded from that document's D1–D21 register.
 
 ## Constraints versus Decisions
 

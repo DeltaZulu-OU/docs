@@ -49,23 +49,45 @@ decision made on rationale that later stopped holding, where nothing recorded
 what would invalidate it and so nobody looked. Those cases are listed in
 `archive/RECOVERY.md`, and they are the reason this section is not optional.
 
-## Seed set — not yet imported
+## Seed set
 
-The D1–D21 register in the consolidated architecture document is intended to seed
-this directory, renumbered to global `DEC-NNNN`. That import is pending: the
-consolidated document has not yet been placed in this repository. Until it is,
-this directory holds only the template below.
+`DEC-0001` through `DEC-0021` are seeded from the D1–D21 register in
+`architecture/PIPELINE.md`, renumbered to global `DEC-NNNN`. Each carries a
+`supersedes:` field naming its original `D`-number so citations to the register
+still resolve.
 
-Open questions the import must resolve, recorded so they are not lost:
+Status is carried across honestly rather than promoted: `DEC-0011` (Silver→Golden
+dual-compiled), `DEC-0013` (Golden semantic model) and `DEC-0021` (threshold
+semantics) are `Proposed`, not `Accepted`, because the register recorded them as
+Proposed or Open and nothing since has settled them.
 
-- **D13** — Golden as OCSF-derived versus Platform ADR 0007's DeltaZulu-owned
-  names. Note that OCSF and ASIM appear in exactly one file fleet-wide and in no
-  source file, which is evidence about how settled the OCSF reading actually is.
-- **D11** — pending the Golden placement decision memo.
-- **D21** — threshold semantics.
+Three of the seeded Decisions carry corrections the register did not:
+
+- **`DEC-0012`** records that `ILogicalSchemaRegistry` has no implementation
+  anywhere under `src/` — not merely no production consumers. Found by
+  `governs-check` rejecting an earlier draft of the Decision itself.
+- **`DEC-0017`** retires Agent ADR 0016's bespoke-native-sink premise against
+  shipped `ProtonHttpExecutor` code, and names ADR 0012's Enterprise-gating claim
+  as the factual error it propagated from.
+- **`DEC-0003`** states explicitly that the per-field conversion policy *refines*
+  reject-not-coerce rather than reversing it, because a reader encountering the
+  narrowing without that sentence will read it as an overturn.
+
+## Still open in the seed set
+
+- **`DEC-0013`** — Golden as OCSF-derived semantics versus Platform ADR 0007's
+  DeltaZulu-owned names. Must reach `Accepted` or be split before `DEC-0011`
+  leaves `Proposed`.
+- **`DEC-0011`** — stays `Proposed` until the CI equivalence test exists. See
+  `reports/2026-08-15-golden-placement.md`.
+- **`DEC-0021`** — window semantics unsettled.
+
+## Amendments these Decisions require in the archived ADRs
+
+Recorded here because the archive is frozen and cannot carry them:
+
 - Platform ADR 0007's *"agents do not map into Silver … or enrichments"* clause
-  contradicts settled D5 and needs striking.
-- Agent ADR 0016's bespoke-native-sink premise is contradicted by shipped
-  `ProtonHttpExecutor` code and needs retiring.
-- LocalStream ADR-0006's at-least-once delivery needs reconciling against
-  Forward's delivery-correctness gate.
+  contradicts `DEC-0005` and is struck by it.
+- Agent ADR 0016's bespoke-native-sink premise is retired by `DEC-0017`.
+- LocalStream ADR-0006's at-least-once delivery still needs reconciling against
+  Forward's delivery-correctness gate. Not yet done — no Decision covers it.

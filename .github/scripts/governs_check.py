@@ -61,8 +61,16 @@ def collect() -> int:
     repos: set[str] = set()
     for path, meta in accepted(load_decisions()):
         named = meta.get("repos") or []
-        if not named:
-            print(f"::warning file={path}::Accepted Decision names no repos")
+        governs = meta.get("governs") or {}
+        claims = (governs.get("types") or []) + (governs.get("paths") or [])
+        # A principle-level Decision legitimately governs no code and names no
+        # repos; that is not worth a warning. Claiming to govern symbols while
+        # naming no repository to look in is an inconsistency, and is.
+        if claims and not named:
+            print(
+                f"::warning file={path}::{meta.get('id')} claims governs entries "
+                "but names no repos, so they can never be checked"
+            )
         repos.update(named)
     pathlib.Path(".governed-repos.txt").write_text(
         "".join(f"{r}\n" for r in sorted(repos)), encoding="utf-8"
