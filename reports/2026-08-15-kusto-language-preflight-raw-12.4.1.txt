@@ -1,0 +1,60 @@
+ASSEMBLY Kusto.Language 12.4.1.0
+COMPILE_TIME_OK From=long->long GetSymbol=long->long Long.IsWiderThan(Int)=True
+MEMBER ScalarTypes.All: field type=System.Collections.Generic.IReadOnlyList`1[Kusto.Language.Symbols.ScalarSymbol] static=True public=True
+MEMBER ScalarTypes.GetSymbol: method static=True public=True returns=Kusto.Language.Symbols.ScalarSymbol params=(System.String)
+MEMBER ScalarSymbol.From: method static=True public=True returns=Kusto.Language.Symbols.ScalarSymbol params=(System.String)
+MEMBER ScalarSymbol.IsWiderThan: method static=False public=True returns=System.Boolean params=(Kusto.Language.Symbols.ScalarSymbol)
+ALL_COUNT 12
+ALL_MEMBERS bool,datetime,decimal,dynamic,guid,int,long,null,real,string,timespan,type
+ALL_CONTAINS_type True
+ALL_CONTAINS_null True
+ALL_CONTAINS_unknown False
+STATIC_Type present
+STATIC_Null present
+STATIC_Unknown present
+ALIASES_PROPERTY System.Collections.Generic.IReadOnlyList`1[System.String]
+ALIASES bool: [boolean]
+ALIASES datetime: [date]
+ALIASES decimal: []
+ALIASES dynamic: []
+ALIASES guid: [uniqueid,uuid]
+ALIASES int: [int16,int32,int8,uint,uint16,uint32,uint8]
+ALIASES long: [int64,uint64,ulong]
+ALIASES null: []
+ALIASES real: [double,float]
+ALIASES string: []
+ALIASES timespan: [time]
+ALIASES type: []
+RESOLVE int: From=int GetSymbol=int
+RESOLVE int32: From=int GetSymbol=int
+RESOLVE i32: From=null GetSymbol=null
+RESOLVE long: From=long GetSymbol=long
+RESOLVE int64: From=long GetSymbol=long
+RESOLVE i64: From=null GetSymbol=null
+RESOLVE ulong: From=long GetSymbol=long
+RESOLVE uint64: From=long GetSymbol=long
+RESOLVE uint: From=int GetSymbol=int
+RESOLVE uint32: From=int GetSymbol=int
+RESOLVE u64: From=null GetSymbol=null
+RESOLVE real: From=real GetSymbol=real
+RESOLVE double: From=real GetSymbol=real
+RESOLVE float: From=real GetSymbol=real
+RESOLVE datetime: From=datetime GetSymbol=datetime
+RESOLVE date: From=datetime GetSymbol=datetime
+RESOLVE timespan: From=timespan GetSymbol=timespan
+RESOLVE time: From=timespan GetSymbol=timespan
+RESOLVE guid: From=guid GetSymbol=guid
+RESOLVE uniqueid: From=guid GetSymbol=guid
+RESOLVE uuid: From=guid GetSymbol=guid
+RESOLVE bool: From=bool GetSymbol=bool
+RESOLVE boolean: From=bool GetSymbol=bool
+RESOLVE string: From=string GetSymbol=string
+RESOLVE decimal: From=decimal GetSymbol=decimal
+RESOLVE dynamic: From=dynamic GetSymbol=dynamic
+WIDER decimal > int
+WIDER decimal > long
+WIDER decimal > real
+WIDER long > int
+WIDER real > int
+WIDER real > long
+WIDER string > dynamic

@@ -1,0 +1,61 @@
+name: governs-check
+
+# For every Decision with status: Accepted, check out the repositories named in
+# its repos: list and fail if any symbol or path under governs: no longer exists.
+#
+# A Decision that governs code which has been deleted is either stale, or the
+# deletion was unauthorised. Both need a human, which is why this fails rather
+# than warns.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Weekly: code can be deleted in another repository without anything
+    # happening here, so this cannot rely on pushes to this repository alone.
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  governs-check:
+    name: Verify Accepted Decisions still govern existing code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout docs
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install PyYAML
+        run: pip install --quiet pyyaml
+
+      - name: Collect governed repositories
+        id: collect
+        run: python3 .github/scripts/governs_check.py --collect
+
+      - name: Check out governed repositories
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          mkdir -p .governed
+          while IFS= read -r repo; do
+            [ -z "$repo" ] && continue
+            echo "::group::clone $repo"
+            # Read-only clone. A repository that cannot be cloned is reported by
+            # the checker as unverifiable rather than silently passing.
+            git clone --depth 1 --quiet \
+              "https://x-access-token:${GH_TOKEN}@github.com/DeltaZulu-OU/${repo}.git" \
+              ".governed/${repo}" || echo "CLONE_FAILED ${repo}"
+            echo "::endgroup::"
+          done < .governed-repos.txt
+
+      - name: Verify governs entries
+        run: python3 .github/scripts/governs_check.py --verify --root .governed
