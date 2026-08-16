@@ -10,6 +10,9 @@ what *is*, and there is only ever one present tense.
 |---|---|
 | `PIPELINE.md` | The consolidated architecture, 15 August 2026. Supersedes the 12 August revision. **Imported verbatim and not edited.** |
 | `PIPELINE-ERRATA.md` | Where Wave 0 verification found `PIPELINE.md`'s claims refuted, understated, mis-cited or unverified. |
+| `DATA-QUALITY-MONITORING.md` | DQM rev. 2, 16 August 2026. Metrics, measurement points M0–M17 plus the external MX and MZ, and the eight quality planes. **Imported verbatim.** |
+| `DATA-QUALITY-MONITORING-INTEGRATION.md` | What the DQM import changes about planned work — chiefly that FWD-CONTRACT-v2's record-field set grows from three to nine, all irreversible. |
+| `GOVERNING-DECISIONS.md` | Which Decisions govern which repository, generated from front-matter. |
 
 `PIPELINE.md` is left unedited so that citations to it stay stable and so that
 what was believed at import time remains legible. Corrections live alongside it

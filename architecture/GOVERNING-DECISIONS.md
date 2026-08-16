@@ -3,9 +3,9 @@
 Generated from each Decision's `repos:` front-matter, so it cannot drift from the
 Decisions themselves. Each repository's `docs/README.md` points here.
 
-A Decision listed against a repository governs code in it, and
-`governs-check` fails if a symbol or path it names stops existing. A Decision with
-no repository is estate-wide — a principle rather than a claim on one codebase.
+A Decision listed against a repository governs code in it, and `governs-check`
+fails if a symbol or path it names stops existing. A Decision with no repository
+is estate-wide — a principle rather than a claim on one codebase.
 
 ## DeltaZulu.Kql
 
@@ -59,6 +59,7 @@ _No Decision names this repository yet._
 | [`DEC-0017`](../decisions/DEC-0017-proton-ingest-over-http.md) | Accepted | Proton ingest over HTTP |
 | [`DEC-0020`](../decisions/DEC-0020-golden-as-materialised-view.md) | Accepted | Golden is a materialised view into a declared target stream |
 | [`DEC-0022`](../decisions/DEC-0022-collector-lives-in-platform.md) | Proposed | The collector is a project inside `DeltaZulu.Platform`, deployed separately |
+| [`DEC-0024`](../decisions/DEC-0024-bronze-integrity-controls.md) | Proposed | Bronze carries integrity controls, not just a retention setting |
 
 ## Estate-wide (no single repository)
 
@@ -71,3 +72,5 @@ _No Decision names this repository yet._
 | [`DEC-0016`](../decisions/DEC-0016-best-effort-collection-mandatory-accounting.md) | Accepted | Best-effort collection, mandatory loss accounting |
 | [`DEC-0018`](../decisions/DEC-0018-lake-is-ducklake.md) | Accepted | Lake is DuckLake with a SQL catalogue database |
 | [`DEC-0021`](../decisions/DEC-0021-threshold-as-windowed-aggregate.md) | Proposed | Detection threshold expressed inside the KQL as a windowed aggregate |
+| [`DEC-0023`](../decisions/DEC-0023-completeness-requires-external-canaries.md) | Proposed | Completeness is measured by external canaries, and unmeasurable sources say so |
+| [`DEC-0025`](../decisions/DEC-0025-adjudication-boundary.md) | Proposed | DeltaZulu measures precision, never recall, and splits a miss into its two causes |

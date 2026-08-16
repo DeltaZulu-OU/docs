@@ -24,3 +24,7 @@ forces. Constraints do not choose; Decisions choose, and cite these.
 | CON-0014 | Wire tag 5 is ticks; the registry defaults to microseconds |
 | CON-0015 | `KqlNullReason` is closed and specified |
 | CON-0016 | The collector has no repository |
+| CON-0017 | Volume is not loss; completeness needs external evidence |
+| CON-0018 | A component cannot report its own absence |
+| CON-0019 | Transport class bounds what completeness can mean |
+| CON-0020 | An integrity digest attests only if computed at write time |
