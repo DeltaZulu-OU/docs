@@ -14,4 +14,5 @@ later report.
 | 2026-08-15 | `2026-08-15-version-pin-reconciliation.md` | Agent's 1.0.0 pins match published reality. LocalStream's source has since declared 0.1.0, below its published version. |
 | 2026-08-15 | `2026-08-15-golden-placement.md` | Section 9 decision memo. Option A recommended, C as fallback, B ruled out. `DEC-0011` stays Proposed until the CI equivalence test exists. |
 | 2026-08-16 | `2026-08-16-collector-ownership.md` | Collector belongs in `DeltaZulu.Platform` as its own deployable. Recorded as `DEC-0022`. Flags the existing `RawLogNdjsonCodec` boundary. |
+| 2026-08-16 | `2026-08-16-package-publishing-blocked.md` | `dotnet nuget push` returns 401: the session token has no `packages` scope. Blocks FWD-CONTRACT-v2 items 3–11 and Parse commits B/D. Publish workflow added to `DeltaZulu.Kql`. |
 | 2026-08-16 | `2026-08-16-schema-divergence-verification.md` | Section 11.1 verified against code: seven of thirteen divergences refuted, two confirmed, `_ => KustoType.String` never existed. Gap 9's "weeks" estimate should come down. |

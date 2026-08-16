@@ -62,7 +62,7 @@ def collect() -> int:
     for path, meta in accepted(load_decisions()):
         named = meta.get("repos") or []
         governs = meta.get("governs") or {}
-        claims = (governs.get("types") or []) + (governs.get("paths") or [])
+        claims = bool(governs.get("types")) or bool(governs.get("paths"))
         # A principle-level Decision legitimately governs no code and names no
         # repos; that is not worth a warning. Claiming to govern symbols while
         # naming no repository to look in is an inconsistency, and is.
@@ -96,18 +96,34 @@ def type_is_declared(repo_root: pathlib.Path, fq_name: str) -> bool:
     return False
 
 
+def _for_repo(entry, repo: str) -> list[str]:
+    """Resolve a governs list for one repository.
+
+    Two shapes are accepted. A flat list applies to every repository the Decision
+    names, which is right when one Decision governs one codebase. A mapping keyed
+    by repository name applies per repository, which is what a Decision spanning
+    two repositories needs — it governs different symbols in each, and demanding
+    that every symbol exist in every repository would be nonsense.
+    """
+    if entry is None:
+        return []
+    if isinstance(entry, dict):
+        return entry.get(repo) or []
+    return list(entry)
+
+
 def verify(root: pathlib.Path) -> int:
     failures = 0
     checked = 0
     for path, meta in accepted(load_decisions()):
         governs = meta.get("governs") or {}
         repos = meta.get("repos") or []
-        paths = governs.get("paths") or []
-        types = governs.get("types") or []
-        if not paths and not types:
+        if not governs.get("paths") and not governs.get("types"):
             continue
 
         for repo in repos:
+            paths = _for_repo(governs.get("paths"), repo)
+            types = _for_repo(governs.get("types"), repo)
             repo_root = root / repo
             if not repo_root.is_dir():
                 print(

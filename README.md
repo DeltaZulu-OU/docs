@@ -32,6 +32,9 @@ live that is neither a fact nor a decision.
 its claims refuted or understated. `decisions/` holds `DEC-0001`–`DEC-0021`
 seeded from that document's D1–D21 register.
 
+`architecture/GOVERNING-DECISIONS.md` indexes which Decisions govern which
+repository, generated from the Decisions' own front-matter so it cannot drift.
+
 ## Constraints versus Decisions
 
 A **Constraint** is a fact: something true about a dependency, a format, a

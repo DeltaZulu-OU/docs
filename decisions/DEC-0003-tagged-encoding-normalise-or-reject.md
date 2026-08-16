@@ -1,10 +1,14 @@
 ---
 id: DEC-0003
 status: Accepted
-repos: [DeltaZulu.Forward]
+repos: [DeltaZulu.Forward, DeltaZulu.Kql]
 governs:
-  types: [ForwardValueNormalizer]
-  paths: [src/DeltaZulu.Forward/ForwardValueNormalizer.cs]
+  types:
+    DeltaZulu.Forward: [ForwardValueNormalizer, ForwardObjectFormatter]
+    DeltaZulu.Kql: [KqlTypes, KqlValue, KqlLossReason]
+  paths:
+    DeltaZulu.Forward: [src/DeltaZulu.Forward/ForwardValueNormalizer.cs]
+    DeltaZulu.Kql: [src/DeltaZulu.Kql/KqlTypes.cs]
 cites: [CON-0009, CON-0014, CON-0015]
 supersedes: D3
 ---
@@ -22,6 +26,12 @@ Values are encoded as a two-element array `[tag, payload]` over ten tags. Unmapp
 Silent coercion is the mechanism by which type-loss boundaries reappear after being closed. Failing visibly converts a data-quality defect into an engineering defect, which is the kind that gets fixed.
 
 ## Consequences
+
+`DeltaZulu.Kql` implements the conversion half of this Decision as
+`KqlTypes.TryNormalize`, which never throws and never rounds, and reports loss
+through the `KqlLossReason` enumeration. `DeltaZulu.Forward` implements the
+encoding half. Both repositories are governed here because a change to either
+without the other reopens the boundary this Decision closes.
 
 **Refined, not reversed, by the per-field policy.** Rejecting the whole batch with a `NotSupportedException` and rejecting a single field with a typed null plus a `KqlLossReason` both refuse to coerce; they differ only in blast radius. The per-field form is preferred because it preserves the rest of the record. Anyone reading the narrowing as an overturn of reject-not-coerce has read it wrongly.
 
