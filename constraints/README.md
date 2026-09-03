@@ -28,3 +28,4 @@ forces. Constraints do not choose; Decisions choose, and cite these.
 | CON-0018 | A component cannot report its own absence |
 | CON-0019 | Transport class bounds what completeness can mean |
 | CON-0020 | An integrity digest attests only if computed at write time |
+| CON-0021 | `Kusto.Language.Syntax.SyntaxKind` values are not stable across 9.2.0/12.4.1 |
