@@ -91,3 +91,8 @@ Recorded here because the archive is frozen and cannot carry them:
 - Agent ADR 0016's bespoke-native-sink premise is retired by `DEC-0017`.
 - LocalStream ADR-0006's at-least-once delivery still needs reconciling against
   Forward's delivery-correctness gate. Not yet done — no Decision covers it.
+- Platform ADR 0002's *"Translation uses a controlled relational model before
+  emitting backend SQL"* (as a Platform-owned mechanism) is retired by
+  `DEC-0032`, which moves the relational IR and translator to `DeltaZulu.Kql`.
+- Platform ADR 0016's *"Backend-neutral relational emission lives at the
+  application/domain boundary"* is retired by `DEC-0032` for the same reason.
