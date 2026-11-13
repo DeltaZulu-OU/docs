@@ -99,9 +99,9 @@ P0 and P1 remain done. The existing P2, P3 and P4 identities are preserved. Exec
 
 | Order | Phase | ID | Change | Exit criterion | Status |
 | --- | --- | --- | --- | --- | --- |
-| 1 | P3 | P3.1 | Authenticate GitHub Packages feed in the CI workflow using `packages: read` and a token | Clean checkout resolves the Parse 0.1.1 package on the CI matrix | Feed URL configured on branch; token and authorization pending |
+| 1 | P3 | P3.1 | Authenticate GitHub Packages feed in the CI workflow using `packages: read` and a token | Clean checkout resolves the Parse 0.1.1 package on the CI matrix | Workflow token injection committed on branch; package permission and restore unverified |
 | 1 | P3 | P3.2 | Track and commit every `packages.lock.json` | Locked restore succeeds on the pinned graph and rejects deliberately stale locks | Ignore rule removed on branch; lock files pending |
-| 1 | P3 | P3.3 | Document feed URL, token scope, and bootstrap in `docs/DEVELOPMENT.md` | Developer instructions produce a successful authenticated restore | Pending |
+| 1 | P3 | P3.3 | Document feed URL, token scope, and bootstrap in `docs/DEVELOPMENT.md` | Developer instructions produce a successful authenticated restore | Instructions committed; clean-clone validation pending |
 | 1 | P3 | P3.4 | Correct README link to centralized roadmap | Link resolves to `DeltaZulu-OU/docs/roadmaps/DeltaZulu.LogCluster-ROADMAP.md` | Implemented on P3 branch; verification pending |
 | 2 | P5 | P5.1 | Skip stale template merge groups | Six previously crashing corpus runs complete | Fix branch committed; tests not executed |
 | 2 | P5 | P5.2 | Exclude merge targets from subsequent variant groups | Support conservation across all corpus cases | Fix branch committed; tests not executed |
