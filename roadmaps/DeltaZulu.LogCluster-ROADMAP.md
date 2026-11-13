@@ -95,44 +95,56 @@ reported 1 and 0, which made the removal look nearly free.
 
 ## Updated execution order and exit criteria
 
-P0 and P1 remain complete. P2, P3 and P4 retain their existing identities and historical design rationale. P3 moves first. Each numbered item should remain one independently reviewable change (one PR if PRs are later requested); no PRs are opened during this work.
+P0 and P1 remain done. The existing P2, P3 and P4 identities are preserved. Execution order is **P3 → P5 → P2 → P6 → P7 → P8 → P4 → P9**. Each row below is one independently reviewable change (one PR if PRs are later requested); the current development instruction is to use branches without opening PRs.
 
-| Order | Phase | Change | Exit criterion | Status |
-| --- | --- | --- | --- | --- |
-| 1 | P3.1 | Define authenticated `deltazulu-github` feed in `NuGet.config` | Clean clone restores Parse 0.1.1 on all CI runners | Feed defined on branch; authentication and verification pending |
-| 1 | P3.2 | Track and commit `packages.lock.json` throughout solution | Locked restore succeeds for committed graph and fails on stale lock | Ignore removed on branch; generation pending |
-| 1 | P3.3 | Correct README link to centralized roadmap | Link resolves to `DeltaZulu-OU/docs/roadmaps/DeltaZulu.LogCluster-ROADMAP.md` | Implemented on P3 branch; verification pending |
-| 2 | P5.1 | Template-liveness guard for variant groups | Six previously crashing cases complete | Fix branch committed; execution pending |
-| 2 | P5.2 | Prevent targets re-entering subsequent merge groups | Conservation holds across corpus | Fix branch committed; execution pending |
-| 2 | P5.3 | Bound later stream passes and handle unknown tokens as infrequent | Growing source does not throw | Fix branch committed; execution pending |
-| 2 | P5.4 | Remove sequence guard in support counting | Zero and repeated sequence numbers counted | Fix branch committed; execution pending |
-| 2 | P5.5 | Widen record/support/outlier/observation/scoring counters | Consistently `long`, overflow and API regression tests pass | Pending |
-| 3 | P6.1 | Add merge modes none, edge, variants, all | None matches unmerged upstream patterns/support | Pending; default unchanged |
-| 3 | P6.2 | Pin Perl commit and compare expected patterns/support/outliers | 100% unmerged fixture parity; commit only expected outputs | Pending |
-| 3 | P6.3 | File reproducible parity report under `reports/` | Source commit, flags, inputs, output counts and limitations published | Pending; preliminary figures supplied |
-| 4 | P7.1 | Compare merge modes to Loghub ground-truth templates | Accuracy by mode, reproducible scripts, license compliance | Pending |
-| 4 | P7.2 | Draft and accept DEC-0032 governing defaults, diversity and edge rule | Decision accepted on evidence, revisit threshold measurable | Proposed pending evidence |
-| 4 | P7.3 | Implement chosen diversity and edge criteria | `up`/`down` and `login`/`login failed` remain distinct, recurring IPs can merge | Pending decision |
-| 5 | P2.1 | Existing rule rendering and fallback-parser hardening | No false executable claims; engine remains package-agnostic | Open |
-| 5 | P2.2 | Observe separators from non-empty gaps | `login *{0,1}` retains the separator | Pending |
-| 5 | P2.3 | DeltaZulu.Parse executable-rule round trip | Every marked-executable rule parses its contributing lines | Pending |
-| 6 | P8.1 | BenchmarkDotNet with memory diagnostics | Representative materialize and stream baseline | Pending |
-| 6 | P8.2 | Reuse separator strings | Allocation drop exceeds run variance | Pending |
-| 6 | P8.3 | Skip merge index when merging disabled; trim singletons before sort | Peak memory decreases at support 2 | Pending |
-| 6 | P8.4 | Revisit ShouldStream default | Measurement-backed Decision; current heuristic retained meanwhile | Pending |
-| 6 | P8.5 | Optional vocabulary sketch | Only if demonstrated memory pressure requires it | Deferred |
-| 7 | P4 | Existing broader Parse catalog parser suggestions | Current P4 acceptance unchanged | Pending |
-| 8 | P9 | Relative support, separator flag, line-counted word classes | Requester and parity test for each option | On demand |
+| Order | Phase | ID | Change | Exit criterion | Status |
+| --- | --- | --- | --- | --- | --- |
+| 1 | P3 | P3.1 | Authenticate GitHub Packages feed in the CI workflow using `packages: read` and a token | Clean checkout resolves the Parse 0.1.1 package on the CI matrix | Feed URL configured on branch; token and authorization pending |
+| 1 | P3 | P3.2 | Track and commit every `packages.lock.json` | Locked restore succeeds on the pinned graph and rejects deliberately stale locks | Ignore rule removed on branch; lock files pending |
+| 1 | P3 | P3.3 | Document feed URL, token scope, and bootstrap in `docs/DEVELOPMENT.md` | Developer instructions produce a successful authenticated restore | Pending |
+| 1 | P3 | P3.4 | Correct README link to centralized roadmap | Link resolves to `DeltaZulu-OU/docs/roadmaps/DeltaZulu.LogCluster-ROADMAP.md` | Implemented on P3 branch; verification pending |
+| 2 | P5 | P5.1 | Skip stale template merge groups | Six previously crashing corpus runs complete | Fix branch committed; tests not executed |
+| 2 | P5 | P5.2 | Exclude merge targets from subsequent variant groups | Support conservation across all corpus cases | Fix branch committed; tests not executed |
+| 2 | P5 | P5.3 | Bound passes 2–3 to pass-1 record count; treat newly encountered tokens as infrequent | Growing source does not throw; strategies agree for stable input | Fix branch committed; tests not executed |
+| 2 | P5 | P5.4 | Count candidate support independently of `SequenceNumber` | Zero and duplicate sequence values count once per input record | Fix branch committed; tests not executed |
+| 2 | P5 | P5.5 | Widen record, support, outlier, observation and scoring counts to `long` | Overflow tests, API compatibility review and corpus invariants pass | Pending |
+| 3 | P2 | P2.1 | Record leading and trailing separators for each populated gap independently | Differing separators are represented without silently collapsing them | Pending |
+| 3 | P2 | P2.2 | Emit Parse-supported `%-:whitespace%` for variable-width separators | Candidate's contributing records parse in supported Parse version | Pending |
+| 3 | P2 | P2.3 | Preserve trailing whitespace through matching, without silently trimming source records | Trailing-space and tab cases round-trip; any `%-:rest%` fallback validated | Pending |
+| 3 | P2 | P2.4 | Preserve separator adjacent to optional gaps | `login *{0,1}` renders with its required space | Pending |
+| 3 | P2 | P2.5 | Prevent clock-time samples being classified as `ipv6` | Time and IPv6 counterexamples validated against Parse catalog | Pending |
+| 3 | P2 | P2.6 | Preserve existing fallback warnings and executable parser-name validation | No invalid parser name; unresolved gaps are marked non-executable | Existing tests; extend corpus |
+| 3 | P2 | P2.7 | Execute every marked-executable rule against its contributing records through Parse 0.1.1 | Every executable candidate parses at least `Support` contributing lines, with no false executable flags | Pending; observed failures are release-blocking |
+| 4 | P6 | P6.1 | Add merge switch: `none`, `edge`, `variants`, `all` | `none` gives a no-merge baseline without silently changing defaults | Pending |
+| 4 | P6 | P6.2 | Pin Perl `logcluster.pl` commit and compare expected pattern/support/outlier data | Exact no-merge parity for versioned inputs; expected outputs only committed | Pending |
+| 4 | P6 | P6.3 | File reproducible verification report under `reports/` | Command lines, inputs, comparator, exact counts and failures documented | Preliminary register exists; verification pending |
+| 5 | P7 | P7.1 | Compare every merge mode against licensed Loghub ground truth | Reproducible accuracy metrics, including false merges and splits | Pending |
+| 5 | P7 | P7.2 | Accept `DEC-0032` after evidence selects default, diversity and edge criteria | Accepted Decision names governing code that exists and quantitative revisit triggers | Proposed; default unchanged |
+| 5 | P7 | P7.3 | Implement accepted low-diversity and edge semantics | `up`/`down` and `login`/`login failed` remain distinct; recurring IPs can merge | Pending Decision |
+| 6 | P8 | P8.1 | Add BenchmarkDotNet baseline with allocation diagnostics for both strategies | Representative repeatable measurements | Pending |
+| 6 | P8 | P8.2 | Share separator strings between token records | Allocation decrease exceeds measurement variance | Pending |
+| 6 | P8 | P8.3 | Avoid merge index when merging is disabled | Peak memory improvement shown at support 2 | Pending |
+| 6 | P8 | P8.4 | Revisit `ShouldStream` default using measured data | Strategy choice justified by baseline; current default unchanged meanwhile | Pending |
+| 7 | P4 | P4 | Preserve broader parser catalog suggestions and ambiguity warnings | Existing P4 exit criterion unchanged | Pending |
+| 8 | P9 | P9.1 | Relative support | Named requester and upstream parity test | On demand |
+| 8 | P9 | P9.2 | Configurable `--separator` | Named requester and upstream parity test | On demand |
+| 8 | P9 | P9.3 | Word classes counted once per line, as in LogClusterC | Named requester and upstream parity test | On demand |
 
-## Evidence, licensing and dependency order
+## Evidence and release gates
 
-Initial, user-supplied comparison figures: 7,039/7,039 clusters without merging, approximately 86% with one merge disabled, approximately 34% at current defaults, and six crashes plus 13 support over-counts across 48 runs. These are **not independently reproduced or accepted**. Record the exact pinned Perl commit, input corpus, flags, comparator normalization, matching denominator, and per-mode results before treating them as release-quality evidence.
+The supplied upstream findings are 7,039 of 7,039 clusters matching after custom merges were removed, approximately 86% with one merge off, and 34% at defaults. In 48 corpus runs the original code reportedly crashed six times and over-counted support 13 times. These are user-supplied measurements, not independently reproduced CI results.
 
-Do not commit Loghub datasets to the AGPL project without confirming redistribution rights. Fetch datasets at test runtime where permitted, or use synthetic samples. Consult `CON-0012` for the existing license precedent. The proposed Decision is `DEC-0032`; it must not be promoted to Accepted before the P6/P7 evidence exists.
+The new rule-rendering findings report **341 failures among 1,740 suggested rules (19.6%)**, involving **7,260 of 43,514 contributing log lines (16.7%)**. These are two different denominators; do not treat line failures as an additional count of failed rules or infer that every affected line was itself parsed incorrectly. Reproduce the findings with the published Parse 0.1.1 package, since the earlier run used Parse built from `main`. A rule is accepted as executable only when it parses all of its own contributing lines, not merely a sampled subset.
 
-P3 precedes any P5 CI acceptance, and P5 blocks releases until correctness is demonstrated. P6 precedes P7 so the Decision can cite objective parity and ground-truth accuracy. P2 follows merge semantics; P8 follows measured correctness. The single-run figures 4.1s/203MB and 5.1s/570MB do not establish a strategy default.
+P3 is the CI verification prerequisite. P5 and P2 are **both release gates**, including packaging-only releases. P6 and P7 follow once mining and rendering are correct; the proposed merge Decision must cite exact parity and accuracy evidence. P8 optimizations follow correctness. The earlier 4.1s/203 MB streaming and 5.1s/570 MB materialized measurements were single runs and are not benchmark evidence.
 
-Next review remains 2026-11-16, or earlier when code or reproducible evidence contradicts the roadmap.
+For reproducibility, retain the exact upstream commit and command flags; compare `(pattern, support)` pairs and outlier counts without conflating score ordering with parity. Fetch Loghub data at runtime only where its license permits, and do not commit source samples to this AGPL repository without redistribution clearance. Consult `CON-0012` as the existing governance precedent.
+
+## Proposed policy decisions
+
+**Default merge mode:** Keep existing behavior until `DEC-0032` is Accepted; evaluate `none` as the baseline rather than preemptively changing the default. **Trailing whitespace:** preserve source text, then model exact or variable terminal separators through executable Parse rules; `%-:rest%` must not be assumed safe without a round-trip test. **Release readiness:** both P5 and P2 block the next release. No decision is made here on a new default or on replacing the low-diversity and edge heuristics.
+
+Next review remains 2026-11-16, or earlier when verified evidence or code contradicts the roadmap.
 
 ---
 
