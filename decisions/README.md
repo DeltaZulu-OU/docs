@@ -56,10 +56,11 @@ what would invalidate it and so nobody looked. Those cases are listed in
 `supersedes:` field naming its original `D`-number so citations to the register
 still resolve.
 
-Status is carried across honestly rather than promoted: `DEC-0011` (Silver→Golden
-dual-compiled), `DEC-0013` (Golden semantic model) and `DEC-0021` (threshold
-semantics) are `Proposed`, not `Accepted`, because the register recorded them as
-Proposed or Open and nothing since has settled them.
+The seed import preserved the original statuses. A later architecture change
+(`DEC-0033`, accepted 2026-11-23) **Rejected** `DEC-0011`'s Proton/DuckLake
+dual-compilation proposal. `DEC-0013` (Gold semantic names) and `DEC-0021`
+(window threshold semantics) remain `Proposed`; status must be read from each
+Decision's current front matter, not inferred from the historical seed.
 
 Three of the seeded Decisions carry corrections the register did not:
 
@@ -75,12 +76,18 @@ Three of the seeded Decisions carry corrections the register did not:
 
 ## Still open in the seed set
 
-- **`DEC-0013`** — Golden as OCSF-derived semantics versus Platform ADR 0007's
-  DeltaZulu-owned names. Must reach `Accepted` or be split before `DEC-0011`
-  leaves `Proposed`.
-- **`DEC-0011`** — stays `Proposed` until the CI equivalence test exists. See
-  `reports/2026-08-15-golden-placement.md`.
-- **`DEC-0021`** — window semantics unsettled.
+- **`DEC-0013`** — Gold semantics and naming (OCSF-derived versus
+  DeltaZulu-owned names with OCSF lineage) remain undecided.
+- **`DEC-0021`** — window threshold semantics, including late events and
+  corrections, remain unsettled under LocalStream.Query.
+- **`DEC-0011`** — Rejected by `DEC-0033`; its old equivalence gate is
+  no longer a pending action. Earlier reports discussing the gate remain
+  historical evidence.
+
+`DEC-0033` supersedes the Proton-specific accepted decisions
+`DEC-0010`, `DEC-0017`, `DEC-0020`, `DEC-0027`,
+`DEC-0028` and `DEC-0031`. The accepted replacements for retained
+Bronze, Gold and DuckLake responsibilities are recorded in `DEC-0033`.
 
 ## Amendments these Decisions require in the archived ADRs
 

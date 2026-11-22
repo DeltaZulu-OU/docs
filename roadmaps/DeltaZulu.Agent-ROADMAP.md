@@ -1,5 +1,13 @@
 # Architecture migration roadmap
 
+> **Architecture reconciliation required (2026-11-23):** DEC-0033 removes
+> Proton from the target NRT path and replaces it with LocalStream/Query.
+> Proton-dependent tasks below reflect the imported pre-decision roadmap,
+> **not** an active implementation instruction. Rebaseline against
+> `architecture/NRT-PIPELINE.md` before committing work. This note does
+> not assert that the old Proton code has been removed.
+
+
 This roadmap tracks migration to the target topology in
 [`ARCHITECTURE.md`](ARCHITECTURE.md). It replaces earlier extraction-first,
 DurableBuffer-first, profile-per-source, and permanent-multiplexer plans.

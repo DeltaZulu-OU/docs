@@ -1,5 +1,13 @@
 # DeltaZulu Platform roadmap
 
+> **Architecture reconciliation required (2026-11-23):** DEC-0033 removes
+> Proton from the target NRT path and replaces it with LocalStream/Query.
+> Proton-dependent tasks below reflect the imported pre-decision roadmap,
+> **not** an active implementation instruction. Rebaseline against
+> `architecture/NRT-PIPELINE.md` before committing work. This note does
+> not assert that the old Proton code has been removed.
+
+
 This roadmap describes the current target after repository consolidation. Completed consolidation/import history has been removed from the active documentation set; the target product-level user stories are defined in [`TARGET_USER_STORIES.md`](TARGET_USER_STORIES.md), and production-v1 blockers are summarized in [`reviews/PRODUCTION_V1_GAP_ANALYSIS.md`](reviews/PRODUCTION_V1_GAP_ANALYSIS.md).
 
 ## Current baseline

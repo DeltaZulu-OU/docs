@@ -27,10 +27,12 @@ live that is neither a fact nor a decision.
 
 ## Where to start
 
-`architecture/PIPELINE.md` is the consolidated architecture — read it with
-`architecture/PIPELINE-ERRATA.md`, which records where Wave 0 verification found
-its claims refuted or understated. `decisions/` holds `DEC-0001`–`DEC-0021`
-seeded from that document's D1–D21 register.
+`architecture/NRT-PIPELINE.md` is the **current target** for near-real-time
+processing, governed by `DEC-0033`: LocalStream/Query, not Proton, with
+DuckLake as durable evidence and analyst read surface. `PIPELINE.md` is a
+verbatim historical import and must be read with `PIPELINE-ERRATA.md`.
+`decisions/` now holds `DEC-0001`–`DEC-0033`, including Rejected,
+Superseded and Proposed records; only Accepted Decisions are binding.
 
 `architecture/GOVERNING-DECISIONS.md` indexes which Decisions govern which
 repository, generated from the Decisions' own front-matter so it cannot drift.

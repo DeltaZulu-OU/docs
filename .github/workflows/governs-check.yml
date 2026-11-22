@@ -9,7 +9,7 @@ name: governs-check
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
   schedule:
     # Weekly: code can be deleted in another repository without anything

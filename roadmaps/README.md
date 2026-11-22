@@ -1,5 +1,11 @@
 # Roadmaps
 
+**Architecture supersession (2026-11-23):** The estate no longer uses Proton
+for target streaming processing. DEC-0033 selects LocalStream/Query instead.
+Any Proton-oriented tasks in imported Agent or Platform roadmaps are historical
+pending rebaseline, not active commitments. All listed 2026-11-16 review dates
+are overdue; do not advance implementation based on stale task text.
+
 Forward plans, migrated here on 2026-08-16 from the repositories that used to
 carry them. **Every roadmap carries a dated review trigger**, and the trigger is
 a condition as well as a date — a roadmap without one becomes an archaeological
