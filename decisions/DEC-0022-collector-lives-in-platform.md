@@ -30,8 +30,11 @@ collector consequence land in one commit and one CI run, instead of a cross-repo
 version handshake over a package feed the estate has not yet got working from a
 clean container.
 
-Both sink adapters — `Data.DuckDb` and `Data.Proton`, the latter already shipping
-`ProtonHttpExecutor` — are in the same repository.
+The durable lake adapter lives with the Platform catalogue. The older
+`Data.Proton`/`ProtonHttpExecutor` components are legacy implementation,
+not target downstreams after `DEC-0033` selected LocalStream/Query.
+This Decision settles **collector project ownership**, not the retired
+streaming engine.
 
 The separate-executable qualifier is load-bearing: ingest availability must not
 be coupled to the Blazor host's deployment lifecycle or its threat surface.
@@ -81,7 +84,7 @@ executable exists.
 
 | Alternative | Why not | Constraint it failed |
 |---|---|---|
-| A project inside `DeltaZulu.Forward` | Gives a transport protocol library hard dependencies on DuckDB and Proton, neither of which belongs on the Agent's dependency graph. Also makes Forward host the sink adapters its no-fallback constraint exists to keep it free of | — |
+| A project inside `DeltaZulu.Forward` | Gives a transport protocol library hard dependencies on DuckDB and the Platform's stateful processing and lake sinks, none of which belongs on the Agent's transport dependency graph. Also makes Forward host the sink adapters its no-fallback constraint exists to keep it free of | — |
 | A new repository | Turns every catalogue change into a cross-repository version handshake over a feed that does not yet restore from a clean container, and adds an eighth owned surface to an estate already flagged for that (gap 18) | — |
 | A hosted service inside `Platform.Web` | Couples ingest availability to the Blazor host's deployment lifecycle, and puts ingest on the threat surface of a host with no real authentication (gap 5) | — |
 
