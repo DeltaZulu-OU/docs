@@ -12,6 +12,7 @@ is estate-wide — a principle rather than a claim on one codebase.
 | Decision | Status | Subject |
 |---|---|---|
 | [`DEC-0003`](../decisions/DEC-0003-tagged-encoding-normalise-or-reject.md) | Accepted | Ten-type tagged encoding; normalise-or-reject |
+| [`DEC-0032`](../decisions/DEC-0032-kql-type-versus-query-language-boundary.md) | Accepted | Keep the KQL type contract separate from query-language processing |
 
 ## DeltaZulu.Parse
 
@@ -65,6 +66,7 @@ _No Decision names this repository yet._
 | [`DEC-0029`](../decisions/DEC-0029-gold-is-governed-by-event-time.md) | Accepted | Gold is governed by extracted event time; ingest time is provenance |
 | [`DEC-0030`](../decisions/DEC-0030-alert-identity-and-replay.md) | Accepted | Alerts reference Gold by identifier; identity excludes rule version |
 | [`DEC-0031`](../decisions/DEC-0031-reorder-buffer-between-proton-and-ducklake.md) | Accepted | Short event-time reorder buffer between Proton and DuckLake |
+| [`DEC-0032`](../decisions/DEC-0032-kql-type-versus-query-language-boundary.md) | Accepted | Keep the KQL type contract separate from query-language processing |
 
 ## Estate-wide (no single repository)
 
