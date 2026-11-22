@@ -1,15 +1,18 @@
 ---
 id: DEC-0010
-status: Accepted
+status: Superseded
 repos: [DeltaZulu.Platform]
 governs:
   types: [ProtonSchemaEmitter]
   paths: [src/DeltaZulu.Platform.Data.Proton/ProtonSchemaEmitter.cs]
 cites: []
 supersedes: D10
+superseded_by: DEC-0033
 ---
 
 # DEC-0010 — Bronze write-once; Proton holds no durable Bronze or Silver
+
+> **Status note — 2026-11-23:** Superseded following DEC-0033. The Bronze write-once/evidence invariant is retained by DEC-0033, but Proton staging and the Proton-specific emitter requirements are retired. The original text below is retained as historical rationale, not current implementation guidance.
 
 ## Context
 

@@ -1,14 +1,17 @@
 ---
 id: DEC-0027
-status: Accepted
+status: Superseded
 repos: [DeltaZulu.Platform]
 governs:
   types: []
   paths: []
 cites: []
+superseded_by: DEC-0033
 ---
 
 # DEC-0027 — Proton is a streaming runtime, not a query surface; DuckLake is the only thing users read
+
+> **Status note — 2026-11-23:** Superseded following DEC-0033. The no-Proton target supersedes this mixed Decision. The durable, user-visible DuckLake read-surface rule is explicitly retained by DEC-0033. The original text below is retained as historical rationale, not current implementation guidance.
 
 ## Context
 

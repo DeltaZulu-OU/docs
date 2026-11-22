@@ -1,15 +1,18 @@
 ---
 id: DEC-0017
-status: Accepted
+status: Superseded
 repos: [DeltaZulu.Platform]
 governs:
   types: [ProtonHttpExecutor]
   paths: [src/DeltaZulu.Platform.Data.Proton/ProtonHttpExecutor.cs]
 cites: []
 supersedes: D17
+superseded_by: DEC-0033
 ---
 
 # DEC-0017 — Proton ingest over HTTP
+
+> **Status note — 2026-11-23:** Superseded following DEC-0033. Proton is no longer a target streaming runtime. The prior choice of Proton HTTP ingest is historical; DeltaZulu.Forward remains the inter-node transport and LocalStream is node-local. The original text below is retained as historical rationale, not current implementation guidance.
 
 ## Context
 

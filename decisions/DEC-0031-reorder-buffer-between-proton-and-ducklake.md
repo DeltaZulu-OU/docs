@@ -1,14 +1,17 @@
 ---
 id: DEC-0031
-status: Accepted
+status: Superseded
 repos: [DeltaZulu.Platform]
 governs:
   types: []
   paths: []
 cites: []
+superseded_by: DEC-0033
 ---
 
 # DEC-0031 — A short event-time reorder buffer sits between Proton and DuckLake
+
+> **Status note — 2026-11-23:** Superseded following DEC-0033. The specified Proton-to-DuckLake buffer is obsolete with Proton. This does not decide whether LocalStream-to-DuckLake output requires buffering or event-time clustering; those are open engineering choices. The original text below is retained as historical rationale, not current implementation guidance.
 
 ## Context
 

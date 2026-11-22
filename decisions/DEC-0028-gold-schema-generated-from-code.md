@@ -1,14 +1,17 @@
 ---
 id: DEC-0028
-status: Accepted
+status: Superseded
 repos: [DeltaZulu.Platform]
 governs:
   types: []
   paths: []
 cites: [CON-0014]
+superseded_by: DEC-0033
 ---
 
 # DEC-0028 — One Gold contract generated from C#; physical alignment between engines is best effort
+
+> **Status note — 2026-11-23:** Superseded following DEC-0033. The Proton/DuckLake dual-physical-schema obligation is retired. DEC-0033 preserves the single C#-owned logical Gold schema for stream processing and DuckLake persistence; physical target mappings require their own verification. The original text below is retained as historical rationale, not current implementation guidance.
 
 ## Context
 

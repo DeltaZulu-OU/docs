@@ -35,7 +35,9 @@ _No Decision names this repository yet._
 
 ## DeltaZulu.LocalStream
 
-_No Decision names this repository yet._
+| Decision | Status | Subject |
+|---|---|---|
+| [`DEC-0033`](../decisions/DEC-0033-localstream-replaces-proton.md) | Accepted | LocalStream/Query replace Proton for NRT processing; DuckLake remains the read surface |
 
 ## DeltaZulu.DurableBuffer
 
@@ -54,19 +56,20 @@ _No Decision names this repository yet._
 
 | Decision | Status | Subject |
 |---|---|---|
-| [`DEC-0010`](../decisions/DEC-0010-bronze-write-once-proton-staging-only.md) | Accepted | Bronze write-once; Proton holds no durable Bronze or Silver |
+| [`DEC-0010`](../decisions/DEC-0010-bronze-write-once-proton-staging-only.md) | Superseded | Bronze write-once; Proton holds no durable Bronze or Silver |
 | [`DEC-0012`](../decisions/DEC-0012-single-type-contract-catalogue.md) | Accepted | Type-contract catalogue is the single authority, producer-agnostic |
 | [`DEC-0013`](../decisions/DEC-0013-golden-semantic-model.md) | Proposed | Golden semantic model and naming |
-| [`DEC-0017`](../decisions/DEC-0017-proton-ingest-over-http.md) | Accepted | Proton ingest over HTTP |
-| [`DEC-0020`](../decisions/DEC-0020-golden-as-materialised-view.md) | Accepted | Golden is a materialised view into a declared target stream |
+| [`DEC-0017`](../decisions/DEC-0017-proton-ingest-over-http.md) | Superseded | Proton ingest over HTTP |
+| [`DEC-0020`](../decisions/DEC-0020-golden-as-materialised-view.md) | Superseded | Golden is a materialised view into a declared target stream |
 | [`DEC-0022`](../decisions/DEC-0022-collector-lives-in-platform.md) | Accepted | The collector is a project inside `DeltaZulu.Platform`, deployed separately |
 | [`DEC-0024`](../decisions/DEC-0024-bronze-integrity-controls.md) | Proposed | Bronze carries integrity controls, not just a retention setting |
-| [`DEC-0027`](../decisions/DEC-0027-proton-is-not-a-query-surface.md) | Accepted | Proton is a streaming runtime, not a query surface |
-| [`DEC-0028`](../decisions/DEC-0028-gold-schema-generated-from-code.md) | Accepted | One Gold contract generated from C#; physical alignment is best effort |
+| [`DEC-0027`](../decisions/DEC-0027-proton-is-not-a-query-surface.md) | Superseded | Proton is a streaming runtime, not a query surface |
+| [`DEC-0028`](../decisions/DEC-0028-gold-schema-generated-from-code.md) | Superseded | One Gold contract generated from C#; physical alignment is best effort |
 | [`DEC-0029`](../decisions/DEC-0029-gold-is-governed-by-event-time.md) | Accepted | Gold is governed by extracted event time; ingest time is provenance |
 | [`DEC-0030`](../decisions/DEC-0030-alert-identity-and-replay.md) | Accepted | Alerts reference Gold by identifier; identity excludes rule version |
-| [`DEC-0031`](../decisions/DEC-0031-reorder-buffer-between-proton-and-ducklake.md) | Accepted | Short event-time reorder buffer between Proton and DuckLake |
+| [`DEC-0031`](../decisions/DEC-0031-reorder-buffer-between-proton-and-ducklake.md) | Superseded | Short event-time reorder buffer between Proton and DuckLake |
 | [`DEC-0032`](../decisions/DEC-0032-kql-type-versus-query-language-boundary.md) | Accepted | Keep the KQL type contract separate from query-language processing |
+| [`DEC-0033`](../decisions/DEC-0033-localstream-replaces-proton.md) | Accepted | LocalStream/Query replace Proton for NRT processing; DuckLake remains the read surface |
 
 ## Estate-wide (no single repository)
 
@@ -75,7 +78,7 @@ _No Decision names this repository yet._
 | [`DEC-0004`](../decisions/DEC-0004-no-arrow-catalogue-typed-records.md) | Accepted | No Arrow; catalogue-typed records with per-backend adapters |
 | [`DEC-0006`](../decisions/DEC-0006-server-maps-and-enriches.md) | Accepted | Server performs mapping and enrichment, not parsing |
 | [`DEC-0007`](../decisions/DEC-0007-agent-enriches-perishable-context-only.md) | Accepted | Agent enriches only perishable local context |
-| [`DEC-0011`](../decisions/DEC-0011-silver-to-golden-dual-compiled.md) | Proposed | Silver→Golden authored once in KQL, compiled to both dialects |
+| [`DEC-0011`](../decisions/DEC-0011-silver-to-golden-dual-compiled.md) | Rejected | Silver→Golden authored once in KQL, compiled to both dialects |
 | [`DEC-0016`](../decisions/DEC-0016-best-effort-collection-mandatory-accounting.md) | Accepted | Best-effort collection, mandatory loss accounting |
 | [`DEC-0018`](../decisions/DEC-0018-lake-is-ducklake.md) | Accepted | Lake is DuckLake with a SQL catalogue database |
 | [`DEC-0021`](../decisions/DEC-0021-threshold-as-windowed-aggregate.md) | Proposed | Detection threshold expressed inside the KQL as a windowed aggregate |

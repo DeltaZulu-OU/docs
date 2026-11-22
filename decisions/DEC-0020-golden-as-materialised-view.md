@@ -1,15 +1,18 @@
 ---
 id: DEC-0020
-status: Accepted
+status: Superseded
 repos: [DeltaZulu.Platform]
 governs:
   types: []
   paths: []
 cites: []
 supersedes: D20
+superseded_by: DEC-0033
 ---
 
 # DEC-0020 — Golden is a materialised view into a declared target stream
+
+> **Status note — 2026-11-23:** Superseded following DEC-0033. Proton materialised views are no longer the Gold transformation mechanism. Materialization and window state now belong to LocalStream.Query or application processing, subject to implementation verification. The original text below is retained as historical rationale, not current implementation guidance.
 
 ## Context
 

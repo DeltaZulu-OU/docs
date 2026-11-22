@@ -1,15 +1,18 @@
 ---
 id: DEC-0011
-status: Proposed
+status: Rejected
 repos: []
 governs:
   types: []
   paths: []
 cites: []
 supersedes: D11
+superseded_by: DEC-0033
 ---
 
 # DEC-0011 — Silver→Golden authored once in KQL, compiled to both dialects
+
+> **Status note — 2026-11-23:** Rejected following DEC-0033. The previously Proposed dual Proton/DuckLake SQL compilation is declined because Proton has been removed from the target architecture. Historical KQL-to-DuckDB and stream-query translation are separate questions; neither is decided here. The original text below is retained as historical rationale, not current implementation guidance.
 
 ## Context
 
