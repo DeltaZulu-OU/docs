@@ -7,7 +7,7 @@ governs:
   paths: []
 cites: []
 supersedes: D11
-superseded_by: DEC-0033
+rejected_by: DEC-0033
 ---
 
 # DEC-0011 — Silver→Golden authored once in KQL, compiled to both dialects

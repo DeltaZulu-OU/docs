@@ -29,9 +29,10 @@ event time.
 Ingest time is **stored** on the record as provenance. It is never an input to
 detection.
 
-The reorder buffer between Proton and DuckLake sorts on the **same extracted
-event time** (`DEC-0031`), so one clock governs transformation, detection and
-lake ordering rather than three.
+LocalStream.Query processing must use the **same extracted event time** for
+windowing and correlation. Any lake-sink ordering design must preserve that
+clock. The superseded Proton-to-DuckLake buffer in `DEC-0031` does not
+establish a replacement ordering guarantee.
 
 CON-0001 applies to the carrier: KQL `datetime` is UTC-only, the carrier is
 `System.DateTime` with `Kind=Utc`, and never `DateTimeOffset`.

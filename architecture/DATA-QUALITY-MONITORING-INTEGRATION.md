@@ -3,6 +3,14 @@
 Date: 2026-08-16. Companion to `DATA-QUALITY-MONITORING.md`, which is imported
 verbatim. This file holds what the import *changes* about work already planned.
 
+## Current-target note — 2026-11-23
+
+This document predates DEC-0033. References to Proton and `DEC-0011`'s
+dual-engine Gold equivalence describe an abandoned design, **not** a
+pending implementation gate. LocalStream and its separate Query package
+replace Proton for streaming processing; DuckLake remains the durable lake.
+The provenance, loss and integrity invariants still apply.
+
 ## The finding that must not wait: FWD-CONTRACT-v2 triples in scope
 
 FWD-CONTRACT-v2 was scoped to add three provenance fields to `ForwardLogRecord`
@@ -56,7 +64,7 @@ The mapping:
 | **3 — reconciliation identities** | Follows DQM wave 2 | Cheap once counters exist |
 | **3a — durability** (digests, manifests, restore) | **Estate Wave 1, alongside the collector** | Digest at write time or never |
 | 4 — delivery offsets, RPO gauge | Estate Wave 1–3, follows the collector | |
-| 5 — semantic (enum mismatch, cross-engine divergence) | Estate Wave 3, with `DEC-0011` | |
+| 5 — semantic (enum mismatch, stream-to-lake divergence) | Estate Wave 3, rebaseline for `DEC-0033` | |
 | 6 — timeliness | Estate Wave 3, needs the Golden MV | |
 | 7 — coverage (data contracts, rule validity) | Estate Wave 3 product layer | |
 | 8 — adjudication | Last | Worthless without 1 and 7 |
@@ -77,18 +85,18 @@ was written, and computing it afterwards attests only to what is there now,
 which is the question it exists to answer. If the collector is built before this
 is decided, every row it writes is permanently unattestable.
 
-## Cross-engine divergence: DQM supplies the metric `DEC-0011` was waiting for
+## Replace dual-engine parity with stream-to-lake correctness
 
-`DEC-0011` (Silver→Golden dual-compiled) is held at `Proposed` pending a CI
-equivalence test, on the grounds that without it option A is option D with extra
-steps. DQM §6.3 specifies exactly that test — **cross-engine divergence rate**,
-including null and reason equality, per build plus a production sample — and
-§5.7 specifies the primitive it needs (`golden.rows_projected`, emitted
-identically by both engines).
+The imported DQM §6.3 parity measure assumed Proton and DuckDB SQL
+compilation under the formerly Proposed `DEC-0011`. That Decision is
+now Rejected by `DEC-0033`. Proton-vs-DuckDB equivalence must not remain
+a release gate.
 
-That is the missing piece named. `DEC-0011` still stays `Proposed` until the test
-*exists*, but the specification gap is now closed and the remaining work is
-implementation rather than design.
+Validate instead the LocalStream-to-DuckLake path: source conservation,
+types and null reasons, event-time windows and late arrival, stable
+Gold/alert identity, idempotent sink replay, and evidence
+reconstructibility. Use hostile fixtures and actual integration
+execution; no such passing suite is established by this document.
 
 ## What contradicts, and what merely extends
 

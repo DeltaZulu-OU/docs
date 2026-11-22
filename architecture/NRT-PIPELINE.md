@@ -1,145 +1,110 @@
-# The near-real-time pipeline
+# Near-real-time pipeline — LocalStream target architecture
 
-What the estate is building in phase one, and the contracts that hold it
-together. Agreed 17 August 2026.
+**Current target: 2026-11-23.** DEC-0033 replaces Timeplus Proton with
+DeltaZulu.LocalStream and its separate Query package. This describes
+the agreed target and does not certify that every adapter is implemented.
+The prior Proton plan in `PIPELINE.md` is a historical import; see
+`PIPELINE-ERRATA.md`.
 
-Unlike `PIPELINE.md`, this document is not an import: it is rewritten in place as
-the architecture changes, per the `architecture/` convention. The commitments it
-describes are recorded as `DEC-0026`–`DEC-0031`; this document is the narrative
-those Decisions are the binding form of.
-
-## Shape
+## Processing topology
 
 ```text
-Agents → Collector → Durable Silver buffer → Proton → Live Gold → NRT detections
-                    └──────────────────────────────→ DuckLake Bronze, Silver
-                                                        │
-                                    Proton ─ reorder buffer ─→ DuckLake Gold
-                                                                DuckLake Alerts
+Agent collection/parsing
+     │
+     ├── node-local LocalStream (optional agent replay)
+     └── DeltaZulu.Forward (network transport)
+                  │
+                  ▼
+          Platform ingest host
+                  │
+          ├── DuckLake Bronze (write-once raw evidence)
+          ├── DuckLake Silver (retained parsed records)
+          └── platform-local LocalStream (durable log)
+                             │
+                     independent subscribers
+                             │
+                  LocalStream.Query / processors
+                             │
+                     Gold + detections / alerts
+                             │
+                     idempotent lake sinks
+                             ▼
+                     DuckLake Gold + Alerts
+                             │
+                     hunting and investigation
 ```
 
-Two runtimes, with a strict division of role. **Timeplus Proton** is the
-streaming engine: it transforms Silver into Gold and evaluates detections against
-that live Gold. **DuckLake** is the governed historical lakehouse and the only
-surface anybody queries.
+This diagram is a responsibility map, not a verified deployment.
+LocalStream is not a network transport. Forward remains inter-node
+transport; DurableBuffer is an optional edge queue. The exact ingest
+sequencing, topics, commit/ACK boundaries and end-to-end sink topology
+require integration tests.
 
-| Stage | Responsibility | Primary outcome |
+## Separate package boundaries
+
+| Package or layer | Responsibility | Source-level status |
 |---|---|---|
-| Agents | Parse source logs locally; emit raw Bronze and parsed NDJSON Silver | Parsing stays near the source and off the central stream processor |
-| Collector | Preserve source context and event identity; write Bronze and Silver to DuckLake; publish Silver to the durable buffer | Durable intake, replay, and decoupling of ingest from processing |
-| DuckLake Bronze | Immutable raw logs | Forensics, parser improvement, provenance, recovery from parser defects |
-| DuckLake Silver | Parsed, not yet centrally normalised NDJSON | Historical inspection and reprocessing input |
-| Proton — Gold transformation | Central normalisation, schema alignment, filtering, derived fields, enrichment | A live canonical Gold representation |
-| Proton — NRT detections | Continuous evaluation against live Gold | Sub-second detection and alert generation |
-| Reorder buffer | Short window, sorted by extracted event time | Ordered, time-clustered writes into DuckLake |
-| DuckLake Gold | Authoritative historical Gold | Hunting, audit, replay, future backfill |
-| DuckLake Alerts | Alerts pushed by Proton, referencing Gold | Operational response and investigation |
+| `DeltaZulu.LocalStream` | Payload-opaque topics, partitions, ordered offsets, replay, independent subscriptions, retention and processor hosting | Implemented primitives |
+| `DeltaZulu.LocalStream.Query` | Already-bound query operators, keyed state, event-time windows, watermarks, aggregates and result changes | Implemented primitives; not full KQL execution |
+| `DeltaZulu.LocalStream.Query.LiteDB` | Optional durable state and query-result stores | Implemented adapters; production behavior unverified |
+| KQL binding adapter | Kusto.Language parsing, schema-aware binding and mapping to approved operators | Not verified as an end-to-end path |
+| Lake sink adapters | Stable, idempotent persistence of Bronze/Silver/Gold and alert records | Must prove replay, crash/retry and loss handling |
 
-## The Gold contract
+Core LocalStream remains KQL-independent and payload-opaque
+(`CON-0013`). `DeltaZulu.Kql` remains the declared-type/CLR-carrier
+contract, not the stream-query processor (`DEC-0032`).
 
-Gold is **one logical schema with two physical realisations**. Proton holds the
-hot live one; DuckLake persists the historical one. The logical shape — fields,
-names, semantics — is identical by construction, because both are **generated
-from C# code, which is the single source of truth** (`DEC-0028`). A field is
-added by changing that code, never by altering either physical schema directly.
+## Data and queries
 
-The schema library aligns partially with ASIM-like tables from Azure Sentinel and
-Defender. Partial is the operative word: alignment is a starting point for
-familiar field naming, not a compatibility guarantee.
+DuckLake retains Bronze evidence, parsed Silver, canonical Gold and
+alerts, and remains the **only user-facing analytics read surface**.
+LocalStream is bounded node-local replay storage, never a substitute
+for the historical lake. No Proton ingestion, materialised views,
+Gold schemas, or SQL detection engine belong in the target.
 
-Physical type alignment between DuckDB and Proton is **best effort**. Where the
-two stacks express a type differently, the divergence is declared per target in
-the generator rather than discovered per emitter. Differing type *names* across
-engines are normal and are not divergences — `BIGINT` and `int64` are the same
-shape spelled two ways. What the rule constrains is shape and semantics.
+Gold retains one logical C#-authored field contract under
+`DEC-0012`. The Proton physical-schema projection requirements of
+`DEC-0028` are superseded. DuckLake mappings must preserve declared
+types, null reasons and canonical duration ticks (`CON-0014`).
 
-Known physical divergences today:
+KQL may remain an authoring surface, but support must be verified
+independently for binding KQL to stream operators and translating
+allowed hunting queries to DuckDB. `DEC-0011`'s dual Proton/DuckDB
+compilation proposal is Rejected. Parsing or AST comparison is not
+an oracle for behavioral equivalence.
 
-| Family | DuckDB | Proton | Note |
-|---|---|---|---|
-| Dynamic / Nested | `JSON` | `VARCHAR` | Aligned. DuckDB's `JSON` is an extension type over `VARCHAR`, so nothing diverges representationally, and the `JSON` declaration buys write-time validity checking. No `tuple` |
-| IpAddress | `INET` | `ipv6` | Same address, different representation; IPv4 is native in `INET` and IPv4-mapped in Proton |
-| Duration | `int64` | `int64` | Shape matches; the *unit* is the divergence. CON-0014 fixes ticks and `LogicalDurationUnit` has no `Ticks` member |
-| Binary / Array / Map | — | — | Undeclared on both sides; currently explicit rejections rather than invented mappings |
+## Event time, replay and alert evidence
 
-Duration is the one worth watching, because it passes a shape check and is still
-wrong: identical physical type, different meaning.
+Extracted event time governs Gold windows and correlation; ingest time
+remains provenance (`DEC-0029`). LocalStream delivery is at-least-once,
+with ordering only within each partition. Retention may expire before
+a subscriber catches up; `OffsetExpired` requires deliberate
+recovery or reset. There is no exactly-once or global ordering claim.
 
-## Detections read live Gold, never the lake
+Sinks must be replay-safe and idempotent. Alerts retain stable identity,
+deduplicate across replay and reference Gold by identifier
+(`DEC-0030`). A crashed or partial lake write may leave unresolved
+evidence. The read path must disclose missing references and the sink
+must be tested for correction/reconciliation. The former
+Proton-to-DuckLake reorder window (`DEC-0031`) is **not inherited**.
+An alternative window or lake clustering policy needs its own evidence
+and decision.
 
-Detection rules consume Proton's live Gold. They must **not** wait for Gold to
-land in DuckLake and read it back — that round trip forfeits the latency the
-design exists for.
+## Implementation and decision status
 
-The **KQL-in-YAML rule catalogue** remains the single rule interface. KQL is
-transpiled to Proton SQL for continuous detection, and the same KQL is
-transpilable to DuckDB for threat hunting and offline validation against
-DuckLake. The second target does not imply the rule runs as a scheduled
-detection: hunting and scheduled execution are distinct, and in phase one rule
-metadata permits only the NRT execution type (`DEC-0026`).
+Phase one remains NRT-only; scheduled detections are deferred
+(`DEC-0026`). `DEC-0013` (Gold names), `DEC-0021` (threshold/window
+semantics), `DEC-0024` (Bronze integrity), and `DEC-0025` (adjudication)
+remain Proposed. A current architecture description does not promote
+them to Accepted.
 
-## Time
+Open engineering work: KQL-to-operator binding, deterministic state,
+sink idempotency and checkpoint coordination, window/late-event policies,
+Gold/alert linkage, producer/sink conservation, runtime resource budgets,
+and removal or retirement of legacy Proton integration.
 
-Gold is governed by **extracted event time** (`DEC-0029`). Ingest time is also
-recorded, but it is provenance and is never an input to detection. The reorder
-buffer sorts on the same extracted event time, so one clock governs
-transformation, detection, and lake ordering.
-
-## The two buffers
-
-They are different things with different requirements, and conflating them would
-be expensive.
-
-The **Silver buffer**, between collector and Proton, is the replay source of
-truth. It needs real durability and retention. It decouples agents and collectors
-from Proton availability, and it is what lets Proton rebuild Gold and bounded
-detection state after a restart or a rule correction.
-
-The **reorder buffer**, between Proton and DuckLake, holds a short window and
-sorts by event time (`DEC-0031`). It exists for two reasons that would each
-justify it alone: it bounds the window in which an alert can reference Gold rows
-not yet persisted, and it makes DuckLake's Gold time-clustered, which is the
-pruning key for essentially every hunting query. It can be lightweight
-*precisely because replay exists* — if it loses records in flight, Proton
-regenerates them from the Silver buffer. That cheapness is purchased by the
-replay path, and would be revoked with it.
-
-## Identity, alerts, and replay
-
-A **stable event identifier** is carried from the agent through Silver, Proton
-Gold, DuckLake Gold, and alert evidence. It is what makes both alert
-deduplication and evidence linkage implementable.
-
-Alerts are pushed by Proton into DuckLake's alert tables and **reference Gold by
-identifier** (`DEC-0030`). An alert carries enough enrichment and metadata to be
-read on its own terms, but related logs are linked by identifier and never joined
-into the alert or duplicated inside it.
-
-The alert identity key **excludes rule version**, and that exclusion is doing
-real work. Replaying a corrected rule over historical events does not re-alert
-events that already alerted, because dedup holds on identity. It *does* alert
-events the previous rule missed — and surfacing a genuine detection that was
-previously missed is valuable, not noise. Suppressing it would make rule
-correction pointless. So: replay never produces duplicate alerts, and old events
-with no existing alert may legitimately raise one.
-
-## What is deliberately not decided
-
-Recorded here so that silence is not mistaken for resolution.
-
-- **Enrichment is deferred.** Reference-data home, refresh path, and what a
-  detection sees during a stale or mid-refresh lookup are all open.
-- **Bronze payload digests** remain `DEC-0024`, still `Proposed`. CON-0020 makes
-  this irreversible: a Bronze row written without a digest cannot be given one
-  later. The collector is being designed now, which is the last cheap moment.
-- **Gold schema migration mechanics.** Generation from C# guarantees the two
-  physical schemas agree at build time; it does not by itself say how a running
-  Proton and an existing DuckLake table migrate in step when a field is added.
-- **Late arrivals past the sort window** must be appended out of order, since
-  dropping them would be loss. DuckLake Gold is therefore *mostly* sorted, and no
-  reader should assume strict ordering.
-- **Unresolved evidence on the read path.** The reorder buffer bounds the window,
-  but a crash between the Gold write and the alert write can still leave a
-  dangling reference. The read path should say so rather than render an empty
-  result.
-- **The three physical divergences** in the table above.
+Source check: LocalStream repository `main` at
+`16f27b44fa16bcde6e9316662b25ac85ae0d4642`. Source files show
+the core stream host, window/watermark operators and LiteDB state/result
+stores. No build, test execution or complete Platform integration
+was established by this document review.

@@ -28,10 +28,12 @@ execution type and no other**, and no scheduled-task deployment mechanism is
 built.
 
 Threat hunting against DuckLake is unaffected and is not a scheduled detection.
-The same KQL that transpiles to Proton SQL for continuous detection also
-transpiles to DuckDB for hunting and offline validation. Being able to run a rule
-over history interactively is not the same capability as scheduling it, and the
-metadata must not blur them.
+DEC-0033 replaces the Proton execution path with LocalStream and its separate
+Query package. KQL binding to stream operators and KQL-to-DuckDB translation for
+hunting are different capabilities that require independent conformance
+tests; neither is established by the existence of the other. Historical
+interactive execution is not scheduled detection, and the rule metadata
+must not blur them.
 
 Scheduled detections, scheduled-rule metadata and scheduled-task deployment are
 revisited once the NRT pipeline has demonstrated its latency, correctness, replay

@@ -7,6 +7,19 @@ was believed at import time stays legible.
 This file records where Wave 0 verification found the document's claims to be
 wrong, incomplete, or unverified. Each entry names the evidence.
 
+## Superseded target architecture — 2026-11-23
+
+**DEC-0033 replaces Timeplus Proton with DeltaZulu.LocalStream and its
+separate Query layer for streaming processing.** The Proton-based ingest,
+materialised-view, SQL detection and dual-schema claims in the imported
+`PIPELINE.md` are historical. `DEC-0011` is Rejected and six accepted
+Proton-dependent Decisions are Superseded.
+
+The current target narrative is `NRT-PIPELINE.md`. DuckLake remains the
+durable evidence and analyst read surface. This note does not claim that
+legacy Platform code has been migrated or end-to-end LocalStream execution
+has passed tests.
+
 ## Refuted
 
 ### §6.6 — "Restore cannot succeed on a clean checkout"

@@ -23,10 +23,10 @@ already supplies the underlying KQL language model.
 
 `DEC-0003` governs typed value normalization and encoding; `DEC-0012`
 governs the Platform field/schema catalogue. Neither requires the type
-contract to own parsing or query transformation. The accepted archived
-Platform ADR 0002 already specifies Kusto-based parsing, controlled
-relational translation and one execution path. `DEC-0011`'s dual-compiled
-Silver-to-Gold approach remains `Proposed`, not accepted.
+contract to own parsing or query transformation. Historical Platform ADR 0002
+records Kusto-based parsing and a controlled query path, but the archive is
+not a governing authority. DEC-0033 now establishes the LocalStream execution
+boundary and rejects DEC-0011's Proton/DuckLake dual-compilation proposal.
 
 ## Decision
 
@@ -41,17 +41,19 @@ Silver-to-Gold approach remains `Proposed`, not accepted.
    continues to own schema policy, safe translation, structured diagnostics
    for unsupported features, and execution controls.
 3. **Do not adopt SQLGlot as a KQL language dependency.** Its SQL
-   architecture offers relevant techniques, but support for SQL dialects
-   does not establish Kusto KQL conformance. No new query-analysis module,
-   transpiler or rewrite pipeline is authorized by this Decision.
+   architecture offers relevant techniques, but SQL dialect support
+   does not establish Kusto KQL conformance. The existing separate
+   `DeltaZulu.LocalStream.Query` package supplies stateful stream-query
+   primitives, not a KQL grammar. No additional competing parser or
+   translator is authorized by this Decision.
 4. **Preserve distinct authorities.** `DEC-0012`'s catalogue owns logical
    field contracts and physical projections; `DeltaZulu.Kql` owns
    scalar representation. Do not infer declared KQL types from CLR
    runtime values or duplicate `ScalarSymbol`'s type relationships.
-5. **Do not change established execution choices.** `DEC-0027` keeps
-   DuckLake the sole user-visible read surface, with Proton internal.
-   `DEC-0011` remains `Proposed` until its own equivalence gate is met.
-   AST round-tripping alone is not evidence of semantic equivalence.
+5. **Preserve the current execution boundary.** `DEC-0033` replaces
+   Proton with LocalStream/Query for NRT and keeps DuckLake as the sole
+   user-visible read surface. `DEC-0011` is `Rejected`. AST round-tripping
+   alone is not evidence of semantic equivalence.
 
 The `governs` entries anchor the existing `KqlTypes` surface in CI;
 they do not mechanically enforce the responsibility boundary.
@@ -62,7 +64,7 @@ The type contract stays small and retains its Kusto.Language 9.2.0–12.4.1
 compatibility requirement (`CON-0006`). Query analysis may evolve in
 query-owning components without expanding that contract. The cost is
 continued reliance on Microsoft Kusto semantics and separate validation
-for any cross-engine emission or optimization.
+of KQL-to-stream binding, lake query translation and any rewrite.
 
 The accompanying source report records three **unverified engineering
 questions** about normalization and binary compatibility. It neither

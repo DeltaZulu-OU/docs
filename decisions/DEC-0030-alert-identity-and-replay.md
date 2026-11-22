@@ -12,8 +12,9 @@ cites: []
 
 ## Context
 
-Proton evaluates detections and writes alerts to DuckLake (`DEC-0027`). Because
-the Silver buffer makes replay a normal operation rather than an exceptional one,
+The target LocalStream.Query processing path evaluates detections and persists
+alerts to DuckLake (`DEC-0033`). Its end-to-end integration remains to be
+verified. Because the LocalStream log makes replay a normal operation,
 the same event can be evaluated more than once, and the alert table needs a
 defined identity or replay silently manufactures incidents.
 
@@ -28,8 +29,8 @@ identifier and never joined into the alert or duplicated inside it**.
 
 **The alert identity key excludes rule version.** Deduplication is on rule
 identity and the citing event identifiers, carried by the stable event identifier
-that runs from the agent through Silver, Proton Gold, DuckLake Gold and alert
-evidence.
+that runs from the agent through Silver, LocalStream-derived Gold, DuckLake Gold
+and alert evidence.
 
 **Replay never produces duplicate alerts. Replay may legitimately produce new
 alerts for old events.** These are not in tension, and the exclusion of rule
@@ -44,17 +45,18 @@ is the point of correcting a rule.
 - Alert storage stays proportional to detections rather than to telemetry. A rule
   firing on a thousand events produces one alert referencing a thousand
   identifiers, not a thousand copied rows.
-- The alert table has no dual-shape problem. It exists only in DuckLake, with
-  Proton as producer rather than store, so it needs DuckDB-only governance and no
-  cross-engine type negotiation — unlike Gold (`DEC-0028`).
+- The alert table exists only in DuckLake, with a LocalStream processing sink
+  as producer rather than Proton. The Proton dual-schema requirement in
+  `DEC-0028` is superseded by `DEC-0033`.
 - **A corrected rule cannot retract an alert its previous version raised.** The
   identity that suppresses duplicates also prevents the correction from being
   visible as a change to the existing alert. Withdrawing a false positive is a
   separate operation on the alert, not a consequence of replay.
-- Evidence resolution depends on the referenced Gold rows being present. The
-  reorder buffer bounds the window in which they are not (`DEC-0031`), but a
-  crash between the Gold write and the alert write can still leave a dangling
-  reference. The read path must say so rather than render an empty result.
+- Evidence resolution depends on referenced Gold being persisted. A sink
+  can crash between writing Gold and an alert, leaving a dangling reference.
+  No ordering-window guarantee survives the supersession of `DEC-0031`.
+  The read path must report unresolved evidence explicitly; sink retries and
+  reconciliation require integration tests.
 - The stable event identifier becomes load-bearing for two separate mechanisms —
   dedup and evidence linkage — so weakening it breaks both at once.
 

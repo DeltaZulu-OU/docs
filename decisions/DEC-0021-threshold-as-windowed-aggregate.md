@@ -21,7 +21,7 @@ The threshold is expressed inside the KQL as a windowed aggregate with a predica
 
 ## Consequences
 
-It translates deterministically to both dialects, and — the point that matters for authoring — the author can see it. A threshold held outside the query is invisible at the place where its semantics are decided.
+If adopted, the threshold must be explicit in the authored KQL, bound and tested using LocalStream.Query operators under DEC-0033. No Proton/DuckDB dual-dialect compilation is planned. The exact window, late-arrival, correction and output semantics remain Proposed and require conformance fixtures.
 
 **Status stays `Proposed`: the exact window semantics are not settled.**
 
