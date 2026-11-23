@@ -32,7 +32,7 @@ below is a historical count, not a requirement to restore any Proton sink.
 
 Fan-out to multiple consumers is **not available** — one consumer per sink. The backpressure path is architecturally clean, since the transport already defines window-adjustment `Control` frames, so sink slowness propagates to the endpoint as flow control rather than as silent spool growth.
 
-**CON-0016 applies: the collector has no repository.** This Decision names what the collector is without naming where it lives, which is why the ownership question is a separate open memo.
+**Ownership is resolved, implementation remains incomplete.** `CON-0016` recorded the original absence of a collector home. `DEC-0022` subsequently placed the collector in `DeltaZulu.Platform` as a separate deployable. The inspected Platform tree contains `DeltaZulu.Platform.Ingestion` as a library project, but not the required standalone collector executable. The original ownership memo is no longer open; validating and implementing its executable boundary remain engineering work.
 
 ## Alternatives rejected
 
