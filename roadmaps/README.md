@@ -19,6 +19,7 @@ artefact that still reads as a commitment.
 | `DeltaZulu.LogCluster-ROADMAP.md` | `DeltaZulu.LogCluster/docs/ROADMAP.md` | 2026-11-16 |
 | `DeltaZulu.Platform-ROADMAP.md` | `DeltaZulu.Platform/docs/ROADMAP.md` | 2026-11-16 |
 | `DeltaZulu.Platform-AGENT_MANAGEMENT_ROADMAP.md` | `DeltaZulu.Platform/docs/` | 2026-11-16 |
+| `CONSISTENCY-CORRECTNESS-ROADMAP.md` | Central consistency audit after DEC-0033 | 2026-12-07 (or earlier on decision/integration change) |
 
 `DeltaZulu.Kql`, `DeltaZulu.LocalStream` and `DeltaZulu.DurableBuffer` have no
 standalone roadmaps in this directory. Kql has a narrow type-contract surface.
