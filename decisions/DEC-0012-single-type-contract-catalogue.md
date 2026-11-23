@@ -25,7 +25,7 @@ One producer-agnostic catalogue is the authority for field names, types, and the
 
 ## Consequences
 
-The section 11.1 divergence list is largely a consequence of the split rather than a set of independent bugs. Two of its entries are load-bearing beyond their apparent size: `ToKustoType`'s `_ => KustoType.String` default is exactly the silent coercion DEC-0003 forbids *and* exactly the closed-enum fallthrough the estate rule bans; and the duration ticks-versus-microseconds divergence is CON-0014, a factor-of-ten error that looks like a plausible number rather than like corruption.
+The section 11.1 divergence list is not a reliable list of open defects; the dated source review in `reports/2026-08-16-schema-divergence-verification.md` refuted eight of its thirteen claims. In particular, the alleged `ToKustoType` `_ => KustoType.String` coercing fallback **never existed**. The independent duration ticks-versus-microseconds inconsistency is genuine (`CON-0014`), but requires a fresh check against the current catalogue before claiming it remains uncorrected. The single-authority requirement does not depend on the refuted fallback.
 
 ## Alternatives rejected
 

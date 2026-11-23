@@ -25,13 +25,13 @@ One piece of evidence bears on how settled the OCSF reading is: *OCSF* and *ASIM
 
 Every detection, dashboard and approved view binds to table and field names, so deciding this after content exists is a migration rather than a refactor. It gates the class-grouping rule in Wave 3.
 
-## Alternatives rejected
+## Options under consideration (neither rejected)
 
-| Alternative | Why not | Constraint it failed |
-|---|---|---|
-| OCSF-derived semantics | Not yet reconciled against Platform ADR 0007 | — |
-| DeltaZulu-owned names with OCSF lineage | Platform ADR 0007's position; not yet reconciled against the consolidated document | — |
+| Option | Unresolved question |
+|---|---|
+| OCSF-derived semantics in an ASIM-like flat shape | Compatibility scope and ownership of schema evolution remain undecided. |
+| DeltaZulu-owned names with optional OCSF lineage | Must be reconciled against the consolidated design and committed detection interfaces. |
 
 ## Revisit trigger
 
-Decide before the first Silver→Golden mapping is written. This Decision must reach `Accepted` or be split before DEC-0011 leaves `Proposed`.
+Decide before publishing a binding Gold field-name contract or rules that rely on those names. `DEC-0011` is already `Rejected` by `DEC-0033`; it is not a pending gate.

@@ -28,3 +28,11 @@ forces. Constraints do not choose; Decisions choose, and cite these.
 | CON-0018 | A component cannot report its own absence |
 | CON-0019 | Transport class bounds what completeness can mean |
 | CON-0020 | An integrity digest attests only if computed at write time |
+
+**Historical-state caution (2026-11-23):** `CON-0016` was an August snapshot,
+not an immutable external fact. `DEC-0022` has since established that the
+collector belongs in `DeltaZulu.Platform`, and the Platform repo contains an
+`Ingestion` project; existence of the required standalone executable remains
+unverified. Do not treat `CON-0016`'s "no project or directory" wording as
+current implementation evidence. This index clarification does not silently
+reclassify or supersede the immutable Constraint; that taxonomy decision remains open.

@@ -56,8 +56,8 @@ open, and neither is treated as resolved by silence:
   those sources.
 - **Whether canaries are filtered from Bronze or retained and marked is still
   open, and it blocks the emitter rather than the principle.** It needs its own
-  Decision before the emitter writes anything, because `DEC-0010` makes Bronze
-  write-once: filtering is a content-based routing judgement taken at write time
+  Decision before a production emitter writes anything, because `DEC-0033` retains Bronze
+  as write-once evidence: filtering is a content-based routing judgement taken at write time
   and cannot be undone afterwards, while retaining and marking can be reversed at
   query time. The asymmetry is an argument about reversibility, not a resolution
   — recorded here so the emitter is not built on an assumption nobody made
@@ -67,9 +67,7 @@ open, and neither is treated as resolved by silence:
 
 - This is the only work that makes "completeness" an honest word in a customer
   conversation.
-- It has **no dependencies** on the type catalogue, the transport, Golden or any
-  published package, so it can start immediately and survives every subsequent
-  change.
+- The **prototype** (external sequence-numbered emitter and comparison logic) has no dependency on the type catalogue, transport, Gold or published packages and can start immediately. **Production emission into Bronze remains blocked** until the separate canary-retention policy is decided. This does not reverse the independent measurement principle.
 - The proportion of sources that are unmeasurable becomes a reported figure,
   making the limit of the claim visible rather than a footnote.
 - Open: canary injection into a Windows Security channel or an ETW session has no

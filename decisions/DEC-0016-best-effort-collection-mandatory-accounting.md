@@ -27,7 +27,7 @@ The hazard is specific to Golden. Silver is self-documenting about its limits â€
 
 The matrix must be versioned: a row written under version 3 must be interpreted with version 3, or adding an enrichment tier next year silently rewrites the meaning of every null already in the lake.
 
-**Status is `Accepted` and unimplemented.** No repository currently carries `CollectionTier`, the null-reason enum, or the matrix.
+**Implementation status (source check 2026-11-23): partial, not demonstrated end to end.** `DeltaZulu.Forward` already declares `ForwardCollectionTier`, `ForwardNullReason`, `CollectionTier`, `NullReasons` and `MatrixVersion` in its record contract. That refutes the earlier claim that no repository carries the tier or null-reason enums. It does **not** establish that every Gold record persists these fields, or that a versioned tier-by-field availability matrix is implemented and enforced. Those remain verification requirements; this Decision remains `Accepted`.
 
 ## Alternatives rejected
 

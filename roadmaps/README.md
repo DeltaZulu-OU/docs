@@ -21,10 +21,13 @@ artefact that still reads as a commitment.
 | `DeltaZulu.Platform-AGENT_MANAGEMENT_ROADMAP.md` | `DeltaZulu.Platform/docs/` | 2026-11-16 |
 
 `DeltaZulu.Kql`, `DeltaZulu.LocalStream` and `DeltaZulu.DurableBuffer` have no
-roadmap. For the first two that is reasonable — both are complete libraries with
-narrow surfaces. For DurableBuffer it is part of a wider gap: it is a **published
-package with no ADR record and no roadmap at all**, so nothing states what it has
-decided or where it is going.
+standalone roadmaps in this directory. Kql has a narrow type-contract surface.
+LocalStream has implemented core and Query primitives, but **not a verified
+end-to-end KQL/Platform/lake pipeline**; its integration work belongs in a
+rebaselined active roadmap under `DEC-0033`. DurableBuffer is a published
+package with no separate global Decision assigning its longer-term roadmap;
+its optional edge-queue role is constrained by `DEC-0033`. These are distinct
+situations, not proof that all three libraries are complete.
 
 ## Corrections applied on migration
 

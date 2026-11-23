@@ -82,8 +82,7 @@ declares test failures nor changes `DEC-0003`.
 ## Revisit trigger
 
 Reopen if a reproducible requirement, with a failing semantic fixture,
-demonstrates that Kusto.Language plus the existing controlled query path
-cannot provide a required capability. Also reopen the compatibility
-aspect if the supported Kusto.Language versions lose their common
-required API. A decision on `DEC-0011` must satisfy that Decision's own
-cross-backend evidence requirements.
+demonstrates that Kusto.Language and the query-owning LocalStream/Platform
+integration cannot provide a required capability. Also reopen the compatibility
+aspect if supported Kusto.Language versions lose their common required API.
+`DEC-0011` is Rejected; no Proton/DuckDB equivalence gate survives as a pending prerequisite.
