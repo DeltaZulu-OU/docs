@@ -24,3 +24,4 @@ later report.
 | 2026-11-23 | `2026-11-23-proton-localstream-reconciliation.md` | DEC-0033 supersedes the Proton NRT architecture; LocalStream core and Query separation verified from source, end-to-end execution unverified. |
 | 2026-11-23 | `2026-11-23-consistency-corrections.md` | Verified factual corrections following DEC-0033, governance enforcement improvements, ten-property provenance inventory, and six owner decisions deliberately left open. |
 | 2026-11-23 | `2026-11-23-c03-c10-source-verification.md` | Source-verified C03/C10/C11 findings: Forward datetime tag-4 conflict, tick/microsecond mismatch, ASIM Gold gaps, and all-eight Silver event-time fallback; defines unexecuted regression matrix. |
+| 2026-11-23 | `2026-11-23-forward-type-contract-audit.md` | Source-based Forward/KQL type-contract verification, including tag 4, TimeSpan ticks, legacy registry and provenance gaps. |

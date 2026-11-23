@@ -40,3 +40,5 @@ against `DEC-0033` and the global Decision set, treat them as implementation
 references or historical plans, **not a second governing authority**. Their
 migration and source-level rebaseline remain explicit roadmap work; the target
 narrative above does not imply the LocalStream integration is implemented.
+
+- [`ASIM-GOLD-MAPPING-REGISTER.md`](ASIM-GOLD-MAPPING-REGISTER.md) — source-grounded four-family Gold inventory, eight Silver contributors and ASIM migration blockers; not a conformance certificate.
