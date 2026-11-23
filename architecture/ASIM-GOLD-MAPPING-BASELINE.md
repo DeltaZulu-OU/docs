@@ -32,6 +32,13 @@ ASIM 1.0.0 schema references list `EventCount`, `EventStartTime`, `EventEndTime`
 
 **Important:** Every target below is a **candidate**, not an approved per-field mapping. No source value, enum, or type should be rewritten based on this table without a fixture verifying it.
 
+**Drift check:** the `governs-check` workflow runs
+`.github/scripts/gold_inventory_check.py` against the latest checked-out
+Platform C# field declarations. It compares the four families, every field
+name, declared Kusto/DuckDB type and column order. It **does not** validate
+ASIM enum normalization, mandatory values, role semantics or integration.
+
+
 ## `golden.Dns` — 13 fields (DNS ASIM 1.0.0)
 
 | Existing Gold field | Existing Kusto / DuckDB | Candidate ASIM target or extension | Disposition | Required check |

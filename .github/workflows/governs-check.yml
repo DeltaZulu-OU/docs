@@ -65,3 +65,6 @@ jobs:
 
       - name: Verify governs entries
         run: python3 .github/scripts/governs_check.py --verify --root .governed
+
+      - name: Check ASIM Gold inventory against Platform C# source
+        run: python3 .github/scripts/gold_inventory_check.py --root .governed

@@ -42,6 +42,9 @@ Initial C10 source inventory and candidate mapping register:
 It covers the 4 implemented telemetry contract families, 8 Silver contributors,
 3 Bronze sources and separately tracks the 2 operations views. **Candidate
 mappings are not approved field transformations or tested ASIM conformance.**
+The `governs-check` workflow now detects field-name/type/order drift against
+this register from Platform's current C# source; functional ASIM conformance
+remains to be tested independently.
 
 Create a versioned mapping register for each implemented event family, using
 Microsoft's published ASIM schema and documented mandatory/conditional
