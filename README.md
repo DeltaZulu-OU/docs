@@ -35,7 +35,8 @@ verbatim historical import and must be read with `PIPELINE-ERRATA.md`.
 Superseded and Proposed records; only Accepted Decisions are binding.
 
 `architecture/GOVERNING-DECISIONS.md` indexes which Decisions govern which
-repository, generated from the Decisions' own front-matter so it cannot drift.
+repository. Regenerate it with `python3 .github/scripts/governing_index.py --write`;
+CI checks for drift with `--check`.
 
 ## Constraints versus Decisions
 
@@ -79,7 +80,10 @@ and two mandatory sections:
 `.github/workflows/governs-check.yml` checks out the repos named in each
 `Accepted` Decision's `repos:` list and fails if any symbol or path under
 `governs:` no longer exists. A Decision that governs deleted code is either
-stale or the deletion was unauthorised; both need a human.
+stale or the deletion was unauthorised; both need a human. The checker also
+rejects malformed Decision metadata and verifies the generated index. Existence
+checks search production `src/` declarations; they **do not prove behavior,
+compatibility, public API accessibility, or end-to-end conformance**.
 
 ## The deletion rule
 

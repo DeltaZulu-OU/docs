@@ -89,12 +89,14 @@ Three of the seeded Decisions carry corrections the register did not:
 `DEC-0028` and `DEC-0031`. The accepted replacements for retained
 Bronze, Gold and DuckLake responsibilities are recorded in `DEC-0033`.
 
-## Amendments these Decisions require in the archived ADRs
+## Historical conflicts resolved by current Decisions
 
-Recorded here because the archive is frozen and cannot carry them:
+These conflicts are documented here rather than editing the frozen archive:
 
 - Platform ADR 0007's *"agents do not map into Silver … or enrichments"* clause
   contradicts `DEC-0005` and is struck by it.
-- Agent ADR 0016's bespoke-native-sink premise is retired by `DEC-0017`.
-- LocalStream ADR-0006's at-least-once delivery still needs reconciling against
-  Forward's delivery-correctness gate. Not yet done — no Decision covers it.
+- Agent ADR 0016's bespoke-native-sink premise was retired by `DEC-0017`,
+  which is itself now Superseded by the no-Proton `DEC-0033`.
+- LocalStream's at-least-once delivery and Forward's acknowledgment/deduplication
+  requirements still need an end-to-end correctness proof. `DEC-0033` governs
+  the target split, but it does not establish a tested transactional boundary.

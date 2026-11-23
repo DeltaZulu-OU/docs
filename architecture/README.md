@@ -11,7 +11,7 @@ what *is*, and there is only ever one present tense.
 | `PIPELINE.md` | The consolidated architecture, 15 August 2026. Supersedes the 12 August revision. **Imported verbatim and not edited.** |
 | `PIPELINE-ERRATA.md` | Where Wave 0 verification found `PIPELINE.md`'s claims refuted, understated, mis-cited or unverified. |
 | `DATA-QUALITY-MONITORING.md` | DQM rev. 2, 16 August 2026. Metrics, measurement points M0–M17 plus the external MX and MZ, and the eight quality planes. **Imported verbatim.** |
-| `DATA-QUALITY-MONITORING-INTEGRATION.md` | What the DQM import changes about planned work — chiefly that FWD-CONTRACT-v2's record-field set grows from three to nine, all irreversible. |
+| `DATA-QUALITY-MONITORING-INTEGRATION.md` | What the DQM import changes about planned work. Its inventory has nine rows but **ten named provenance properties**; LocalStream replaces historical Proton dependencies. |
 | `NRT-PIPELINE.md` | **Current target, 23 November 2026:** LocalStream/Query instead of Proton; binding replacement is `DEC-0033`. |
 | `GOVERNING-DECISIONS.md` | Which Decisions govern which repository, generated from front-matter. |
 
@@ -34,6 +34,8 @@ Existing architecture documents still live in their own repositories:
 - `DeltaZulu.LocalStream/docs/LOCAL_STREAM_ARCHITECTURE.md`
 - `DeltaZulu.Parse/docs/`
 
-Migration is Session 19 work. It is deliberately not done ahead of the Decision
-set stabilising: each document has to be reconciled against the Decisions that
-now govern it, and reconciling against a moving set means doing it twice.
+Per-repository documents may still describe earlier choices. Until reviewed
+against `DEC-0033` and the global Decision set, treat them as implementation
+references or historical plans, **not a second governing authority**. Their
+migration and source-level rebaseline remain explicit roadmap work; the target
+narrative above does not imply the LocalStream integration is implemented.

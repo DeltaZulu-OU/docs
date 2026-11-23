@@ -14,6 +14,11 @@ Treat an archived ADR as evidence of what was decided and why at the time. Do
 not treat it as current, do not cite it as authority, and do not resolve a
 disagreement between an archived ADR and a Decision in favour of the ADR.
 
+The archived `DeltaZulu.Platform/README.md` still calls its own ADR collection
+"current" and allows the old architecture to override an ADR. Those words are
+a historical quotation of its former governance model, **not** the current
+policy of this repository. The global `DEC-NNNN` set is authoritative.
+
 | Repository | ADRs archived |
 |---|---|
 | `DeltaZulu.Agent/` | 18 + README |

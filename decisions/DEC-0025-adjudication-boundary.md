@@ -41,8 +41,10 @@ light would invite exactly the inference this Decision exists to prevent.
 - The miss-attribution split is the join between detection engineering and the
   quality instrumentation, and it is the whole argument for that instrumentation.
 - It depends entirely on `RecordId` lineage, `CollectionTier`, null reasons and
-  the capability matrix — which is to say it depends on the full nine-field
-  provenance set landing in FWD-CONTRACT-v2. Without those, this Decision is
+  the capability matrix — which is to say it depends on the **ten named
+  properties grouped in nine inventory rows** in the DQM integration plan.
+  `DeltaZulu.Forward` already declares them, but propagation and lake
+  persistence are not yet verified. Without those guarantees, this proposal is
   unimplementable and DeltaZulu's position collapses to the same "no alert" the
   rest of the market reports.
 - The narrower claim is defensible. "We measure false negatives" would not be.

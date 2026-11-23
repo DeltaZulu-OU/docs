@@ -15,9 +15,10 @@ The provenance, loss and integrity invariants still apply.
 
 FWD-CONTRACT-v2 was scoped to add three provenance fields to `ForwardLogRecord`
 — `CollectionTier`, a sparse null-reason map, and the availability-matrix
-version. DQM §4.1 requires **nine**, and every one of them is irreversible for
-the same reason the original three were: the information exists at the moment of
-writing and nowhere afterwards.
+version. The inventory below contains **nine rows but ten named properties**:
+`ParserId` and `ParserVersion` occupy one table row while remaining separate
+fields. Every property records potentially irreversible provenance. The earlier
+"nine fields" claim counted table rows rather than field properties.
 
 | Field | In original v2 scope | Set at | Why it cannot be backfilled |
 |---|---|---|---|
@@ -38,10 +39,11 @@ though they belong to the same record.
 **This is the single most time-critical consequence of the import.** The
 correction set already argued that adding provenance while the contract is
 stabilising is a contract *field*, and adding it afterwards is a contract
-*revision*. That argument now applies to six more fields, and the fuzzing harness
-is still being built around the current shape. Landing v2 with three of nine
-means a second revision for the other six, on a contract with a compatibility
-window and a fleet to roll through.
+*revision*. That argument applies to **seven additional named properties**, not six.
+As of 2026-11-23, `DeltaZulu.Forward` declares all ten properties as optional
+record members; their end-to-end population, persistence, reader semantics and
+version compatibility remain unverified. Declaring fields is not equivalent to
+fully implementing the contract.
 
 `TimestampOrigin` deserves separate emphasis. DQM calls it the cheapest
 high-value addition in the document and notes it is the one place where a
@@ -60,24 +62,22 @@ The mapping:
 |---|---|---|
 | **1 — irreversible record fields** | **Estate Wave 1, inside FWD-CONTRACT-v2** | Not a follow-on. These are contract fields |
 | **2 — structural counters** (M1–M3) | Estate Wave 4, with Agent Phases 6–8 | Phase 8's auditd assembly hits this immediately |
-| **2a — external ground truth** (canary, reconciler, receiver inventory) | **Can start now — no dependencies** | See below |
+| **2a — external ground truth** (canary, reconciler, receiver inventory) | Prototype can start independently | Production canary writes need a retention/filtering Decision (DEC-0023) |
 | **3 — reconciliation identities** | Follows DQM wave 2 | Cheap once counters exist |
 | **3a — durability** (digests, manifests, restore) | **Estate Wave 1, alongside the collector** | Digest at write time or never |
 | 4 — delivery offsets, RPO gauge | Estate Wave 1–3, follows the collector | |
 | 5 — semantic (enum mismatch, stream-to-lake divergence) | Estate Wave 3, rebaseline for `DEC-0033` | |
-| 6 — timeliness | Estate Wave 3, needs the Golden MV | |
+| 6 — timeliness | Rebaseline for LocalStream-derived Gold and DuckLake persistence | Superseded Proton Golden MV is not a prerequisite |
 | 7 — coverage (data contracts, rule validity) | Estate Wave 3 product layer | |
 | 8 — adjudication | Last | Worthless without 1 and 7 |
 
 ### Two items are more urgent than their numbering suggests
 
-**DQM wave 2a is buildable today and depends on nothing in this estate.** The
-canary emitter sits outside the pipeline, the reconciler compares emitted
-sequences against what the lake holds, and the receiver-side source inventory
-lives at the aggregation node. None of it needs the type catalogue, the
-transport, Golden, or a published package. It is also the only work that makes
-"completeness" an honest word, and the cheapest way to find out whether current
-loss rates are what anyone assumes.
+**The DQM wave 2a prototype can begin independently.** An external emitter,
+reconciler and receiver-side inventory do not need the full streaming pipeline
+to be prototyped. Deploying canary events into write-once Bronze is a different
+matter: `DEC-0023` explicitly leaves retained-and-marked versus filtered
+undecided and blocks production emission until that choice is recorded.
 
 **DQM wave 3a is irreversible in the same way wave 1 is.** A Bronze payload
 written without a digest cannot be given one later — the digest attests to what
@@ -127,7 +127,7 @@ What it can do that the surveyed platforms cannot is split a miss into a
 (telemetry never arrived) — and in the second case name the field and the reason.
 That requires `RecordId` lineage, `CollectionTier`, null reasons and the
 capability matrix, which is to say it requires DQM wave 1, which is to say it
-requires FWD-CONTRACT-v2 to carry all nine fields.
+requires end-to-end preservation of the ten named properties in the nine-row inventory.
 
 The narrower claim is defensible. The broader one would not be, and the
 difference between them is the whole argument for doing wave 1 properly.
@@ -148,7 +148,7 @@ unbuilt.
 
 ## Review trigger
 
-**Next review: 2026-11-16**, or earlier if FWD-CONTRACT-v2 is drafted, if the
-collector acquires a repository, or if any DQM wave-1 field is proposed for
-deferral — that last one being the condition this whole document exists to make
-visible.
+**Prior review date: 2026-11-16 (overdue).** Rebaseline after the next recorded
+Bronze-integrity or canary-retention Decision, or after an end-to-end provenance
+fixture demonstrates actual lake persistence. No new implementation deadline
+is implied by this documentation correction.
