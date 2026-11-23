@@ -39,6 +39,9 @@ jobs:
       - name: Test governance checker
         run: python3 -m unittest discover -s .github/scripts/tests -v
 
+      - name: Verify generated index
+        run: python3 .github/scripts/governing_index.py --check
+
       - name: Collect governed repositories
         id: collect
         run: python3 .github/scripts/governs_check.py --collect
