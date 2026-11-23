@@ -36,6 +36,9 @@ jobs:
       - name: Install PyYAML
         run: pip install --quiet pyyaml
 
+      - name: Test governance checker
+        run: python3 -m unittest discover -s .github/scripts/tests -v
+
       - name: Collect governed repositories
         id: collect
         run: python3 .github/scripts/governs_check.py --collect

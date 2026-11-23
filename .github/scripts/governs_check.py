@@ -36,20 +36,61 @@ DECL_KEYWORDS = ("class", "struct", "record", "interface", "enum", "delegate")
 def load_decisions() -> list[tuple[pathlib.Path, dict]]:
     out = []
     if not DECISIONS.is_dir():
-        return out
+        raise ValueError("decisions/ missing; refusing empty governance check")
     for path in sorted(DECISIONS.glob("DEC-*.md")):
         text = path.read_text(encoding="utf-8")
         match = FRONT_MATTER.match(text)
         if not match:
-            print(f"::error file={path}::missing YAML front-matter")
-            out.append((path, {}))
-            continue
+            raise ValueError(f"{path}: missing YAML front matter")
         try:
-            meta = yaml.safe_load(match.group(1)) or {}
+            meta = yaml.safe_load(match.group(1))
         except yaml.YAMLError as exc:
-            print(f"::error file={path}::unparseable front-matter: {exc}")
-            meta = {}
+            raise ValueError(f"{path}: malformed YAML: {exc}") from exc
+        if not isinstance(meta, dict):
+            raise ValueError(f"{path}: front matter must be a mapping")
+        if meta.get("id") != path.name[:8] or not re.fullmatch(r"DEC-\d{4}", str(meta.get("id"))):
+            raise ValueError(f"{path}: id does not match filename")
+        if meta.get("status") not in {"Proposed", "Accepted", "Superseded", "Rejected"}:
+            raise ValueError(f"{path}: invalid or missing status")
+        repos = meta.get("repos")
+        if not isinstance(repos, list) or any(not isinstance(r, str) or not re.fullmatch(r"DeltaZulu\.[A-Za-z][A-Za-z0-9]*", r) for r in repos):
+            raise ValueError(f"{path}: repos must be a list of repository names")
+        governs = meta.get("governs")
+        if not isinstance(governs, dict):
+            raise ValueError(f"{path}: governs must be a mapping")
+        for field in ("types", "paths"):
+            entry = governs.get(field)
+            if isinstance(entry, dict):
+                if any(name not in repos for name in entry):
+                    raise ValueError(f"{path}: governs.{field} references an undeclared repo")
+                values = list(entry.values())
+            else:
+                values = [entry]
+            if any(not isinstance(v, list) or any(not isinstance(s, str) or not s for s in v) for v in values):
+                raise ValueError(f"{path}: governs.{field} must contain string lists")
+        if (governs.get("types") or governs.get("paths")) and not repos:
+            raise ValueError(f"{path}: governs entries have no repository")
+        cites = meta.get("cites")
+        if not isinstance(cites, list):
+            raise ValueError(f"{path}: cites must be a list")
+        for cid in cites:
+            if not isinstance(cid, str) or not re.fullmatch(r"CON-\d{4}", cid):
+                raise ValueError(f"{path}: invalid Constraint citation {cid!r}")
+            if not list(pathlib.Path("constraints").glob(cid + "-*.md")):
+                raise ValueError(f"{path}: missing Constraint {cid}")
+        if meta.get("status") == "Superseded" and not meta.get("superseded_by"):
+            raise ValueError(f"{path}: Superseded Decision missing superseded_by")
         out.append((path, meta))
+    if not out:
+        raise ValueError("no Decision files found")
+    identifiers = {meta["id"] for _, meta in out}
+    if len(identifiers) != len(out):
+        raise ValueError("duplicate Decision identifiers")
+    for path, meta in out:
+        for field in ("superseded_by", "rejected_by"):
+            target = meta.get(field)
+            if target and (target not in identifiers or target == meta["id"]):
+                raise ValueError(f"{path}: invalid {field} target {target!r}")
     return out
 
 
@@ -87,9 +128,18 @@ def type_is_declared(repo_root: pathlib.Path, fq_name: str) -> bool:
     pattern = re.compile(
         r"\b(?:" + "|".join(DECL_KEYWORDS) + r")\s+" + re.escape(simple) + r"\b"
     )
-    for source in repo_root.rglob("*.cs"):
+    source_root = repo_root / "src"
+    if not source_root.is_dir():
+        return False
+    for source in source_root.rglob("*.cs"):
         try:
-            if pattern.search(source.read_text(encoding="utf-8", errors="ignore")):
+            content = source.read_text(encoding="utf-8", errors="ignore")
+            if not pattern.search(content):
+                continue
+            if "." not in fq_name:
+                return True
+            namespace = fq_name.rsplit(".", 1)[0]
+            if re.search(r"\bnamespace\s+" + re.escape(namespace) + r"\s*[;{]", content):
                 return True
         except OSError:
             continue
@@ -162,10 +212,14 @@ def main() -> int:
     parser.add_argument("--root", type=pathlib.Path, default=pathlib.Path(".governed"))
     args = parser.parse_args()
 
-    if args.collect:
-        return collect()
-    if args.verify:
-        return verify(args.root)
+    try:
+        if args.collect:
+            return collect()
+        if args.verify:
+            return verify(args.root)
+    except (ValueError, OSError) as exc:
+        print(f"::error::{exc}")
+        return 1
     parser.error("one of --collect or --verify is required")
 
 
