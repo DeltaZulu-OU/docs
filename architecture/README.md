@@ -12,7 +12,7 @@ what *is*, and there is only ever one present tense.
 | `PIPELINE-ERRATA.md` | Where Wave 0 verification found `PIPELINE.md`'s claims refuted, understated, mis-cited or unverified. |
 | `DATA-QUALITY-MONITORING.md` | DQM rev. 2, 16 August 2026. Metrics, measurement points M0–M17 plus the external MX and MZ, and the eight quality planes. **Imported verbatim.** |
 | `DATA-QUALITY-MONITORING-INTEGRATION.md` | What the DQM import changes about planned work. Its inventory has nine rows but **ten named provenance properties**; LocalStream replaces historical Proton dependencies. |
-| `NRT-PIPELINE.md` | **Current target, 23 November 2026:** LocalStream/Query instead of Proton; binding replacement is `DEC-0033`. |
+| `NRT-PIPELINE.md` | **Current target, 23 November 2026:** LocalStream/Query instead of Proton (`DEC-0033`); ASIM-first Gold semantic model (`DEC-0013`). |
 | `GOVERNING-DECISIONS.md` | Which Decisions govern which repository, generated from front-matter. |
 
 `PIPELINE.md` is left unedited so that historical citations stay stable.

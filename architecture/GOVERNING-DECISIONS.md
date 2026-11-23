@@ -57,7 +57,7 @@ _No Decision names this repository yet._
 |---|---|---|
 | [`DEC-0010`](../decisions/DEC-0010-bronze-write-once-proton-staging-only.md) | Superseded | Bronze write-once; Proton holds no durable Bronze or Silver |
 | [`DEC-0012`](../decisions/DEC-0012-single-type-contract-catalogue.md) | Accepted | Type-contract catalogue is the single authority, producer-agnostic |
-| [`DEC-0013`](../decisions/DEC-0013-golden-semantic-model.md) | Proposed | Golden semantic model and naming |
+| [`DEC-0013`](../decisions/DEC-0013-golden-semantic-model.md) | Accepted | Golden semantic model and naming |
 | [`DEC-0017`](../decisions/DEC-0017-proton-ingest-over-http.md) | Superseded | Proton ingest over HTTP |
 | [`DEC-0020`](../decisions/DEC-0020-golden-as-materialised-view.md) | Superseded | Golden is a materialised view into a declared target stream |
 | [`DEC-0022`](../decisions/DEC-0022-collector-lives-in-platform.md) | Accepted | The collector is a project inside `DeltaZulu.Platform`, deployed separately |

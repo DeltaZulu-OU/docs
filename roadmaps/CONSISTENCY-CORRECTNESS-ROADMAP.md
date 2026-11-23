@@ -23,7 +23,7 @@ contract break, new streaming engine or changed detection semantics.
 | ID | Work | Current state | Completion gate |
 |---|---|---|---|
 | C05 | Forward ACK to LocalStream append, offsets, durability, replay, subscription identity and `OffsetExpired` | Target topology accepted, end-to-end behavior unverified | Crash-point and duplicate/restart tests demonstrate conservation and explicit recovery |
-| C06 | Kusto.Language binding into LocalStream.Query, DuckDB hunting subset, event time, watermark and threshold semantics | Query primitives implemented; binding and DEC-0021 policy unresolved | Supported KQL conformance corpus and deliberately rejected unsupported operators |
+| C06 | Kusto.Language binding into LocalStream.Query, DuckDB hunting subset, event time, watermark and threshold semantics | Query primitives implemented; binding and DEC-0021 policy unresolved; DEC-0013 now accepts ASIM-first Gold | Supported KQL conformance corpus and deliberately rejected unsupported operators |
 | C07 | Gold/alert lake sink idempotency, result-change identity, checkpoint coordination and evidence linkage | `DEC-0030` and `DEC-0033` bind the invariants, implementation unverified | Repeatable replay/crash tests prove stable alert identity and observable/recoverable evidence gaps |
 
 ## P2 — documentation convergence
@@ -32,6 +32,16 @@ contract break, new streaming engine or changed detection semantics.
 |---|---|---|---|
 | C08 | Rebaseline imported roadmaps and Platform/Agent per-repo docs; inventory legacy Proton code | Current indexes warn about supersession and overdue review; full source migration pending | Each roadmap is either reviewed as current or explicitly historical; no active work item prescribes Proton |
 | C09 | Extend governance to reference checks, rule-state dependencies, dated review coverage and contract test links | Metadata/index checking implemented; semantic and review-date checks pending | CI produces reproducible drift reports, without equating type existence with behavior |
+
+## ASIM Gold mapping work (DEC-0013 Accepted)
+
+Create a versioned mapping register for each implemented event family, using
+Microsoft's published ASIM schema and documented mandatory/conditional
+fields. Start from actual ingested telemetry coverage, not a promised list of
+event families. Document ASIM-derived extensions, enum/field conversions,
+Gold KQL types, null/provenance fields, and per-schema conformance fixtures.
+Avoid claiming full ASIM compatibility until source-specific tests support it.
+This decision does not unblock C03/C04/C05/C07 or decide DEC-0021.
 
 ## Implementation principles
 
@@ -49,9 +59,10 @@ contract break, new streaming engine or changed detection semantics.
 
 ## Owner decisions blocking acceptance
 
-The six owner decisions are enumerated in
-`reports/2026-11-23-consistency-corrections.md`. They are deliberately
-not represented as completed tasks or settled defaults.
+The initial six owner questions are recorded historically in
+`reports/2026-11-23-consistency-corrections.md`. **Gold naming (DEC-0013) is
+now resolved ASIM-first**; the other owner decisions remain outstanding.
+The historical report is not rewritten.
 
 ## Evidence log
 

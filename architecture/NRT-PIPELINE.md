@@ -63,7 +63,10 @@ for the historical lake. No Proton ingestion, materialised views,
 Gold schemas, or SQL detection engine belong in the target.
 
 Gold retains one logical C#-authored field contract under
-`DEC-0012`. The Proton physical-schema projection requirements of
+`DEC-0012`, **ASIM-first schema naming and semantics under Accepted
+`DEC-0013`**, and documented DeltaZulu extensions where ASIM cannot
+faithfully represent source evidence. OCSF is not the Gold base.
+The Proton physical-schema projection requirements of
 `DEC-0028` are superseded. DuckLake mappings must preserve declared
 types, null reasons and canonical duration ticks (`CON-0014`).
 
@@ -93,10 +96,11 @@ and decision.
 ## Implementation and decision status
 
 Phase one remains NRT-only; scheduled detections are deferred
-(`DEC-0026`). `DEC-0013` (Gold names), `DEC-0021` (threshold/window
-semantics), `DEC-0024` (Bronze integrity), and `DEC-0025` (adjudication)
-remain Proposed. A current architecture description does not promote
-them to Accepted.
+(`DEC-0026`). `DEC-0013` (ASIM-first Gold naming) is now
+**Accepted**, but its mappings are not yet verified as implemented.
+`DEC-0021` (threshold/window semantics), `DEC-0024` (Bronze integrity),
+and `DEC-0025` (adjudication) remain Proposed. A current architecture
+description does not promote them to Accepted.
 
 Open engineering work: KQL-to-operator binding, deterministic state,
 sink idempotency and checkpoint coordination, window/late-event policies,

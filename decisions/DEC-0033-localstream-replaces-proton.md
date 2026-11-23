@@ -58,8 +58,9 @@ A target architecture is not a verified implementation.
    Gold and alerts into DuckLake. LocalStream retention is bounded replay
    storage, not a second evidence lake. Users hunt and investigate against
    DuckLake, not LocalStream. Gold keeps a single logical field contract
-   generated from the C# schema authority of `DEC-0012`; no Proton schema
-   projection is required.
+   generated from the C# schema authority of `DEC-0012`, with ASIM-first
+   naming/semantics and explicit extensions under `DEC-0013`; no Proton
+   schema projection is required.
 5. **Preserve event-time and provenance invariants.** Extracted event time
    governs Gold processing, windows and correlation (`DEC-0029`).
    Retain ingest time as provenance. Stable event and alert identifiers,

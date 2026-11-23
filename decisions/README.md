@@ -58,8 +58,8 @@ still resolve.
 
 The seed import preserved the original statuses. A later architecture change
 (`DEC-0033`, accepted 2026-11-23) **Rejected** `DEC-0011`'s Proton/DuckLake
-dual-compilation proposal. `DEC-0013` (Gold semantic names) and `DEC-0021`
-(window threshold semantics) remain `Proposed`; status must be read from each
+dual-compilation proposal. `DEC-0013` now **Accepts ASIM-first Gold schemas**, with documented ASIM-derived extensions rather than OCSF. `DEC-0021`
+(window threshold semantics) remains `Proposed`; status must be read from each
 Decision's current front matter, not inferred from the historical seed.
 
 Three of the seeded Decisions carry corrections the register did not:
@@ -74,10 +74,9 @@ Three of the seeded Decisions carry corrections the register did not:
   reject-not-coerce rather than reversing it, because a reader encountering the
   narrowing without that sentence will read it as an overturn.
 
-## Still open in the seed set
+## Seed set status after subsequent decisions
 
-- **`DEC-0013`** — Gold semantics and naming (OCSF-derived versus
-  DeltaZulu-owned names with OCSF lineage) remain undecided.
+- **`DEC-0013`** — Accepted: prefer ASIM schemas, derive explicitly where necessary, and do not use OCSF as the canonical Gold authority.
 - **`DEC-0021`** — window threshold semantics, including late events and
   corrections, remain unsettled under LocalStream.Query.
 - **`DEC-0011`** — Rejected by `DEC-0033`; its old equivalence gate is
