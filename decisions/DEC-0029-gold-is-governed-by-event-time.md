@@ -55,6 +55,17 @@ CON-0001 applies to the carrier: KQL `datetime` is UTC-only, the carrier is
   one are indistinguishable once written, and this Decision makes the difference
   govern detection.
 
+## Implementation discrepancy — verified 2026-11-23
+
+The Platform Silver contributor implementation currently uses source-event-time
+`TRY_CAST` with `ingest_time` as a fallback in all eight source-specific
+contributors (seven via `EventTimestamp`, one explicitly for DNS server).
+This is **not** an exception to this Accepted Decision. Track under C11 and
+[`reports/2026-11-23-c03-c10-source-verification.md`](../reports/2026-11-23-c03-c10-source-verification.md).
+The eventual correction must distinguish unavailable source time from a
+trustworthy observed event time; no source-level tests were executed in
+this review.
+
 ## Alternatives rejected
 
 | Alternative | Why not | Constraint it failed |

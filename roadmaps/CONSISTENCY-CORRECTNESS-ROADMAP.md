@@ -13,10 +13,12 @@ contract break, new streaming engine or changed detection semantics.
 
 | ID | Work | Current state | Completion gate |
 |---|---|---|---|
-| C01 | Fail-closed Decision metadata, production declaration checks, generated index, regression tests | **Implemented in docs**; remote workflow verification outstanding | CI executes unit tests, rejects malformed metadata and detects a stale index or missing governed symbol |
+| C01 | Fail-closed Decision metadata, production declaration checks, generated index, regression tests | **Completed in docs; latest governs-check and CodeQL runs passed** | Re-run CI whenever governance metadata or checked repositories change |
 | C02 | Remove refuted claims, correct historical report index, clarify proposed/rejected statuses | **Documentation corrected**; Constraint reclassification deferred | No Accepted Decision depends on a refuted current implementation claim; Constraint taxonomy decision recorded separately |
-| C03 | Forward/KQL datetime carrier, duration ticks, provenance and wire compatibility | **Verification open; owner decision required for field-value tag 4** | Round-trip and compatibility fixtures, type/reason mapping, no silent offset or duration loss |
+| C03 | Forward/KQL datetime carrier, duration ticks, provenance and wire compatibility | **Source mismatch confirmed** at Forward `fba0c5c`, Platform `60d6588`, Kql `2f61c60`; owner decision required for tag 4 | T01–T03, T05: versioned compatibility, UTC semantics and unit round trips |
 | C04 | Bronze integrity, manifest signing, restore and canary-retention requirements | **Proposed decisions remain open** | Accepted integrity/canary Decisions and destructive/replay test evidence before regulated production claims |
+| C10 | ASIM-first field mapping for four current Gold families and operational alert views | **Source inventory established**: 71 Gold telemetry fields across 4 families; mappings unverified | Versioned ASIM 1.0.0 field register, mandatory-field coverage, source fixtures and compatibility migration plan |
+| C11 | Stop silent ingest-time promotion into event time | **P0 source violation confirmed**: helper used by 7 Silver views plus DNS server explicit fallback | T04: all 8 contributors preserve absent/estimated event-time semantics and never implicitly substitute ingest time in detections |
 
 ## P1 — LocalStream processing and persisted evidence
 
@@ -34,6 +36,12 @@ contract break, new streaming engine or changed detection semantics.
 | C09 | Extend governance to reference checks, rule-state dependencies, dated review coverage and contract test links | Metadata/index checking implemented; semantic and review-date checks pending | CI produces reproducible drift reports, without equating type existence with behavior |
 
 ## ASIM Gold mapping work (DEC-0013 Accepted)
+
+Initial C10 source inventory and candidate mapping register:
+[`architecture/ASIM-GOLD-MAPPING-BASELINE.md`](../architecture/ASIM-GOLD-MAPPING-BASELINE.md).
+It covers the 4 implemented telemetry contract families, 8 Silver contributors,
+3 Bronze sources and separately tracks the 2 operations views. **Candidate
+mappings are not approved field transformations or tested ASIM conformance.**
 
 Create a versioned mapping register for each implemented event family, using
 Microsoft's published ASIM schema and documented mandatory/conditional
@@ -63,6 +71,15 @@ The initial six owner questions are recorded historically in
 `reports/2026-11-23-consistency-corrections.md`. **Gold naming (DEC-0013) is
 now resolved ASIM-first**; the other owner decisions remain outstanding.
 The historical report is not rewritten.
+
+## C03/C11 regression scope
+
+Source-verified findings and the ten required test groups T01–T10 are in
+[`reports/2026-11-23-c03-c10-source-verification.md`](../reports/2026-11-23-c03-c10-source-verification.md).
+C11 is a code-versus-DEC-0029 inconsistency; it does not require a new schema
+name or new engine choice, but its unavailable-event-time processing behavior
+must be verified before claiming correction. C03 field tag 4 must not change
+without the owner's versioning decision.
 
 ## Evidence log
 

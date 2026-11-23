@@ -13,6 +13,7 @@ what *is*, and there is only ever one present tense.
 | `DATA-QUALITY-MONITORING.md` | DQM rev. 2, 16 August 2026. Metrics, measurement points M0–M17 plus the external MX and MZ, and the eight quality planes. **Imported verbatim.** |
 | `DATA-QUALITY-MONITORING-INTEGRATION.md` | What the DQM import changes about planned work. Its inventory has nine rows but **ten named provenance properties**; LocalStream replaces historical Proton dependencies. |
 | `NRT-PIPELINE.md` | **Current target, 23 November 2026:** LocalStream/Query instead of Proton (`DEC-0033`); ASIM-first Gold semantic model (`DEC-0013`). |
+| `ASIM-GOLD-MAPPING-BASELINE.md` | Source-inventoried current Gold columns, ASIM 1.0.0 mapping candidates and conformance fixtures; **not implementation acceptance**. |
 | `GOVERNING-DECISIONS.md` | Which Decisions govern which repository, generated from front-matter. |
 
 `PIPELINE.md` is left unedited so that historical citations stay stable.

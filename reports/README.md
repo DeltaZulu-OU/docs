@@ -23,3 +23,4 @@ later report.
 | 2026-11-23 | `2026-11-23-sqlglot-kql-boundary-review.md` | Source review of SQLGlot and DeltaZulu.Kql; distinct language/type responsibilities, DEC-0032, and three unverified follow-ups. No tests executed. |
 | 2026-11-23 | `2026-11-23-proton-localstream-reconciliation.md` | DEC-0033 supersedes the Proton NRT architecture; LocalStream core and Query separation verified from source, end-to-end execution unverified. |
 | 2026-11-23 | `2026-11-23-consistency-corrections.md` | Verified factual corrections following DEC-0033, governance enforcement improvements, ten-property provenance inventory, and six owner decisions deliberately left open. |
+| 2026-11-23 | `2026-11-23-c03-c10-source-verification.md` | Source-verified C03/C10/C11 findings: Forward datetime tag-4 conflict, tick/microsecond mismatch, ASIM Gold gaps, and all-eight Silver event-time fallback; defines unexecuted regression matrix. |

@@ -62,6 +62,13 @@ LocalStream is bounded node-local replay storage, never a substitute
 for the historical lake. No Proton ingestion, materialised views,
 Gold schemas, or SQL detection engine belong in the target.
 
+**Source-level correction gate (2026-11-23):** the existing Gold contracts
+contain 71 fields across DNS, Network Session, Process Event and Authentication,
+but do not yet declare ASIM's mandatory common field names. The proposed
+field-by-field adaptation and the remaining conformance gaps are recorded in
+`ASIM-GOLD-MAPPING-BASELINE.md`. That document is a candidate mapping,
+not a deployment-ready schema contract.
+
 Gold retains one logical C#-authored field contract under
 `DEC-0012`, **ASIM-first schema naming and semantics under Accepted
 `DEC-0013`**, and documented DeltaZulu extensions where ASIM cannot
@@ -77,6 +84,12 @@ compilation proposal is Rejected. Parsing or AST comparison is not
 an oracle for behavioral equivalence.
 
 ## Event time, replay and alert evidence
+
+**Verified implementation mismatch:** seven Silver contributors use an
+`EventTimestamp` helper that falls back to Bronze `ingest_time` on missing or
+unparseable source timestamps; the DNS server contributor does so explicitly.
+This contradicts DEC-0029 when such rows are used for detections. Treat as
+C11/P0 pending test-backed correction, not as an accepted event-time policy.
 
 Extracted event time governs Gold windows and correlation; ingest time
 remains provenance (`DEC-0029`). LocalStream delivery is at-least-once,
