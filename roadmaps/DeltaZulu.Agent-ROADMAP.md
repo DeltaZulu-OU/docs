@@ -1,5 +1,8 @@
 # Architecture migration roadmap
 
+> **Historical import — reconciled 2026-11-25.** This file preserves the original plan and historical status. The sole active planning table is [the consolidated roadmap](CONSISTENCY-CORRECTNESS-ROADMAP.md). Surviving topics: C12 (acquisition, parsing and pipeline), C05 (delivery), C10 (typed extraction), C08 (historical docs), C09 (verification). Old priorities, completion claims, review dates and obsolete architecture are evidence, not active commitments. Revalidate details before implementation.
+
+
 > **Architecture reconciliation required (2026-11-23):** DEC-0033 removes
 > Proton from the target NRT path and replaces it with LocalStream/Query.
 > Proton-dependent tasks below reflect the imported pre-decision roadmap,

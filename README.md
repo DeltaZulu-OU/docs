@@ -18,8 +18,8 @@ because nothing recorded what would invalidate them.
 |---|---|---|
 | `constraints/` | `CON-NNNN-*.md` — facts about the world | **Immutable.** A constraint that turns out to be false is superseded by a new one, never edited. |
 | `decisions/` | `DEC-NNNN-*.md` — choices the estate has made | Rewritable. Global numbering across all repos. |
-| `architecture/` | Per-repo and estate architecture | Always current. Rewritten in place. |
-| `roadmaps/` | Forward plans | Every roadmap carries a dated review trigger. |
+| `architecture/` | Current target architecture, candidate contracts, historical imports and errata | Current narratives revised in place; dated imports preserved. |
+| `roadmaps/` | One active execution table and historical imported plans | Active table carries a review trigger; imported statuses are historical. |
 | `archive/` | Historical per-repo ADRs, content unchanged | Frozen. Read-only history. |
 | `reports/` | Verification output and decision memos that Decisions cite as evidence | Append-only in practice; dated. |
 
@@ -37,8 +37,7 @@ verbatim historical import and must be read with `PIPELINE-ERRATA.md`.
 Superseded and Proposed records; only Accepted Decisions are binding.
 `DEC-0013` adopts ASIM-first Gold schemas; the four-family source inventory
 and candidate mappings are in `architecture/ASIM-GOLD-MAPPING-BASELINE.md`.
-C03/C10/C11 findings and status are tracked in
-`roadmaps/CONSISTENCY-CORRECTNESS-ROADMAP.md`.
+All active work is tracked in the [consolidated roadmap](roadmaps/CONSISTENCY-CORRECTNESS-ROADMAP.md). Imported plans retain detail but do not constitute independent commitments.
 
 `architecture/GOVERNING-DECISIONS.md` indexes which Decisions govern which
 repository. Regenerate it with `python3 .github/scripts/governing_index.py --write`;
@@ -87,7 +86,7 @@ and two mandatory sections:
 `Accepted` Decision's `repos:` list and fails if any symbol or path under
 `governs:` no longer exists. A Decision that governs deleted code is either
 stale or the deletion was unauthorised; both need a human. The checker also
-rejects malformed Decision metadata and verifies the generated index. Existence
+rejects malformed Decision metadata and inconsistent supersession relationships, requires successful checkout, verifies the generated index, checks maintained inline local links and compares the registered Gold inventory. Existence
 checks search production `src/` declarations; they **do not prove behavior,
 compatibility, public API accessibility, or end-to-end conformance**.
 

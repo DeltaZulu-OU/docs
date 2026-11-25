@@ -1,5 +1,8 @@
 # Roadmap and integration gates
 
+> **Historical import — reconciled 2026-11-25.** This file preserves the original plan and historical status. The sole active planning table is [the consolidated roadmap](CONSISTENCY-CORRECTNESS-ROADMAP.md). Surviving topics: C03 (type contract), C05 (delivery), C14 (packaging/runtime compatibility). Old priorities, completion claims, review dates and obsolete architecture are evidence, not active commitments. Revalidate details before implementation.
+
+
 DeltaZulu.Forward's binary framing, typed handshake, credit-window flow
 control, UUID deduplication, schema exchange, and logging provider are already
 implemented. Remaining work is primarily integration and operational

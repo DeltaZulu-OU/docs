@@ -1,5 +1,8 @@
 # dzagentctl Controller Roadmap
 
+> **Historical import — reconciled 2026-11-25.** This file preserves the original plan and historical status. The sole active planning table is [the consolidated roadmap](CONSISTENCY-CORRECTNESS-ROADMAP.md). Surviving topics: C13 (controller and local diagnostics). Old priorities, completion claims, review dates and obsolete architecture are evidence, not active commitments. Revalidate details before implementation.
+
+
 `dzagentctl` is the local controller. `dzagentd` is the daemon collector/forwarder.
 
 The controller UI should be delivered first, then live tail, then simple local metrics. IPC is the final integration layer for sending commands to `dzagentd` and reading daemon state.

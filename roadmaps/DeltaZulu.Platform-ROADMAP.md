@@ -1,5 +1,8 @@
 # DeltaZulu Platform roadmap
 
+> **Historical import — reconciled 2026-11-25.** This file preserves the original plan and historical status. The sole active planning table is [the consolidated roadmap](CONSISTENCY-CORRECTNESS-ROADMAP.md). Surviving topics: C03/C05/C06/C07/C10/C11 (data path), C16 (product operations), C17 (control plane), C08 (legacy code retirement). Old priorities, completion claims, review dates and obsolete architecture are evidence, not active commitments. Revalidate details before implementation.
+
+
 > **Architecture reconciliation required (2026-11-23):** DEC-0033 removes
 > Proton from the target NRT path and replaces it with LocalStream/Query.
 > Proton-dependent tasks below reflect the imported pre-decision roadmap,
@@ -95,7 +98,7 @@ The target is a full-cycle security analytics platform that keeps Clean Architec
 
 ## Agent management
 
-Agent management lifecycle is a separate capability area with its own priority scheme. It is tracked in [`AGENT_MANAGEMENT_ROADMAP.md`](AGENT_MANAGEMENT_ROADMAP.md) and does not block or depend on the platform core phases below. The RPC correlation evidence work adds a coordinated agent/platform evidence-capability track: the agent first delivers raw RPC capture, SCMR/DRSR resolver packs, inbound remote RPC facts, process keys, object ID/pointer-to-name enrichment, network tuple enrichment, structured Security `4624`/`4662`/`5156` normalization, service evidence, and replay metadata; the platform then delivers Silver RPC/network/process/service/authentication/directory tables, CMDB and identity joins, remote service creation and DCSync correlation outputs, evidence bundles, and benign/malicious regression fixtures. This track has an open responsibility-boundary alignment item with ADR 0009 before it can be accepted as final architecture. See [ADR 0011](adr/0011-rpc-correlation-evidence-architecture.md).
+Agent management lifecycle is a separate capability area with its own priority scheme. It is tracked in [`AGENT_MANAGEMENT_ROADMAP.md`](DeltaZulu.Platform-AGENT_MANAGEMENT_ROADMAP.md) and does not block or depend on the platform core phases below. The RPC correlation evidence work adds a coordinated agent/platform evidence-capability track: the agent first delivers raw RPC capture, SCMR/DRSR resolver packs, inbound remote RPC facts, process keys, object ID/pointer-to-name enrichment, network tuple enrichment, structured Security `4624`/`4662`/`5156` normalization, service evidence, and replay metadata; the platform then delivers Silver RPC/network/process/service/authentication/directory tables, CMDB and identity joins, remote service creation and DCSync correlation outputs, evidence bundles, and benign/malicious regression fixtures. This track has an open responsibility-boundary alignment item with ADR 0009 before it can be accepted as final architecture. See [ADR 0011](../archive/DeltaZulu.Platform/0011-rpc-correlation-evidence-architecture.md).
 
 ## Implementation phases
 
@@ -180,7 +183,7 @@ Active and recently closed phases decomposed into concrete, verifiable tasks. Co
 
 #### RPC evidence foundation tasks
 
-These tasks implement the proposed [ADR 0011](adr/0011-rpc-correlation-evidence-architecture.md) and should be tracked with the agent/profile work rather than treated as platform detection logic. Final acceptance requires resolving the overlap with [ADR 0009](adr/0009-collection-coverage-evaluation-boundaries.md) on where deterministic lookup and `_resolved` enrichment live.
+These tasks implement the proposed [ADR 0011](../archive/DeltaZulu.Platform/0011-rpc-correlation-evidence-architecture.md) and should be tracked with the agent/profile work rather than treated as platform detection logic. Final acceptance requires resolving the overlap with [ADR 0009](../archive/DeltaZulu.Platform/0009-collection-coverage-evaluation-boundaries.md) on where deterministic lookup and `_resolved` enrichment live.
 
 1. Keep the production P0 RPC profile selective: retain SCMR/DRSR UUIDs or known P0 endpoints, but do not retain every RPC event whose normalized interface UUID is empty.
 2. Make the RPC-correlation Security `5156` filter alias-safe for application path and destination-port field variants before relying on it for service-control or DCSync tuple enrichment.

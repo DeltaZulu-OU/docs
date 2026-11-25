@@ -3,9 +3,7 @@
 Verification output. Constraints cite these; Decisions cite Constraints.
 
 A report records what was checked, how, and what the check returned — including
-when the answer refuted the premise that motivated the check. Reports are dated
-and are not rewritten: a later check that reaches a different conclusion is a
-later report.
+when the answer refuted the premise that motivated the check. Reports are dated observations, not current policy. A later check that reaches a different conclusion is a later report; consult the [active roadmap](../roadmaps/CONSISTENCY-CORRECTNESS-ROADMAP.md) and accepted Decisions for current status. August feed, package, schema and collector observations are not automatically current blockers.
 
 | Date | Report | Outcome |
 | --- | --- | --- |
@@ -25,3 +23,5 @@ later report.
 | 2026-11-23 | `2026-11-23-consistency-corrections.md` | Verified factual corrections following DEC-0033, governance enforcement improvements, ten-property provenance inventory, and six owner decisions deliberately left open. |
 | 2026-11-23 | `2026-11-23-c03-c10-source-verification.md` | Source-verified C03/C10/C11 findings: Forward datetime tag-4 conflict, tick/microsecond mismatch, ASIM Gold gaps, and all-eight Silver event-time fallback; defines unexecuted regression matrix. |
 | 2026-11-23 | `2026-11-23-forward-type-contract-audit.md` | Source-based Forward/KQL type-contract verification, including tag 4, TimeSpan ticks, legacy registry and provenance gaps. |
+
+| 2026-11-25 | [Consolidation and verification](2026-11-25-consolidation-review.md) | Ten-step documentation remediation, historical plan reconciliation, scoped governance checks and outstanding approvals. |

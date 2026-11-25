@@ -149,3 +149,27 @@ ASIM enum normalization, mandatory values, role semantics or integration.
 5. Run real DuckDB conformance and replay tests against fixed fixture data before setting any family to `Verified`.
 
 **Related source-verified blockers:** [`reports/2026-11-23-c03-c10-source-verification.md`](../reports/2026-11-23-c03-c10-source-verification.md).
+
+
+## Target-side gap accounting (reviewed 2026-11-25)
+
+This supplements the existing-field inventory without creating another mapping authority. Use the referenced family schema and common-fields specification for the complete upstream field set. The following dispositions apply to all eight contributors; none is a verified production mapping.
+
+| Target requirement | Candidate source / disposition | Verification gate |
+|---|---|---|
+| EventCount | 1 only for a proved single event; aggregate cardinality from source | No assumed count for aggregated/unknown input |
+| EventStartTime, EventEndTime | observed source timestamp(s); equal only for an instantaneous event | C11, UTC normalization, time interval semantics |
+| EventType | source event and family-specific operation | schema-specific vocabulary, no inference from name alone |
+| EventResult | explicit success/failure/result, or documented family derivation | unknown evidence must not become success |
+| EventProduct, EventVendor | verified source profile/catalog metadata | distinguish reporting product from agent and collector |
+| EventSchema, EventSchemaVersion | schema registration, not source assertion | publish only correct schema/version and conformance status |
+| Dvc | reporting device alias with role-preserving source metadata | confirm identity and companion type rules |
+
+Additional family requirements and conditional groups:
+
+- DNS: account for DNS query name and mandatory DNS result detail; use request-vs-response semantics and verified response-code name lookup. Preserve query/answer multiplicity. Source/destination device identity, domain and username companions apply only when their triggering fields are populated.
+- Network Session: distinguish endpoint-relative and wire roles; validate endpoint event type, direction, result/action derivation, port/protocol values and application protocol companions. Source/destination device and user ID/domain/name type companions and threat field applicability must be checked.
+- Process Event: account for actor username, acting PID, target process name/PID and command line (mandatory in the published table); preserve creator/parent/target roles. Validate conditional username/ID types, hash type and rule alias when applicable. Missing process evidence is a gap, not a fabricated value.
+- Authentication: account for logon versus other operations and result details, Windows status/substatus and account roles. Conditional actor/target user types, source/target device ID/domain types, target application type and threat field must follow the actual populated trigger fields.
+
+Recommended fields remain optional implementation scope but must be inventoried, and any exclusion recorded. Use the common-fields and family reference tables (including prose conditions and alias rules) to enumerate every target field before freezing the C# contract. The grouped accounting above is deliberately **not** exhaustive per-field target coverage; immutable reference revision, complete machine-readable reverse inventory and source fixtures remain C10 acceptance gates. No new schema is published here.

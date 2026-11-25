@@ -1,5 +1,8 @@
 # Roadmap
 
+> **Historical import — reconciled 2026-11-25.** This file preserves the original plan and historical status. The sole active planning table is [the consolidated roadmap](CONSISTENCY-CORRECTNESS-ROADMAP.md). Surviving topics: C15 (LogCluster and Parse integration). Old priorities, completion claims, review dates and obsolete architecture are evidence, not active commitments. Revalidate details before implementation.
+
+
 This roadmap tracks planned work for making DeltaZulu.LogCluster a maintainable parser-suggestion component while preserving the mining core as a reusable LogCluster implementation.
 
 ## Status
