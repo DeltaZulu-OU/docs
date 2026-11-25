@@ -46,3 +46,12 @@ numbering are visible here rather than hidden:
 
 See `RECOVERY.md` for what is recoverable from these files and what should be
 re-examined before it is trusted.
+
+## Reconciled legacy proposals
+
+The following files are verbatim historical copies from the pre-rebase KQL
+branch, not active Decisions or Constraints. Their original numbering is
+retained for evidence only. Current DEC-0032 remains authoritative.
+
+- [KQL relational compiler relocation proposal](legacy-proposals/2026-09-03-kql-relational-ir-and-compiler.md).
+- [Original CON-0021 wording](legacy-proposals/2026-09-03-original-CON-0021.md).
