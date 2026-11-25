@@ -37,6 +37,15 @@ establish a replacement ordering guarantee.
 CON-0001 applies to the carrier: KQL `datetime` is UTC-only, the carrier is
 `System.DateTime` with `Kind=Utc`, and never `DateTimeOffset`.
 
+### Missing or untrustworthy observed time — approved 25 November 2026
+
+Retain the original Bronze record and its ingest-time provenance. Keep the
+record in Silver with a nullable observed timestamp and an explicit reason
+when the source does not establish a trustworthy instant. Exclude those
+records from event-time detection, ordering, correlation and watermark
+advancement. They remain available for evidence inspection. A later arrival
+with a valid source timestamp retains that observed instant.
+
 ## Consequences
 
 - A source with a broken or absent clock degrades detection rather than ingest.
