@@ -50,3 +50,31 @@ class LocalLinksTests(TestCase):
             errors = checker.links_for(root, ["doc.md"])
             self.assertEqual(len(errors), 1)
             self.assertIn("gone.md", errors[0])
+
+    def test_active_roadmap_structure_and_review(self):
+        from datetime import date
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            directory = root / "roadmaps"
+            directory.mkdir()
+            file = directory / "CONSISTENCY-CORRECTNESS-ROADMAP.md"
+            header = "| Work item | Priority | Affected projects | Work and current status | Completion criterion | Governing decision / outstanding approval |"
+            row = "| **C01** | P0 | docs | Open | Test | None |"
+            file.write_text("**Next review:** 2026-12-07\n" + header + "\n" + row + "\n")
+            self.assertEqual(checker.roadmap_check(root, date(2026, 12, 7)), ([], []))
+            errors, warnings = checker.roadmap_check(root, date(2026, 12, 8))
+            self.assertEqual(errors, [])
+            self.assertEqual(len(warnings), 1)
+            file.write_text(file.read_text() + row + "\n")
+            self.assertTrue(checker.roadmap_check(root, date(2026, 12, 8))[0])
+
+    def test_historical_roadmap_needs_explicit_status(self):
+        from datetime import date
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            directory = root / "roadmaps"
+            directory.mkdir()
+            (directory / "CONSISTENCY-CORRECTNESS-ROADMAP.md").write_text("")
+            (directory / "DeltaZulu.Agent-ROADMAP.md").write_text("# Old plan")
+            errors, _ = checker.roadmap_check(root, date(2026, 11, 25))
+            self.assertTrue(any("historical designation" in error for error in errors))

@@ -8,6 +8,7 @@ This verifies local link targets, not external URLs, fragment anchors or claims.
 from __future__ import annotations
 
 from pathlib import Path
+from datetime import date
 import re
 import sys
 from urllib.parse import unquote
@@ -65,10 +66,59 @@ def links_for(root: Path, paths: list[str]) -> list[str]:
     return errors
 
 
+def roadmap_check(root: Path, today: date) -> tuple[list[str], list[str]]:
+    """Validate the single active table and review trigger; warn if overdue."""
+    roadmaps = root / "roadmaps"
+    active = roadmaps / "CONSISTENCY-CORRECTNESS-ROADMAP.md"
+    if not active.is_file():
+        return ["active roadmap missing"], []
+    source = active.read_text(encoding="utf-8")
+    errors, warnings = [], []
+    dates = re.findall(r"\*\*Next review:\*\* (\d{4}-\d{2}-\d{2})", source)
+    if len(dates) != 1:
+        errors.append("active roadmap requires exactly one next review date")
+    else:
+        try:
+            due = date.fromisoformat(dates[0])
+            if today > due:
+                warnings.append(f"active roadmap review overdue since {due}")
+        except ValueError:
+            errors.append("invalid roadmap review date")
+    header = "| Work item | Priority | Affected projects | Work and current status | Completion criterion | Governing decision / outstanding approval |"
+    if source.count(header) != 1:
+        errors.append("active roadmap requires exactly one execution table")
+    ids = []
+    for line in source.splitlines():
+        if not line.startswith("| **C"):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) != 6 or any(not c for c in cells):
+            errors.append("invalid or incomplete roadmap row: " + line[:80])
+            continue
+        identifier = re.fullmatch(r"\*\*(C\d{2,})\*\*", cells[0])
+        if not identifier:
+            errors.append("invalid work identifier: " + cells[0])
+            continue
+        ids.append(identifier.group(1))
+        if cells[1] not in {"P0", "P1", "P2", "P3", "P—"}:
+            errors.append("invalid priority: " + cells[1])
+    if not ids or len(set(ids)) != len(ids):
+        errors.append("missing or duplicate roadmap work identifiers")
+    for path in sorted(roadmaps.glob("DeltaZulu.*ROADMAP.md")):
+        historical = path.read_text(encoding="utf-8")
+        if not re.search(r"^> \*\*Historical import", historical, re.MULTILINE):
+            errors.append(f"{path.name}: imported roadmap lacks historical designation")
+    return errors, warnings
+
+
 def main() -> int:
     root = Path(__file__).resolve().parents[2]
     paths = maintained_paths(root)
     failures = links_for(root, paths)
+    roadmap_errors, warnings = roadmap_check(root, date.today())
+    failures.extend(roadmap_errors)
+    for warning in warnings:
+        print(f"::warning::{warning}")
     for failure in failures:
         print(f"::error::{failure}")
     if failures:

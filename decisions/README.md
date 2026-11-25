@@ -23,15 +23,17 @@ id: DEC-NNNN
 status: Accepted
 repos: [DeltaZulu.Kql, DeltaZulu.Agent]
 governs:
-  types: [DeltaZulu.Kql.KqlTypes]
-  paths: [src/DeltaZulu.Kql/KqlTypes.cs]
+  types:
+    DeltaZulu.Kql: [DeltaZulu.Kql.KqlTypes]
+  paths:
+    DeltaZulu.Kql: [src/DeltaZulu.Kql/KqlTypes.cs]
 cites: [CON-0002, CON-0006]
 ---
 ```
 
 `governs` is the enforcement hook: `.github/workflows/governs-check.yml` fails if
 a symbol or path named there stops existing while the Decision is `Accepted`.
-Only claim what the Decision genuinely governs — an over-broad `governs` block
+For multi-repository Decisions, use repository-keyed lists when declarations differ; a flat list applies to every named repository. Only claim what the Decision genuinely governs — an over-broad `governs` block
 turns the check into noise, and a check people ignore is worse than no check.
 
 ## Required sections

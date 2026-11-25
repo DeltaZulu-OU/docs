@@ -64,8 +64,10 @@ id: DEC-0001
 status: Accepted        # Proposed | Accepted | Superseded | Rejected
 repos: [DeltaZulu.Kql, DeltaZulu.Parse]
 governs:
-  types: [DeltaZulu.Kql.KqlTypes, DeltaZulu.Kql.KqlValue]
-  paths: [src/DeltaZulu.Kql/KqlTypes.cs]
+  types:
+    DeltaZulu.Kql: [DeltaZulu.Kql.KqlTypes, DeltaZulu.Kql.KqlValue]
+  paths:
+    DeltaZulu.Kql: [src/DeltaZulu.Kql/KqlTypes.cs]
 cites: [CON-0002, CON-0006]
 ---
 ```
@@ -86,7 +88,7 @@ and two mandatory sections:
 `Accepted` Decision's `repos:` list and fails if any symbol or path under
 `governs:` no longer exists. A Decision that governs deleted code is either
 stale or the deletion was unauthorised; both need a human. The checker also
-rejects malformed Decision metadata and inconsistent supersession relationships, requires successful checkout, verifies the generated index, checks maintained inline local links and compares the registered Gold inventory. Existence
+rejects malformed Decision metadata and inconsistent supersession relationships, requires successful checkout, verifies the generated index, checks maintained inline local links, validates the consolidated roadmap and compares the registered Gold inventory. Overdue roadmap review is a warning, not evidence of invalid source. Existence
 checks search production `src/` declarations; they **do not prove behavior,
 compatibility, public API accessibility, or end-to-end conformance**.
 

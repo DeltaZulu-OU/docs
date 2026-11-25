@@ -1,4 +1,4 @@
-# Consistency and correctness roadmap
+# Consolidated DeltaZulu roadmap
 
 **Baseline:** 2026-11-25. **Next review:** 2026-12-07, or on a new
 accepted decision, contract change or completed integration suite.
@@ -28,7 +28,7 @@ or policy remains outstanding. Only tested behavior may be called verified. `Reb
 | **C06** | P1 | `DeltaZulu.Platform`, `DeltaZulu.LocalStream` (Query), `DeltaZulu.Kql` | **Open.** Kusto.Language binding, event-time windows, lateness, threshold semantics and supported DuckDB hunting subset are unverified. Depends on C10 and C11. | Semantic corpus demonstrates allowed operators, explicit rejection of unsupported syntax, watermark/late-event behavior and reproducible outputs. | `DEC-0032`, `DEC-0033`; `DEC-0021` threshold/window decision pending. |
 | **C07** | P1 | `DeltaZulu.Platform`, `DeltaZulu.LocalStream` (Query/LiteDB) | **Open.** Idempotent Gold/alert DuckLake sinks, result-change identity, checkpoint coordination and evidence references lack integration proof; window-result identity and evidence-set revisions remain open. Depends on C05/C06. | Replay/crash tests preserve stable event/alert identities, disclose unresolved references and reconcile partial writes. | `DEC-0030`, `DEC-0033`. |
 | **C08** | P1 | `docs`, `DeltaZulu.Agent`, `DeltaZulu.Platform`, `DeltaZulu.Forward`, `DeltaZulu.LocalStream`, `DeltaZulu.Parse`, `DeltaZulu.LogCluster`, `DeltaZulu.DurableBuffer`, `DeltaZulu.Kql` | **Partially done (docs).** Six historical plans reconciled at topic level into C12–C17 and existing work. Verify individual source/CI status and recover archived requirements; per-repository docs and Proton migration remain open. | Every active document is current or explicitly historical; obsolete Proton tasks are not actionable; project responsibilities match accepted Decisions. | `DEC-0033`, `DEC-0013`; no automatic implementation changes. |
-| **C09** | P1 | `docs`; governed repositories (read-only checks) | **Partially done (docs).** Metadata/relationship, checkout, lexical declaration, local-link and Gold catalogue checks hardened; semantic conformance, review-date and broader link coverage remain open. | Reproducible CI detects missing/broken current references, contradictory Decision states and stale roadmap reviews without claiming code conformance. | Governance policy; no new owner approval. |
+| **C09** | P1 | `docs`; governed repositories (read-only checks) | **Partially done (docs).** Metadata/relationship, checkout, lexical declaration, local-link and Gold catalogue checks hardened; active roadmap structure and review-date warning added; semantic conformance and broader link coverage remain open. | Reproducible CI detects missing/broken current references, contradictory Decision states and stale roadmap reviews without claiming code conformance. | Governance policy; no new owner approval. |
 | **C12** | P— | `DeltaZulu.Agent`, `DeltaZulu.Parse`, `DeltaZulu.LocalStream`, `DeltaZulu.Kql` | **Rebaseline.** Agent phases 2–17/19: acquisition plans, framing, structured/plaintext input, PDAG generations, auditd assembly, stable envelopes, filter dispatch, state-before-filter, blindness, reload, lifecycle, parity and performance. Delivery belongs to C05. | Validate each inherited phase against source, tests and benchmarks; retain only gaps. | DEC-0005–0009, DEC-0014–0016, DEC-0033; inherited scope/priorities not newly approved. |
 | **C13** | P— | `DeltaZulu.Agent` | **Rebaseline.** Controller CLI, KQL workbench, live tail, local metrics, daemon instrumentation, service lifecycle and bounded local IPC (M1–M8). | Verify each milestone against CLI/Daemon/ProfileWorkbench source and integration tests. | Historical controller plan; confirm surviving scope and priority. |
 | **C14** | P— | `DeltaZulu.Forward`, `DeltaZulu.Kql`, `DeltaZulu.Parse`, `DeltaZulu.Agent`, `DeltaZulu.Platform`, `DeltaZulu.LocalStream`, `DeltaZulu.DurableBuffer` | **Rebaseline.** Package feed, locked restore, target frameworks, version pins, cross-version Kusto compatibility and consumption. No new wire fallback. | Clean restore/build/pack and supported consumer compatibility tests; verify publishing rights and version status. | CON-0006 and DEC-0001–0004; framework changes require explicit review. |
@@ -41,7 +41,7 @@ need coordination, not which projects have already been modified.
 
 ## Dependency and execution sequence
 
-C12–C17 consolidate surviving topics from the six historical imports. Their detail and original milestone identifiers remain in the linked historical documents, not independent active roadmaps. Unverified past completion labels are not current claims.
+C12–C17 consolidate surviving topics from the six [historical imports](README.md). Their detail and original milestone identifiers remain in the linked historical documents, not independent active roadmaps. Unverified past completion labels are not current claims.
 
 Continue **C02, C08 and C09** as documentation-only reconciliation.
 **C03 and C10** can proceed independently through source and contract
@@ -93,7 +93,8 @@ processing is allowed in the target. Preserve immutable historical
 Constraints and dated reports; append new verification rather than
 rewriting old evidence.
 
-**Supporting reports:** [architecture reconciliation](../reports/2026-11-23-proton-localstream-reconciliation.md),
+**Supporting reports:** [consolidation review](../reports/2026-11-25-consolidation-review.md),
+[architecture reconciliation](../reports/2026-11-23-proton-localstream-reconciliation.md),
 [consistency corrections](../reports/2026-11-23-consistency-corrections.md),
 [schema divergence verification](../reports/2026-08-16-schema-divergence-verification.md),
 and [datetime carrier investigation](../reports/2026-08-24-forward-datetime-carrier.md).
