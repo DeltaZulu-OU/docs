@@ -27,6 +27,14 @@ boundary was always the estate's to own, not Kusto's). `DeltaZulu.LocalStream`
 needs exactly this IR and must not take on a dependency on `DeltaZulu.Platform`
 to get it.
 
+**Archived Platform ADR 0002 states "Translation uses a controlled relational
+model before emitting backend SQL" as a Platform-owned mechanism, and archived
+Platform ADR 0016 states "Backend-neutral relational emission lives at the
+application/domain boundary" — both asserting the relational model and
+translator belong to Platform's own Application/Domain layer. Both premises
+are retired by this Decision.** The archive is frozen and cannot carry the
+correction; it is recorded here and in `decisions/README.md`.
+
 ## Decision
 
 `DeltaZulu.Kql` owns the relational IR (`DeltaZulu.Kql.Relational.RelNode`/
@@ -44,7 +52,10 @@ medallion/approval policy — reaches the compiler through
 `ApprovedViewCatalogSchemaAdapter`, a thin adapter, not a copy.
 
 Dependency direction: `Microsoft.Azure.Kusto.Language` → `DeltaZulu.Kql` →
-`DeltaZulu.Platform`, never the reverse.
+`DeltaZulu.Platform`, never the reverse. **Platform ADR 0002's
+relational-model-as-Platform-mechanism framing and ADR 0016's
+application/domain-boundary placement are both retired**; the relational IR
+and its compiler are `DeltaZulu.Kql`'s, not Platform's, going forward.
 
 `DeltaZulu.Platform.Application.Analytics.Translation.KustoQueryCompiler` and
 `KustoToRelational` remain as public compatibility facades — their existing

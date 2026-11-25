@@ -101,3 +101,10 @@ These conflicts are documented here rather than editing the frozen archive:
 - LocalStream's at-least-once delivery and Forward's acknowledgment/deduplication
   requirements still need an end-to-end correctness proof. `DEC-0033` governs
   the target split, but it does not establish a tested transactional boundary.
+
+- The historical [KQL compiler relocation proposal](../archive/legacy-proposals/2026-09-03-kql-relational-ir-and-compiler.md)
+  used the same DEC-0032 identifier before the current Decision was assigned.
+  Its proposed retirement of Platform ADRs 0002 and 0016 is not binding.
+  References to DEC-0032 in the associated September 3 experiment denote
+  that historical proposal; the current Accepted DEC-0032 governs ownership.
+  The independent SyntaxKind findings remain relevant under CON-0021.
