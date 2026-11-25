@@ -105,7 +105,7 @@ P0 and P1 remain complete. P2, P3 and P4 retain their existing identities and hi
 | --- | --- | --- | --- | --- |
 | 1 | P3.1 | Define authenticated `deltazulu-github` feed in `NuGet.config` | Clean clone restores Parse 0.1.1 on all CI runners | Feed defined on branch; authentication and verification pending |
 | 1 | P3.2 | Track and commit `packages.lock.json` throughout solution | Locked restore succeeds for committed graph and fails on stale lock | Ignore removed on branch; generation pending |
-| 1 | P3.3 | Correct README link to centralized roadmap | Link resolves to `DeltaZulu-OU/docs/roadmaps/DeltaZulu.LogCluster-ROADMAP.md` | Pending |
+| 1 | P3.3 | Correct README link to centralized roadmap | Link resolves to `DeltaZulu-OU/docs/roadmaps/DeltaZulu.LogCluster-ROADMAP.md` | Implemented on P3 branch; verification pending |
 | 2 | P5.1 | Template-liveness guard for variant groups | Six previously crashing cases complete | Fix branch committed; execution pending |
 | 2 | P5.2 | Prevent targets re-entering subsequent merge groups | Conservation holds across corpus | Fix branch committed; execution pending |
 | 2 | P5.3 | Bound later stream passes and handle unknown tokens as infrequent | Growing source does not throw | Fix branch committed; execution pending |
