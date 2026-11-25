@@ -1,97 +1,92 @@
-# Consistency and correctness roadmap — LocalStream target
+# Consistency and correctness roadmap
 
-**Baseline:** 2026-11-23. **Governing architecture:** `DEC-0033`.
-**Review:** 2026-12-07, or sooner when a pending owner decision is recorded,
-a contract is changed, or the first LocalStream-to-DuckLake integration suite
-is available. Dates are review checkpoints, not implementation commitments.
+**Baseline:** 2026-11-25. **Next review:** 2026-12-07, or on a new
+accepted decision, contract change or completed integration suite.
 
-This plan distinguishes documentation fixes, source-level verification and
-choices requiring owner approval. No task here silently authorizes a
-contract break, new streaming engine or changed detection semantics.
+This is the **single consolidated execution roadmap** for the DeltaZulu
+estate. Each task has exactly one stable `Cnn` work-item identifier.
+`DEC-nnnn` identifies a governing architectural decision, and `CON-nnnn`
+identifies a constraint; neither is a separate work item. Source-audit labels
+such as `EVT-01` and `FWD-01` are findings attached to a work item, not
+additional tasks. Prior identifiers remain valid for traceability.
 
-## P0 — correctness and governance
+**Status terminology:** `Done (docs)` means the documentation or checker
+was changed, **not** that the runtime behavior was implemented. `Audited`
+means source was inspected without application tests. `Open` means work
+or policy remains outstanding. Only tested behavior may be called verified.
 
-| ID | Work | Current state | Completion gate |
-|---|---|---|---|
-| C01 | Fail-closed Decision metadata, production declaration checks, generated index, regression tests | **Completed in docs; latest governs-check and CodeQL runs passed** | Re-run CI whenever governance metadata or checked repositories change |
-| C02 | Remove refuted claims, correct historical report index, clarify proposed/rejected statuses | **Documentation corrected**; Constraint reclassification deferred | No Accepted Decision depends on a refuted current implementation claim; Constraint taxonomy decision recorded separately |
-| C03 | Forward/KQL datetime carrier, duration ticks, provenance and wire compatibility | **Source audit completed** (FWD-01–05); Forward TimeSpan codec uses ticks, Platform registry defaults to microseconds; tag-4 policy unresolved | Round-trip and compatibility fixtures, type/reason mapping, no silent offset or duration loss |
-| C04 | Bronze integrity, manifest signing, restore and canary-retention requirements | **Proposed decisions remain open** | Accepted integrity/canary Decisions and destructive/replay test evidence before regulated production claims |
-| C10 | ASIM-first mappings for four current telemetry Gold families; separately inventory operational alert views | **Baseline inventoried, semantic mappings unverified**: 71 fields, 8 Silver contributors, reviewed ASIM 1.0.0 references | Reproducibly pinned reference, source fixtures, mandatory/conditional fields, explicit extensions and migration plan |
-| C11 (EVT-01) | Stop silent ingest-time promotion into event time | **P0 source mismatch confirmed**: helper used by 7 Silver views plus DNS server explicit fallback | T04: all 8 contributors preserve absent/invalid event-time semantics and never implicitly substitute ingest time in detections |
+## Consolidated execution table
 
-## P1 — LocalStream processing and persisted evidence
+| Work item | Priority | Affected projects | Work and current status | Completion criterion | Governing decision / outstanding approval |
+|---|---|---|---|---|---|
+| **C01** | P0 | `docs`; governed repositories (read-only checks) | **Done (docs).** Fail-closed metadata validation, generated Decision index, production declaration checks, tests and CI checks. | Keep governance and CodeQL workflows passing on updates; report source checks as existence checks, not behavior proofs. | Documentation governance; no new owner approval. |
+| **C02** | P0 | `docs` | **Mostly done (docs).** Corrected refuted source claims, report summaries, Decision states and archival authority. Historical Constraint classification remains open. | Accepted Decisions and active docs contain no known refuted current claims; historical artifacts remain intact and any reclassification is explicit. | Classification of `CON-0016` and `CON-0020` requires owner approval. |
+| **C03** | P0 | `DeltaZulu.Forward`, `DeltaZulu.Kql`, `DeltaZulu.Platform`, `docs` | **Audited.** Datetime field tag 4 conflicts with the KQL carrier; Forward TimeSpan codec uses ticks while Platform registry defaults to microseconds; provenance propagation unverified. | Compatible old/new codec tests, explicit UTC/rejection policy, exact duration-scale and provenance round trips through the lake. | `DEC-0003`; owner must approve incompatible wire policy. |
+| **C04** | P0 | `DeltaZulu.Platform`, `DeltaZulu.Forward`, `docs` | **Open.** Bronze write-time digests, partition manifests, restore tests and production canary-retention policy are not approved as a complete control set. | Accepted assurance policy, signing-key custody model, restoration evidence and destructive/replay tests. | `DEC-0023`, `DEC-0024`; owner decisions pending. |
+| **C10** | P0 | `DeltaZulu.Platform`, `DeltaZulu.Kql`, `docs` | **Audited; mapping open.** Four telemetry Gold families, 71 declared fields, eight Silver contributors and two separately inventoried alert views. ASIM-first is accepted but field-level conformance is unverified. | Pinned ASIM schema artifacts, per-family mapping/extension register, types and enum fixtures, provenance and migration tests. | `DEC-0013` Accepted; no further schema-family choice required to begin. |
+| **C11** | P0 | `DeltaZulu.Platform`, `docs` | **Audited; correction open.** All eight Silver contributors may substitute ingest time for missing/invalid source event time. Historical finding label: `EVT-01` (same task). | All eight source fixtures distinguish observed, absent and invalid event time; no implicit ingestion-time input to event-time detections. | `DEC-0029` Accepted; unavailable-time handling must be explicit and tested. |
+| **C05** | P1 | `DeltaZulu.Forward`, `DeltaZulu.LocalStream`, `DeltaZulu.Platform` | **Open.** Collector ACK/append boundaries, offset checkpoints, replay, retention and `OffsetExpired` behavior lack end-to-end verification. | Crash-point and duplicate/restart fixtures demonstrate conservation, recoverability and explicit expiry behavior. | `DEC-0019`, `DEC-0022`, `DEC-0033`. |
+| **C06** | P1 | `DeltaZulu.Platform`, `DeltaZulu.LocalStream` (Query), `DeltaZulu.Kql` | **Open.** Kusto.Language binding, event-time windows, lateness, threshold semantics and supported DuckDB hunting subset are unverified. Depends on C10 and C11. | Semantic corpus demonstrates allowed operators, explicit rejection of unsupported syntax, watermark/late-event behavior and reproducible outputs. | `DEC-0032`, `DEC-0033`; `DEC-0021` threshold/window decision pending. |
+| **C07** | P1 | `DeltaZulu.Platform`, `DeltaZulu.LocalStream` (Query/LiteDB) | **Open.** Idempotent Gold/alert DuckLake sinks, result-change identity, checkpoint coordination and evidence references lack integration proof. Depends on C05/C06. | Replay/crash tests preserve stable event/alert identities, disclose unresolved references and reconcile partial writes. | `DEC-0030`, `DEC-0033`. |
+| **C08** | P2 | `docs`, `DeltaZulu.Agent`, `DeltaZulu.Platform`, `DeltaZulu.Forward`, `DeltaZulu.LocalStream`, `DeltaZulu.Parse`, `DeltaZulu.LogCluster`, `DeltaZulu.DurableBuffer`, `DeltaZulu.Kql` | **Partially done (docs).** Active architecture and indexes note the LocalStream target; imported roadmaps and per-repository docs still require reconciliation. | Every active document is current or explicitly historical; obsolete Proton tasks are not actionable; project responsibilities match accepted Decisions. | `DEC-0033`, `DEC-0013`; no automatic implementation changes. |
+| **C09** | P2 | `docs`; governed repositories (read-only checks) | **Partially done (docs).** Metadata, index, local-link and Gold-field inventory drift checks exist; review-date, status-reference and semantic contract links remain to be implemented. | Reproducible CI detects missing/broken current references, contradictory Decision states and stale roadmap reviews without claiming code conformance. | Governance policy; no new owner approval. |
 
-| ID | Work | Current state | Completion gate |
-|---|---|---|---|
-| C05 | Forward ACK to LocalStream append, offsets, durability, replay, subscription identity and `OffsetExpired` | Target topology accepted, end-to-end behavior unverified | Crash-point and duplicate/restart tests demonstrate conservation and explicit recovery |
-| C06 | Kusto.Language binding into LocalStream.Query, DuckDB hunting subset, event time, watermark and threshold semantics | Query primitives exist; **C11/EVT-01 event-time fallback conflicts with DEC-0029**; binding and DEC-0021 semantics unresolved | Supported KQL conformance corpus and deliberately rejected unsupported operators |
-| C07 | Gold/alert lake sink idempotency, result-change identity, checkpoint coordination and evidence linkage | `DEC-0030` and `DEC-0033` bind the invariants, implementation unverified | Repeatable replay/crash tests prove stable alert identity and observable/recoverable evidence gaps |
+The **Affected projects** column indicates which codebases or documentation
+need coordination, not which projects have already been modified.
 
-## P2 — documentation convergence
+## Dependency and execution sequence
 
-| ID | Work | Current state | Completion gate |
-|---|---|---|---|
-| C08 | Rebaseline imported roadmaps and Platform/Agent per-repo docs; inventory legacy Proton code | Current indexes warn about supersession and overdue review; full source migration pending | Each roadmap is either reviewed as current or explicitly historical; no active work item prescribes Proton |
-| C09 | Extend governance to reference checks, rule-state dependencies, dated review coverage and contract test links | **Metadata, generated index and maintained-document local link checks implemented**; semantic/reference-status and review-date automation remain pending | CI produces reproducible drift reports, without equating type existence with behavior |
+Continue **C02, C08 and C09** as documentation-only reconciliation.
+**C03 and C10** can proceed independently through source and contract
+verification; **C11** must be resolved before event-time Gold mappings
+are certified. Implement **C05** independently of the Gold mapping.
+Then complete **C06** once C10/C11 and its window policy are settled,
+followed by **C07** after C05/C06. **C04**'s policy decisions must precede
+claims about evidentiary integrity in production.
 
-## C10 — ASIM-first Gold mapping (DEC-0013 Accepted)
-
-The [canonical ASIM mapping baseline](../architecture/ASIM-GOLD-MAPPING-BASELINE.md)
-inventories **four active telemetry Gold families, 71 declared fields and eight
-Silver contributors** against reviewed ASIM 1.0.0 documentation. Two operational
-alert views are listed separately and have no verified ASIM mapping.
+C10's canonical mapping inventory is
+[ASIM-GOLD-MAPPING-BASELINE.md](../architecture/ASIM-GOLD-MAPPING-BASELINE.md).
 [ASIM-GOLD-MAPPING-REGISTER.md](../architecture/ASIM-GOLD-MAPPING-REGISTER.md)
-is a stable navigation page, **not a second, divergent mapping authority**.
+is a stable navigation page, not a second mapping authority.
+The register covers the four declared telemetry Gold families; operational
+alert views are identified separately. The checked source field names,
+types and order do **not** establish semantic ASIM compliance.
 
-C10 remains **P0 contract work**, executable in parallel with C03. Pin
-reproducible schema reference artifacts, complete per-family source and ASIM
-field/enum semantics, verify mandatory and conditional fields, document
-DeltaZulu extensions and provenance preservation, and produce executable
-conformance fixtures. The existing source-field drift check verifies only C#
-field names, types and order; it is **not** a semantic-ASIM test.
+C11 is the same finding previously called `EVT-01`. Its source and test
+matrix appear in
+[the C03/C10/C11 verification report](../reports/2026-11-23-c03-c10-source-verification.md).
+The Forward wire contract investigation remains in
+[the C03 audit](../reports/2026-11-23-forward-type-contract-audit.md).
 
-C11 (`EVT-01`) is the event-time correctness finding discovered during
-C10. It must be corrected and verified under DEC-0029 before the new
-Gold mapping can be considered ready. `DEC-0021` (late-event and threshold
-semantics) remains Proposed.
+## Owner decision register
 
-## Implementation principles
+The following are **unresolved policy questions**, not more task IDs:
+Forward's UTC datetime wire migration and backward compatibility (C03);
+Bronze evidence attestation and signing-key custody (C04); production
+canary retention or filtering (C04); window-threshold and late-event
+correction semantics (C06); historical Constraint reclassification
+(C02); and adjudication/precision reporting (`DEC-0025`, not currently
+an implementation gate in this roadmap).
 
-- Keep `DeltaZulu.LocalStream` core payload-opaque. Bind KQL only in a
-  query-owning layer; do not promote source-only query primitives into a
-  claim of production readiness.
-- Maintain Forward's network-transport boundary, the collector's Platform
-  ownership and DuckLake as durable evidence and user-visible query surface.
-- Prove crash/replay invariants at the interaction points, not with
-  independent unit-test successes alone.
-- Keep immutable historical Constraints and reports untouched; add dated
-  corrections, and obtain an explicit decision before reclassification.
-- Never promote `Proposed` into `Accepted` based only on a convenient
-  statement in an architecture narrative.
+**Resolved:** `DEC-0013` specifies **ASIM-first Gold** (not OCSF),
+and `DEC-0033` specifies **LocalStream instead of Proton**. Decisions
+remain recorded in `decisions/`; this roadmap links to them rather
+than creating parallel decision numbering.
 
-## Owner decisions blocking acceptance
+## Architecture and verification boundaries
 
-The initial six owner questions are recorded historically in
-`reports/2026-11-23-consistency-corrections.md`. **Gold naming (DEC-0013) is
-now resolved ASIM-first**; the other owner decisions remain outstanding.
-The historical report is not rewritten.
+`DeltaZulu.Forward` owns inter-node transport; LocalStream core
+remains payload-opaque; LocalStream.Query owns stream operators; KQL
+parsing and binding belong in a query-owning adapter; DuckLake owns
+durable evidence and user-visible queries. No AI capability is included.
 
-## C03/C11 regression scope
+The P0/P1/P2 rows describe **work still to be verified**, not
+permission to make breaking contract changes. No Proton-based
+processing is allowed in the target. Preserve immutable historical
+Constraints and dated reports; append new verification rather than
+rewriting old evidence.
 
-Source-verified findings and the ten required test groups T01–T10 are in
-[`reports/2026-11-23-c03-c10-source-verification.md`](../reports/2026-11-23-c03-c10-source-verification.md).
-C11 is a code-versus-DEC-0029 inconsistency; it does not require a new schema
-name or new engine choice, but its unavailable-event-time processing behavior
-must be verified before claiming correction. C03 field tag 4 must not change
-without the owner's versioning decision.
-
-## Evidence log
-
-- `reports/2026-11-23-proton-localstream-reconciliation.md`
-- `reports/2026-11-23-consistency-corrections.md`
-- `reports/2026-08-24-forward-datetime-carrier.md`
-- `reports/2026-08-16-schema-divergence-verification.md`
-- `reports/2026-11-23-forward-type-contract-audit.md`
-- `reports/2026-11-23-c03-c10-source-verification.md`
-- `architecture/ASIM-GOLD-MAPPING-BASELINE.md`
+**Supporting reports:** [architecture reconciliation](../reports/2026-11-23-proton-localstream-reconciliation.md),
+[consistency corrections](../reports/2026-11-23-consistency-corrections.md),
+[schema divergence verification](../reports/2026-08-16-schema-divergence-verification.md),
+and [datetime carrier investigation](../reports/2026-08-24-forward-datetime-carrier.md).
