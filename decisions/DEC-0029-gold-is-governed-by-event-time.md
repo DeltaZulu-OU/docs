@@ -50,10 +50,10 @@ CON-0001 applies to the carrier: KQL `datetime` is UTC-only, the carrier is
   window has closed is late by event time even though it is prompt by ingest
   time. This is inherent to choosing event time and is not a defect to be fixed
   by quietly reverting to ingest time.
-- `TimestampOrigin`, among the nine FWD-CONTRACT-v2 provenance fields, becomes
-  load-bearing rather than merely useful: a fallback-assigned time and an observed
-  one are indistinguishable once written, and this Decision makes the difference
-  govern detection.
+- `TimestampOrigin`, among the **ten named provenance properties in nine
+  historical DQM inventory rows**, becomes load-bearing rather than merely
+  useful: a fallback-assigned time and an observed one are indistinguishable
+  once written, and this Decision makes the difference govern detection.
 
 ## Implementation discrepancy — verified 2026-11-23
 

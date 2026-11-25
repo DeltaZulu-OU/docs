@@ -33,7 +33,7 @@ contract break, new streaming engine or changed detection semantics.
 | ID | Work | Current state | Completion gate |
 |---|---|---|---|
 | C08 | Rebaseline imported roadmaps and Platform/Agent per-repo docs; inventory legacy Proton code | Current indexes warn about supersession and overdue review; full source migration pending | Each roadmap is either reviewed as current or explicitly historical; no active work item prescribes Proton |
-| C09 | Extend governance to reference checks, rule-state dependencies, dated review coverage and contract test links | Metadata/index checking implemented; semantic and review-date checks pending | CI produces reproducible drift reports, without equating type existence with behavior |
+| C09 | Extend governance to reference checks, rule-state dependencies, dated review coverage and contract test links | **Metadata, generated index and maintained-document local link checks implemented**; semantic/reference-status and review-date automation remain pending | CI produces reproducible drift reports, without equating type existence with behavior |
 
 ## C10 — ASIM-first Gold mapping (DEC-0013 Accepted)
 
