@@ -30,7 +30,9 @@ explicit `governs` declarations, not semantic implementation.
 
 ## DeltaZulu.LogCluster
 
-_No Decision names this repository yet._
+| Decision | Status | Subject |
+|---|---|---|
+| [`DEC-0035`](../decisions/DEC-0035-logcluster-merge-semantics.md) | Proposed | Select LogCluster merge semantics using measured evidence |
 
 ## DeltaZulu.LocalStream
 
