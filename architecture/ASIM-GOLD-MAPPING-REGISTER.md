@@ -22,10 +22,7 @@ is **not** certified ASIM-conformant.
 
 The ASIM baseline records the **reviewed documentation** for DNS, Network
 Session, Process Event and Authentication schema version 1.0.0, including
-per-family Microsoft reference links. This is a documentation-version reference,
-**not** an immutable, vendored source-artifact pin or successful semantic
-conformance suite. Before declaring mappings verified, pin reproducible ASIM
-reference material and run source-specific fixtures.
+per-family Microsoft reference links. The baseline now pins Microsoft's tester snapshot and links the [686-entry reverse field inventory](ASIM-GOLD-TARGET-FIELDS.csv). Reconcile the tester against the published schema prose and source-specific fixtures before claiming conformance.
 
 ## Unresolved mapping and quality gates
 

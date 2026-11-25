@@ -14,7 +14,7 @@ implementation status. Historical imports remain preserved as evidence.
 | `DATA-QUALITY-MONITORING.md` | DQM rev. 2, 16 August 2026. Metrics, measurement points M0–M17 plus the external MX and MZ, and the eight quality planes. **Imported verbatim.** |
 | `DATA-QUALITY-MONITORING-INTEGRATION.md` | What the DQM import changes about planned work. Its inventory has nine rows but **ten named provenance properties**; LocalStream replaces historical Proton dependencies. |
 | `NRT-PIPELINE.md` | **Current target, 23 November 2026:** LocalStream/Query instead of Proton (`DEC-0033`); ASIM-first Gold semantic model (`DEC-0013`). |
-| `ASIM-GOLD-MAPPING-BASELINE.md` | **Canonical ASIM mapping baseline**: source-inventoried Gold fields, reviewed ASIM 1.0.0 candidate mappings and proposed fixtures; **not implemented or certified**. |
+| `ASIM-GOLD-MAPPING-BASELINE.md` | **Canonical ASIM mapping baseline**: source-inventoried Gold fields, reviewed ASIM 1.0.0 candidate mappings, pinned 686-entry tester reverse inventory and proposed fixtures; **not implemented or certified**. |
 | `ASIM-GOLD-MAPPING-REGISTER.md` | Compatibility navigation to the canonical baseline; identifies C03/C10/C11/C07 gates. Not an independent register. |
 | `GOVERNING-DECISIONS.md` | Which Decisions govern which repository, generated from front-matter. |
 

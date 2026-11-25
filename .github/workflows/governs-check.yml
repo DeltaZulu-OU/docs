@@ -33,8 +33,8 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install PyYAML
-        run: pip install --quiet pyyaml
+      - name: Install documentation validation dependencies
+        run: pip install --quiet pyyaml markdown-it-py==4.2.0
 
       - name: Test governance checker
         run: python3 -m unittest discover -s .github/scripts/tests -v

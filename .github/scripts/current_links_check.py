@@ -3,7 +3,9 @@
 
 Historical imports, archived ADRs and immutable dated verification reports are
 excluded: their links are evidence of the original documents, not a live API.
-This verifies local link targets, not external URLs, fragment anchors or claims.
+This checks parsed Markdown links/images, including resolved reference links,
+and Markdown heading/explicit anchor fragments. External URLs, non-Markdown
+fragments and historical source documents are not verified.
 """
 from __future__ import annotations
 
@@ -11,9 +13,12 @@ from pathlib import Path
 from datetime import date
 import re
 import sys
-from urllib.parse import unquote
+from urllib.parse import unquote, urlsplit
+from collections import Counter
 
-LINK = re.compile(r"!?(?:\[[^\]]*\])\(([^)]+)\)")
+from markdown_it import MarkdownIt
+
+PARSER = MarkdownIt("commonmark").enable("table")
 CURRENT = [
     "README.md", "CLAUDE.md", "decisions/README.md", "constraints/README.md",
     "roadmaps/README.md", "roadmaps/CONSISTENCY-CORRECTNESS-ROADMAP.md",
@@ -33,36 +38,70 @@ def maintained_paths(root: Path) -> list[str]:
     ]
 
 
+def walk_tokens(tokens):
+    for token in tokens:
+        yield token
+        if token.children:
+            yield from walk_tokens(token.children)
+
+
+def slug(text: str) -> str:
+    # GitHub-style heading slug for ordinary Unicode letters, digits,
+    # underscores, hyphens and whitespace. Explicit HTML anchors also work.
+    return re.sub(r"[^\w\s-]", "", text.lower()).replace(" ", "-")
+
+
+def anchors(source: str) -> set[str]:
+    tokens = PARSER.parse(source)
+    result = set()
+    used = Counter()
+    for i, token in enumerate(tokens):
+        if token.type == "heading_open" and i + 1 < len(tokens):
+            inline = tokens[i + 1]
+            heading = "".join(t.content for t in walk_tokens(inline.children or [])
+                              if t.type in {"text", "code_inline"})
+            base = slug(heading)
+            name = base
+            while name in result:
+                used[base] += 1
+                name = f"{base}-{used[base]}"
+            result.add(name)
+    for token in walk_tokens(tokens):
+        if token.type in {"html_inline", "html_block"}:
+            result.update(re.findall(r'''(?:id|name)\s*=\s*["']([^"']+)["']''',
+                                     token.content, re.IGNORECASE))
+    return result
+
+
 def links_for(root: Path, paths: list[str]) -> list[str]:
     root = root.resolve()
     errors: list[str] = []
+    anchor_cache = {}
     for rel in paths:
         source = root / rel
         if not source.is_file():
             errors.append(f"{rel}: maintained source document missing")
             continue
-        # Inline Markdown links only. Reference-style links and fragments are
-        # deliberately not validated; they require a Markdown parser.
-        fence = None
-        for number, line in enumerate(source.read_text(encoding="utf-8").splitlines(), 1):
-            marker = re.match(r"^ {0,3}(`{3,}|~{3,})(.*)$", line)
-            if marker:
-                token, tail = marker.groups()
-                if fence is None:
-                    fence = token
-                    continue
-                if token[0] == fence[0] and len(token) >= len(fence) and not tail.strip():
-                    fence = None
-                    continue
-            if fence is not None or line.startswith(("    ", "\t")):
+        tokens = PARSER.parse(source.read_text(encoding="utf-8"))
+        for token in walk_tokens(tokens):
+            if token.type not in {"link_open", "image"}:
                 continue
-            for match in LINK.finditer(line):
-                target = match.group(1).strip().split("#", 1)[0].split("?", 1)[0]
-                if not target or re.match(r"^[a-z][a-z0-9+.-]*:", target, re.I) or target.startswith("//"):
-                    continue
-                resolved = (source.parent / unquote(target)).resolve()
-                if not resolved.is_relative_to(root) or not resolved.exists():
-                    errors.append(f"{rel}:{number}: broken local link {match.group(1)!r}")
+            href = token.attrGet("href" if token.type == "link_open" else "src")
+            if not href:
+                continue
+            parts = urlsplit(href)
+            if parts.scheme or parts.netloc:
+                continue
+            target = unquote(parts.path)
+            resolved = (source.parent / target).resolve() if target else source.resolve()
+            if not resolved.is_relative_to(root) or not resolved.exists():
+                errors.append(f"{rel}: broken local link {href!r}")
+                continue
+            if parts.fragment and resolved.is_file() and resolved.suffix.lower() == ".md":
+                if resolved not in anchor_cache:
+                    anchor_cache[resolved] = anchors(resolved.read_text(encoding="utf-8"))
+                if unquote(parts.fragment) not in anchor_cache[resolved]:
+                    errors.append(f"{rel}: unknown Markdown anchor {href!r}")
     return errors
 
 
@@ -123,7 +162,7 @@ def main() -> int:
         print(f"::error::{failure}")
     if failures:
         return 1
-    print(f"Checked relative links in {len(paths)} maintained documents (historical files excluded)")
+    print(f"Checked parsed relative links and Markdown anchors in {len(paths)} maintained documents (historical files excluded)")
     return 0
 
 

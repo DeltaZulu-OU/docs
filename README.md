@@ -88,7 +88,7 @@ and two mandatory sections:
 `Accepted` Decision's `repos:` list and fails if any symbol or path under
 `governs:` no longer exists. A Decision that governs deleted code is either
 stale or the deletion was unauthorised; both need a human. The checker also
-rejects malformed Decision metadata and inconsistent supersession relationships, requires successful checkout, verifies the generated index, checks maintained inline local links, validates the consolidated roadmap and compares the registered Gold inventory. Overdue roadmap review is a warning, not evidence of invalid source. Existence
+rejects malformed Decision metadata and inconsistent supersession relationships, requires successful checkout, verifies the generated index, checks maintained parsed local links and Markdown anchors, validates the consolidated roadmap and compares the registered Gold inventory. Overdue roadmap review is a warning, not evidence of invalid source. Existence
 checks search production `src/` declarations; they **do not prove behavior,
 compatibility, public API accessibility, or end-to-end conformance**.
 

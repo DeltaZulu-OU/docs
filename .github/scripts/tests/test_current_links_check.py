@@ -16,7 +16,7 @@ class LocalLinksTests(TestCase):
             root = Path(tmp)
             (root / "decisions").mkdir()
             (root / "decisions/a.md").write_text(
-                "[exists](../README.md) [same](#heading) "
+                "# heading\n\n[exists](../README.md) [same](#heading) "
                 "[remote](https://example.org/test) [missing](../gone.md)"
             )
             (root / "README.md").write_text("# heading")
@@ -37,7 +37,7 @@ class LocalLinksTests(TestCase):
     def test_valid_local_link(self):
         with TemporaryDirectory() as tmp:
             root = Path(tmp)
-            (root / "doc.md").write_text("[self](doc.md) [fragment](#top)")
+            (root / "doc.md").write_text("# Top\n\n[self](doc.md) [fragment](#top)")
             self.assertEqual(checker.links_for(root, ["doc.md"]), [])
 
     def test_code_fences_and_indentation(self):
@@ -45,7 +45,7 @@ class LocalLinksTests(TestCase):
             root = Path(tmp)
             (root / "doc.md").write_text(
                 "````text\n[code](missing.md)\n```\n[still code](missing.md)\n````\n"
-                "~~~\n[code](missing.md)\n~~~\n    [indent](missing.md)\n[real](gone.md)"
+                "~~~\n[code](missing.md)\n~~~\n\n    [indent](missing.md)\n\n[real](gone.md)"
             )
             errors = checker.links_for(root, ["doc.md"])
             self.assertEqual(len(errors), 1)
@@ -78,3 +78,27 @@ class LocalLinksTests(TestCase):
             (directory / "DeltaZulu.Agent-ROADMAP.md").write_text("# Old plan")
             errors, _ = checker.roadmap_check(root, date(2026, 11, 25))
             self.assertTrue(any("historical designation" in error for error in errors))
+
+    def test_reference_links_and_fragment_anchors(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "target.md").write_text("# Repeated title\n\n# Repeated title\n\n<a id=\"custom\"></a>")
+            (root / "doc.md").write_text(
+                "[ok][target] [second](target.md#repeated-title-1) "
+                "[custom](target.md#custom) [bad](target.md#missing) [gone][absent]\n\n"
+                "[target]: target.md#repeated-title\n[absent]: gone.md\n"
+            )
+            errors = checker.links_for(root, ["doc.md"])
+            self.assertEqual(len(errors), 2)
+            self.assertTrue(any("missing" in error for error in errors))
+            self.assertTrue(any("gone.md" in error for error in errors))
+
+    def test_table_links_and_code_spans(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "doc.md").write_text(
+                "| Reference |\n|---|\n| [bad](gone.md) |\n\n`[example](fake.md)`"
+            )
+            errors = checker.links_for(root, ["doc.md"])
+            self.assertEqual(len(errors), 1)
+            self.assertIn("gone.md", errors[0])
