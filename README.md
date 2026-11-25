@@ -33,7 +33,7 @@ live that is neither a fact nor a decision.
 processing, governed by `DEC-0033`: LocalStream/Query, not Proton, with
 DuckLake as durable evidence and analyst read surface. `PIPELINE.md` is a
 verbatim historical import and must be read with `PIPELINE-ERRATA.md`.
-`decisions/` holds `DEC-0001`–`DEC-0033`, including Rejected,
+`decisions/` holds `DEC-0001`–`DEC-0034`, including Rejected,
 Superseded and Proposed records; only Accepted Decisions are binding.
 `DEC-0013` adopts ASIM-first Gold schemas; the four-family source inventory
 and candidate mappings are in `architecture/ASIM-GOLD-MAPPING-BASELINE.md`.
