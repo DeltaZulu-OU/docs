@@ -33,7 +33,7 @@ per-family Microsoft reference links. The baseline now pins Microsoft's tester s
 
 | ID | Outstanding check | Policy boundary |
 |---|---|---|
-| C10 | Versioned source→Silver→Gold→ASIM field mappings, type/enumeration fidelity, conditional fields and extensions for the four current telemetry families | DEC-0013 accepted; implementation not verified |
+| C10 | Versioned source→Silver→Gold→ASIM field mappings, type/enumeration fidelity, conditional fields and extensions for the eight approved telemetry families (four current declarations) | DEC-0013 and DEC-0034 accepted; implementation not verified |
 | C11 (EVT-01) | Missing/invalid source event time must not be replaced silently with ingest time in Gold/detections | DEC-0029 accepted; retain in Bronze and Silver, record a reason alongside null observed time, exclude from event-time detection, and verify all eight contributors |
 | C03 | Wire tag-4 UTC datetime compatibility, registry duration-unit mismatch, end-to-end provenance | Incompatible wire format changes require owner approval |
 | C07 | Stable Gold/alert identities and replay-safe DuckLake writes | DEC-0030/0033 accepted; end-to-end integration not verified |

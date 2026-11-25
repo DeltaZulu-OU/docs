@@ -30,7 +30,7 @@ Run the offline unit tests:
 python3 -m unittest discover -s tools/asim/tests -v
 ```
 
-The local .cache directory is ignored. Corrupt cached files fail verification; remove the offending cache file and acquire again. Normal governance tests never download upstream files. The separate snapshot verification workflow is explicit and limited to the development branch or manual dispatch. Generated metadata is ignored by Git and available as a CI artifact when that workflow succeeds. The extractor performs no network access and does not execute Microsoft KQL. It validates the target-field CSV without altering its mapping dispositions.
+The local .cache directory is ignored. Corrupt cached files fail verification; remove the offending cache file and acquire again. Normal governance tests never download upstream files. The separate snapshot verification workflow runs on master only when reference tooling, target-field inventory or its workflow changes, or by manual dispatch. Generated metadata is ignored by Git and available as a CI artifact when that workflow succeeds. The extractor performs no network access and does not execute Microsoft KQL. It validates the target-field CSV without altering its mapping dispositions.
 
 Native columns, tester fields, family-specific overrides, common/entity metadata, parser metadata, and unresolved differences are separate. Unknown native/tester types, duplicate field keys, malformed files, missing files and hash mismatches fail closed. Upstream YAML schema-field or parser metadata discrepancies are reported with their original values. No silent string fallback, no automatic semantic mapping, and no assertion of ASIM conformance.
 

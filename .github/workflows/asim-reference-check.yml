@@ -1,7 +1,11 @@
 name: ASIM reference snapshot verification
 on:
   push:
-    branches: [tools/asim-reference-catalogue]
+    branches: [master]
+    paths:
+      - 'tools/asim/**'
+      - 'architecture/ASIM-GOLD-TARGET-FIELDS.csv'
+      - '.github/workflows/asim-reference-check.yml'
   workflow_dispatch:
 permissions:
   contents: read
