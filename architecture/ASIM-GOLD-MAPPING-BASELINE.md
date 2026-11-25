@@ -11,7 +11,7 @@
 - Microsoft ASIM [schema overview](https://learn.microsoft.com/en-us/azure/sentinel/normalization-about-schemas): reviewed 2026-11-23. The listed DNS, Network Session, Process Event and Authentication schema versions are **1.0.0**.
 - Per-family references: [DNS](https://learn.microsoft.com/en-us/azure/sentinel/normalization-schema-dns), [Network Session](https://learn.microsoft.com/en-us/azure/sentinel/normalization-schema-network), [Process Event](https://learn.microsoft.com/en-us/azure/sentinel/normalization-schema-process-event), [Authentication](https://learn.microsoft.com/en-us/azure/sentinel/normalization-schema-authentication).
 
-**Pin limitation:** These are reviewed web-document versions, not a vendored, immutable ASIM schema specification or exact Git revision of schema test fixtures. Before automated conformance gating, pin reviewed source artifacts and document any differences between the documentation and test corpus.
+**Pinned tester reference (2026-11-25):** [Microsoft ASimTester.csv](https://github.com/Azure/Azure-Sentinel/blob/b2c15c11d6666b9ddf80091663e6c8009058fbcb/ASIM/dev/ASimTester/ASimTester.csv), Git blob `de261f4c8e3d41f35801c00ca830aec01cbc8c94`. The machine-readable [target field inventory](ASIM-GOLD-TARGET-FIELDS.csv) accounts for every tester field in the four families, merging Common rows by field name with family-specific rows taking precedence. This is the reverse-index appendix to this baseline, not a separate schema contract. The tester and published schema documentation must still be reconciled where they differ; its snapshot is not a claim that each tester row belongs to ASIM 1.0.0 or that Microsoft-specific runtime fields apply unchanged.
 
 ## Actual source coverage
 
@@ -172,4 +172,16 @@ Additional family requirements and conditional groups:
 - Process Event: account for actor username, acting PID, target process name/PID and command line (mandatory in the published table); preserve creator/parent/target roles. Validate conditional username/ID types, hash type and rule alias when applicable. Missing process evidence is a gap, not a fabricated value.
 - Authentication: account for logon versus other operations and result details, Windows status/substatus and account roles. Conditional actor/target user types, source/target device ID/domain types, target application type and threat field must follow the actual populated trigger fields.
 
-Recommended fields remain optional implementation scope but must be inventoried, and any exclusion recorded. Use the common-fields and family reference tables (including prose conditions and alias rules) to enumerate every target field before freezing the C# contract. The grouped accounting above is deliberately **not** exhaustive per-field target coverage; immutable reference revision, complete machine-readable reverse inventory and source fixtures remain C10 acceptance gates. No new schema is published here.
+Recommended fields remain optional implementation scope but must be inventoried, and any exclusion recorded. Use the common-fields and family reference tables (including prose conditions and alias rules) to enumerate every target field before freezing the C# contract. The grouped accounting above is supplemented by the pinned tester-derived reverse inventory below. Complete semantic dispositions, documentation/tester discrepancy review and source fixtures remain C10 acceptance gates. No new schema is published here.
+
+## Pinned reverse field inventory
+
+| Family | Tester-specific rows | Rows after Common merge |
+|---|---:|---:|
+| DNS | 153 | 156 |
+| Network Session | 189 | 192 |
+| Process Event | 170 | 173 |
+| Authentication | 162 | 165 |
+| Total | 674 | 686 |
+
+The CSV records every target field, type, requirement class, logical type, related field (including conditional triggers/alias relationships where supplied), reference scope and preliminary disposition. Candidate inputs are deliberately conservative, unverified and not executable transformations. An empty candidate is a review item, not an assertion of impossibility. Optional fields require scope review, not mandatory implementation. Family-specific rows override Common rows; the complete upstream record (including enum lists and dynamic shape constraints) remains retrievable at the pinned reference. Counts include aliases and Microsoft-specific columns such as `Type` and `TimeGenerated`; document derivations or explicit DeltaZulu deviations rather than silently inventing their values. The tester also identifies `Src` as mandatory for DNS and mandatory actor/target process fields in ProcessEvent. Confirm conditions against published prose before freezing mappings. No semantic conformance or deployment verified.
