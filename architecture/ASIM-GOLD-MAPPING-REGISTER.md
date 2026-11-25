@@ -1,79 +1,44 @@
-# ASIM-first Gold: source inventory and mapping work register
+# ASIM Gold mapping register — navigation and open findings
 
-**Audit:** 2026-11-23. **Platform revision:** [60d6588](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/tree/60d6588071eb187cddf61baa77b9991cc793e25f).
-**Authority:** Accepted DEC-0013 (ASIM-first), DEC-0012 (single C# contract),
-DEC-0029 (event time), DEC-0033 (LocalStream/DuckLake).
-**Status:** Source inventory only; no ASIM field-level conformance verified.
+**Status:** Navigation page; not an independent mapping contract or conformance
+certificate. The canonical source-field inventory and candidate mappings are
+maintained in [ASIM-GOLD-MAPPING-BASELINE.md](ASIM-GOLD-MAPPING-BASELINE.md).
+This path is retained so previously published references continue to resolve.
 
-## Current implemented schema declarations
+**Authority:** Accepted `DEC-0013` (ASIM-first Gold), `DEC-0012`
+(C# logical catalogue), `DEC-0029` (observed event time), and
+`DEC-0033` (LocalStream/Query and DuckLake). The Platform implementation
+is **not** certified ASIM-conformant.
 
-The [MedallionSchemaCatalog](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/blob/60d6588071eb187cddf61baa77b9991cc793e25f/src/DeltaZulu.Platform.Domain/Analytics/Schema/Definitions/Medallion/MedallionSchemaCatalog.cs)
-defines **four** canonical Gold views, **eight** Silver parser contributors
-and **three** Bronze source-family tables.
+## Baseline and verification responsibilities
 
-| Gold view | Silver contributors | ASIM schema family to evaluate |
+| Purpose | Authoritative location |
+|---|---|
+| Four current telemetry Gold families, all 71 declared fields, source/Silver mappings and candidate ASIM conversions | [ASIM-GOLD-MAPPING-BASELINE.md](ASIM-GOLD-MAPPING-BASELINE.md) |
+| Source-level field/type/order drift detection | [gold_inventory_check.py](../.github/scripts/gold_inventory_check.py), invoked by `governs-check` |
+| Cross-component source findings, event-time defect C11 and test matrix T01–T10 | [C03/C10 source verification](../reports/2026-11-23-c03-c10-source-verification.md) |
+| Forward's field-value datetime and duration mismatch | [Forward contract audit](../reports/2026-11-23-forward-type-contract-audit.md) |
+| Remediation ordering and acceptance gates | [Consistency and correctness roadmap](../roadmaps/CONSISTENCY-CORRECTNESS-ROADMAP.md) |
+
+The ASIM baseline records the **reviewed documentation** for DNS, Network
+Session, Process Event and Authentication schema version 1.0.0, including
+per-family Microsoft reference links. This is a documentation-version reference,
+**not** an immutable, vendored source-artifact pin or successful semantic
+conformance suite. Before declaring mappings verified, pin reproducible ASIM
+reference material and run source-specific fixtures.
+
+## Unresolved mapping and quality gates
+
+| ID | Outstanding check | Policy boundary |
 |---|---|---|
-| `golden.Dns` | `v_dns_windows_sysmon_eid22`, `v_dns_server_query_event` | DNS activity |
-| `golden.NetworkSession` | `v_networksession_windows_sysmon_eid3`, `v_networksession_windows_security_eid5156` | Network session |
-| `golden.ProcessEvent` | `v_processevent_windows_sysmon_eid1`, `v_processevent_windows_security_eid4688` | Process event |
-| `golden.Authentication` | `v_authentication_windows_security_eid4624`, `v_authentication_windows_security_eid4625` | Authentication |
+| C10 | Versioned source→Silver→Gold→ASIM field mappings, type/enumeration fidelity, conditional fields and extensions for the four current telemetry families | DEC-0013 accepted; implementation not verified |
+| C11 (EVT-01) | Missing/invalid source event time must not be replaced silently with ingest time in Gold/detections | DEC-0029 accepted; handling of unavailable source timestamps needs explicit tested behavior |
+| C03 | Wire tag-4 UTC datetime compatibility, registry duration-unit mismatch, end-to-end provenance | Incompatible wire format changes require owner approval |
+| C07 | Stable Gold/alert identities and replay-safe DuckLake writes | DEC-0030/0033 accepted; end-to-end integration not verified |
 
-All four ASIM matches are **candidates**, not verified conformance claims.
-File, registry, audit and alert families are outside the inspected active
-canonical-view list; do not invent implementations for them.
+`EVT-01` and `C11` refer to the **same** event-time fallback defect; they are
+not separate implementation tasks.
 
-The actual Gold fields are declared in
-[`GoldenEventContracts.cs`](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/blob/60d6588071eb187cddf61baa77b9991cc793e25f/src/DeltaZulu.Platform.Domain/Analytics/Schema/Definitions/Medallion/Golden/GoldenEventContracts.cs).
-They are not automatically ASIM-conformant. Examples:
-
-| Current family | Current declared fields to reconcile | Specific risk |
-|---|---|---|
-| DNS | `Timestamp`, `ActionType`, `QueryName`, `QueryType`, `ResponseCode`, `SrcIpAddr`, `ResponseIP`, `AdditionalFields` | Action/result vocabulary, client/resolver roles and answer cardinality |
-| Network session | `Timestamp`, `LocalIP`, `RemoteIP`, `LocalPort`, `RemotePort`, `Protocol`, `InitiatingProcessId` | Local/remote versus source/destination direction, process role |
-| Process event | `Timestamp`, `FileName`, `FolderPath`, `ProcessId`, `ProcessCommandLine`, `InitiatingProcessFileName`, `SHA256` | Parent/target process roles, event type and stable process identity |
-| Authentication | `Timestamp`, `AccountName`, `SubjectUserName`, `TargetUserSid`, `LogonType`, `Status`, `SourceIP`, `SourcePort` | Actor roles, result semantics, Windows-specific fields and port typing |
-
-## Verified source-level findings requiring tests or repair
-
-**EVT-01 — Ingest time substituted for event time (DEC-0029 conflict).**
-[`SilverParserContributors.EventTimestamp`](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/blob/60d6588071eb187cddf61baa77b9991cc793e25f/src/DeltaZulu.Platform.Domain/Analytics/Schema/Definitions/Medallion/Silver/SilverParserContributors.cs)
-returns `COALESCE(TRY_CAST(source_event_time AS TIMESTAMP), ingest_time)`.
-The DNS Server contributor uses the same fallback explicitly. Missing or
-unparseable source timestamps can therefore masquerade as event timestamps.
-Preserve missing/invalid source-time status rather than silently substituting
-ingest time. The choice of quarantine, nullable event time or exclusion from
-event-time detection requires an implementation policy and tests.
-
-**EVT-02 — Logical duration registry differs from canonical ticks.**
-[`LogicalSchemaRegistry.cs`](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/blob/60d6588071eb187cddf61baa77b9991cc793e25f/src/DeltaZulu.Platform.Domain/Analytics/Schema/LogicalSchemaRegistry.cs)
-has `LogicalDurationUnit` values Milliseconds/Microseconds/Nanoseconds,
-defaults to Microseconds and retains Proton backend projections. This conflicts
-with CON-0014 canonical ticks and DEC-0033 target topology. Trace registry
-consumers before migrating enum values or removing backend projections.
-
-**EVT-03 — Digest and numeric field normalization need fixtures.**
-Sysmon network-session projection assigns raw `$.Hashes` to
-`InitiatingProcessSHA256`, without evidence of extracting a SHA-256 entry.
-Authentication `SourcePort` is declared as `Varchar/String`.
-Verify source shapes, canonical value parsing and ASIM types before
-publishing normalized fields.
-
-**EVT-04 — Provenance projection remains unverified.**
-Forward declares `CollectionTier`, `NullReasons` and `MatrixVersion`.
-The inspected Gold view declarations do not include these fields. Determine
-whether they are retained in linked evidence or otherwise queryable; do
-not infer that every stored record loses provenance.
-
-## Mapping register completion requirements
-
-For **each** of the four families, produce a pinned published ASIM schema
-name, version, documentation URL and retrieval date. Enumerate all fields,
-their source/Silver/Gold mappings, required and conditional field coverage,
-enum normalization, null/provenance semantics, ASIM-derived extensions,
-logical KQL and physical DuckLake types, and test fixture references.
-Mark each mapping as `candidate`, `ASIM-derived`, or `ASIM-conformant`
-based on evidence. Do not claim full ASIM compatibility from field names.
-
-The exact published ASIM field lists and versions have **not** been verified
-in this audit. The mapping register is deliberately incomplete until those
-references are pinned and tested.
+Operational `AlertEvent` and `AlertEntity` views are inventoried in the
+baseline but **have not** been mapped to or certified against ASIM schemas.
+No new Gold families are implied by this page.

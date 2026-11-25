@@ -1,8 +1,9 @@
 # Architecture
 
-Per-repo and estate-wide architecture. Always current: these documents are
-rewritten in place rather than superseded, because unlike Decisions they describe
-what *is*, and there is only ever one present tense.
+Estate-wide current **target architecture**, implementation notes and dated
+historical imports. Current-target narratives are revised in place, but an
+Accepted Decision sets policy and a source or integration check establishes
+implementation status. Historical imports remain preserved as evidence.
 
 ## Contents
 
@@ -13,7 +14,8 @@ what *is*, and there is only ever one present tense.
 | `DATA-QUALITY-MONITORING.md` | DQM rev. 2, 16 August 2026. Metrics, measurement points M0–M17 plus the external MX and MZ, and the eight quality planes. **Imported verbatim.** |
 | `DATA-QUALITY-MONITORING-INTEGRATION.md` | What the DQM import changes about planned work. Its inventory has nine rows but **ten named provenance properties**; LocalStream replaces historical Proton dependencies. |
 | `NRT-PIPELINE.md` | **Current target, 23 November 2026:** LocalStream/Query instead of Proton (`DEC-0033`); ASIM-first Gold semantic model (`DEC-0013`). |
-| `ASIM-GOLD-MAPPING-BASELINE.md` | Source-inventoried current Gold columns, ASIM 1.0.0 mapping candidates and conformance fixtures; **not implementation acceptance**. |
+| `ASIM-GOLD-MAPPING-BASELINE.md` | **Canonical ASIM mapping baseline**: source-inventoried Gold fields, reviewed ASIM 1.0.0 candidate mappings and proposed fixtures; **not implemented or certified**. |
+| `ASIM-GOLD-MAPPING-REGISTER.md` | Compatibility navigation to the canonical baseline; identifies C03/C10/C11/C07 gates. Not an independent register. |
 | `GOVERNING-DECISIONS.md` | Which Decisions govern which repository, generated from front-matter. |
 
 `PIPELINE.md` is left unedited so that historical citations stay stable.
@@ -41,4 +43,3 @@ references or historical plans, **not a second governing authority**. Their
 migration and source-level rebaseline remain explicit roadmap work; the target
 narrative above does not imply the LocalStream integration is implemented.
 
-- [`ASIM-GOLD-MAPPING-REGISTER.md`](ASIM-GOLD-MAPPING-REGISTER.md) — source-grounded four-family Gold inventory, eight Silver contributors and ASIM migration blockers; not a conformance certificate.

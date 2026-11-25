@@ -1,7 +1,9 @@
 # DeltaZulu estate documentation
 
-The single home for Constraints, Decisions, architecture, roadmaps, and archived
-per-repo ADRs across the DeltaZulu estate.
+The single home for Constraints, Decisions, target architecture, roadmaps,
+source-verification reports and archived per-repo ADRs across DeltaZulu.
+**Accepted Decisions govern intent; dated code audits describe observed source;
+passing integration tests are required to establish deployed correctness.**
 
 Before this repository existed, every repo kept its own `docs/adr/`. Two
 consequences made that untenable: decision numbers collided across repos while
@@ -31,8 +33,12 @@ live that is neither a fact nor a decision.
 processing, governed by `DEC-0033`: LocalStream/Query, not Proton, with
 DuckLake as durable evidence and analyst read surface. `PIPELINE.md` is a
 verbatim historical import and must be read with `PIPELINE-ERRATA.md`.
-`decisions/` now holds `DEC-0001`–`DEC-0033`, including Rejected,
+`decisions/` holds `DEC-0001`–`DEC-0033`, including Rejected,
 Superseded and Proposed records; only Accepted Decisions are binding.
+`DEC-0013` adopts ASIM-first Gold schemas; the four-family source inventory
+and candidate mappings are in `architecture/ASIM-GOLD-MAPPING-BASELINE.md`.
+C03/C10/C11 findings and status are tracked in
+`roadmaps/CONSISTENCY-CORRECTNESS-ROADMAP.md`.
 
 `architecture/GOVERNING-DECISIONS.md` indexes which Decisions govern which
 repository. Regenerate it with `python3 .github/scripts/governing_index.py --write`;
