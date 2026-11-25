@@ -41,3 +41,46 @@ DurableBuffer [publish run 29861111418](https://github.com/DeltaZulu-OU/DeltaZul
 Agent specifies both packages as 1.0.0 in Directory.Packages.props. Runtime, Filter, CLI, Pipeline and ProfileWorkbench reference both directly. Daemon references DurableBuffer directly. No NuGet dependency lock is tracked anywhere in Agent at the recorded revision. Its workflow invokes locked restore, but the repository supplies no reviewed package hashes. The passing Agent matrix demonstrates application compilation against its CI restore. It does not demonstrate compilation against current LocalStream main or DurableBuffer master.
 
 The two opaque core projects reference Logging.Abstractions without Kusto dependencies. Platform Domain and Application reference Kusto.Toolkit and Kusto.Language. Platform centrally requests 2.2.0 and 12.4.1 respectively. Agent Filter depends on Microsoft.Rx.Kql 3.5.3. The supported Kusto.Language span and exact application constraints are governed by CON-0006. Tests against both supported runtime combinations remain open.
+
+## Independent branch validation
+
+| Project | Branch commit | Validation on Linux x64 with SDK 10.0.404 |
+|---|---|---|
+| DurableBuffer | [e677fd3](https://github.com/DeltaZulu-OU/DeltaZulu.DurableBuffer/commit/e677fd32c080235d5f563f19d0c540e575efa5ce) | Two generated locks, unchanged on locked restore. Release build, 94 tests and local pack passed. The net10.0 package declares Logging.Abstractions 10.0.10. |
+| LocalStream | [197a083](https://github.com/DeltaZulu-OU/DeltaZulu.LocalStream/commit/197a0831d04188c1d48117da81fb9df1e6f1ecff) | Six generated locks, unchanged on locked restore. Release build and 59 core, 55 Query and 10 LiteDB tests passed. All three local packages built. Query depends on core 0.1.0. The LiteDB adapter depends on Query 0.1.0 and LiteDB 5.0.21. |
+| LogCluster | [91e2013](https://github.com/DeltaZulu-OU/DeltaZulu.LogCluster/commit/91e2013afe65e673cd21f05ec8cefac6d43bd292) | Locked restore, Release build and all 27 tests passed. The Parse 0.1.1 release asset satisfied the committed NuGet content hash. Its nuspec identifies commit be982d01acf3ff453bc8a751f8063b7de11ee6b2, also the release tag target. |
+
+Both build branches use only the public source for their actual dependency sets. CI selects the pinned SDK and checks for new or modified lockfiles. Package versions and publication settings were preserved. The LogCluster branch bounds the configured input count at Int32.MaxValue while retaining its public long option type. At precisely Int32.MaxValue the previous scoring expression evaluated integer addition before converting to double. The regression exercises that value without allocating records. These branches are unmerged.
+
+The differential fixture used upstream [logcluster.pl at e3b74b9](https://github.com/ristov/logcluster/tree/e3b74b99ab831bfedabf5ee3f428abb394945769). Input consisted of the following UTF-8 lines, each terminated by LF, SHA-256 `2df8ffcf481d400e649aef30f880a1eecfc5a07d3187b387eb37502305cff646`.
+
+```text
+svc start red done
+svc start blue done
+svc start amber done
+unique
+```
+
+At minimum support two, Perl and both .NET strategies returned one pattern, `svc start *{1,1} done`, support three, and one outlier, `unique`. Materialized and streaming JSON outputs were byte-identical. This covers a fixed internal single-token gap. Merge, variable-width, weighting and other reference-corpus cases remain open.
+
+Native publication has a separate failure. On linux-x64 an explicit RID locked publish fails first with NU1004 on the portable LogCluster core and Suggester projects. They inherit the publish RID but their lockfiles contain no RID-specific targets. A normal locked restore followed by host-native publish without another restore passed dependency resolution. The local ILLink task host then failed at ComputeManagedAssemblies with MSB4216. The executor denied the Unix socket used by MSBuild named pipes. No native binary was produced. Ordinary CLI unit tests cannot close this gate.
+
+## Component links and Platform feature evidence
+
+Applied the central Markdown link checker to each component README and docs Markdown, excluding archive, adr, reviews and roadmap files. It found 65 broken link or fragment occurrences in 48 files scanned across eight repositories. The narrow repairs touched 18 files. The same scan returned zero errors after the edits. Relocated references were checked against the corresponding central file. Historical phase references resolve to the imported plan. Active priorities resolve to the consolidated roadmap. External URL availability and semantic review of all prose remain separate.
+
+| Component | Documentation correction |
+|---|---|
+| Agent | [e2aac89](https://github.com/DeltaZulu-OU/DeltaZulu.Agent/commit/e2aac89dafc2f8499e4e4d22ebed97cec75714fe) |
+| LocalStream | [222d654](https://github.com/DeltaZulu-OU/DeltaZulu.LocalStream/commit/222d654c15d5d32b5606fc8a11b874b472ea7995) |
+| LogCluster | [f17c749](https://github.com/DeltaZulu-OU/DeltaZulu.LogCluster/commit/f17c749b80d5cdba05745ffaa249f90ac404ddfe) |
+| Platform | [4c5aafc](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/commit/4c5aafcdc3c2ba92e7c1c933e2c982d1516ec1fb) |
+
+The Ubuntu [TRX artifact](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/actions/runs/45621349535/artifacts/15024013310) contains 1,338 individual passed outcomes. Matching these results to source at e89755e shows where application evidence is stronger than a suite-level green check.
+
+| Scope | Executed evidence | Boundary |
+|---|---|---|
+| C17, Agent API | All 15 AgentApiEndpointTests passed, including enroll → heartbeat → policy pull → ACK, command delivery/result audit, another agent’s command and bundle rejection, missing/unknown credentials, expired bootstrap token and credential rotation. | Real loopback HTTP server with SQLite and fake observation sinks. The client is a test HttpClient. Production daemon TLS, cross-tenant isolation, signed metadata and rollout recovery require separate evidence. |
+| C16, shared query execution | Three QueryServiceExecutionContractTests passed. Interactive and dashboard requests selected their intended purpose and recorded history. Diagnostic results recorded a failure summary. | The fixture substitutes the executor and history repository. Production backend admission and execution remain open. |
+| C16, rule validation | Six QuerySyntaxCheckTests and eight QueryExecutionDryRunCheckTests passed. | These results cover the fixtures’ configured validation paths. |
+| C16, incident and evidence storage | Nine IncidentCandidateRepositoryTests and six CandidateEvidenceRepositoryTests passed. | Repository operations alone cannot demonstrate operator triage, enrichment or suppression workflows. |
