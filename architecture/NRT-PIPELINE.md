@@ -106,6 +106,10 @@ Proton-to-DuckLake reorder window (`DEC-0031`) is **not inherited**.
 An alternative window or lake clustering policy needs its own evidence
 and decision.
 
+### Delivery and source-lineage verification
+
+C05 must distinguish Forward acceptance/credit, durable LocalStream append, subscription checkpoint and DuckLake commit. No ACK timing, independent subscriber progress or exactly-once guarantee is inferred from topology. C10 traces authoritative Agent extraction through Forward/Bronze to Silver; projection of structured fields is not necessarily reparsing. The current event-time defect remains C11. C04 and C07 retain proposed assurance and window-result questions rather than introducing implicit policies.
+
 ## Implementation and decision status
 
 Phase one remains NRT-only; scheduled detections are deferred

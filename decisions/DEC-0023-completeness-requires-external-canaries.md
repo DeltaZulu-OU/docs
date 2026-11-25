@@ -84,6 +84,8 @@ open, and neither is treated as resolved by silence:
 | Agent-reported liveness alone | Silent exactly when the agent dies | CON-0018 |
 | Report an assumed rate for UDP sources | Fabricates a number | CON-0019 |
 
+**Factual qualification (2026-11-25):** an unreliable transport can have a measured delivery ratio over a known emission set (e.g. independently counted sequence-numbered canaries). That does not establish exact completeness of uninstrumented production activity. See [RFC 5426](https://www.rfc-editor.org/rfc/rfc5426) and [RFC 5848](https://www.rfc-editor.org/rfc/rfc5848). The conservative current reporting rule remains binding until the owner approves a revision: no assumed completeness rate for sources without ground truth. A proposed change would distinguish canary coverage, source-ground-truth coverage and unknown production completeness. C04 tracks this approval separately from canary retention.
+
 ## Revisit trigger
 
 Reopen if a source-side producer exposes trustworthy sequence numbers or

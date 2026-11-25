@@ -54,6 +54,8 @@ the one most often skipped, because it is operational rather than architectural.
 | Per-record digests alone | Cannot detect deletion — a removed record leaves no digest | CON-0020 |
 | Treat configured retention as the control | A policy setting is not a demonstration | CON-0020 |
 
+**Threat-model clarification (2026-11-25; still Proposed):** a payload digest establishes comparison against a trusted reference, not authenticity by itself. A signed manifest detects missing listed files only if the expected manifest is available and trustworthy; deletion of the whole partition/manifest, rollback to an earlier valid version and signing-key compromise need explicit coverage. Define attacker privileges, independently verifiable manifest inventory/history, freshness, signing and verification key custody, expected retention and restore sampling. Oldest-partition restoration is useful evidence, not proof of recoverability of every partition. These are acceptance questions, not an approved storage or key-management mechanism.
+
 ## Revisit trigger
 
 Reopen if the lake gains native immutability or write-once semantics that make

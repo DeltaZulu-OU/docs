@@ -36,3 +36,15 @@ collector belongs in `DeltaZulu.Platform`, and the Platform repo contains an
 unverified. Do not treat `CON-0016`'s "no project or directory" wording as
 current implementation evidence. This index clarification does not silently
 reclassify or supersede the immutable Constraint; that taxonomy decision remains open.
+
+## Current interpretation and correction register (2026-11-25)
+
+The immutable records above preserve their original wording; the following qualifications govern how readers use the evidence. No Constraint has been silently renumbered or reclassified.
+
+| Record | Qualification / work item |
+|---|---|
+| CON-0001 | KQL UTC semantics are distinct from the chosen UTC `DateTime` carrier. `ToUniversalTime()` may resolve ambiguity, accept invalid wall times or clamp to representable limits; unconditional losslessness is false ([Microsoft API](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.touniversaltime)). C03 must verify known zone/offset, unique instant, range, and round-trip policy; reject rather than silently invent an instant. |
+| CON-0006, CON-0012–CON-0016 | Version pins, corpus state, payload opacity, duration units, enumeration ownership and collector existence mix dated observations and internal policies with external facts. Preserve originals; C02 requires owner approval for reclassification. |
+| CON-0019 | ACK on durable append is a target pending C05 verification, not a proved end-to-end guarantee. UDP has no delivery guarantee but scoped measurement with independent ground truth is possible. C04 tracks the reporting-policy choice under DEC-0023. |
+| CON-0020 | A digest or signed manifest is only as trustworthy as its independently protected reference and verification history. See DEC-0024 (Proposed) for deletion, rollback, key custody and restore-sampling questions. C04 remains open. |
+

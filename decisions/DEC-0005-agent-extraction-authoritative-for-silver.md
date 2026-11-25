@@ -21,6 +21,8 @@ Fields extracted on the endpoint are authoritative for Silver. The server does n
 
 **Platform ADR 0007's clause stating that agents do not map into Silver or enrichments contradicts this and must be struck.**
 
+**Boundary clarification (2026-11-25):** JSON field projection, typed decoding and canonical mapping are not by themselves evidence of discarded endpoint extraction. Current Silver contributors read `raw_log`; C10 must trace Agent → Forward → Bronze → Silver to establish whether declared agent fields survive. The rule against routinely discarding authoritative endpoint extraction remains binding. Direct non-agent source handling and assurance/replay exceptions must be explicitly scoped; no new exception is approved here.
+
 ## Consequences
 
 Discarding and reparsing would double CPU for no gain. Silver's quality becomes a function of the agent generation that produced each row, which is why the reparse sample (a stratified ~1% of Bronze) exists as an assurance mechanism rather than a correction mechanism.

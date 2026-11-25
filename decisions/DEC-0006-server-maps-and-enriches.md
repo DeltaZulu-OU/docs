@@ -19,6 +19,8 @@ Enrichment lookup data — CMDB, GeoIP, threat intelligence, enum tables — is 
 
 Mapping to canonical names and enrichment from lookup data happen server-side. Parsing does not (DEC-0005).
 
+**Verification boundary:** Source extraction, wire decoding, field projection, normalization and re-extraction from original raw evidence are different operations. C10 must establish their actual ownership and lineage; server-side JSON access alone does not prove a violation of DEC-0005. No policy change is implied.
+
 ## Consequences
 
 Meaning can be corrected retroactively, because it is applied where the data is retained. This is the asymmetric-reversibility argument that decides most of the endpoint/server split.

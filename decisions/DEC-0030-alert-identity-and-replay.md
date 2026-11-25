@@ -69,6 +69,8 @@ is the point of correcting a rule.
 | Suppress all alerts for events older than some threshold | Discards the genuinely valuable case — a real detection the previous rule missed — in order to avoid the duplicate case that identity already handles | — |
 | Alerts with no evidence references, self-contained only | Loses the path from an alert back to the full record set in Gold, which is where investigation actually happens | — |
 
+**Open design boundary (2026-11-25):** the accepted stable identity and rule-version exclusion remain unchanged. C07 must specify canonical ordering/deduplication of evidence identifiers, stable identity versus result revision, group/window coordinates, evidence additions/removals and replay under changed rule versions. C06/DEC-0021 window semantics must be decided before selecting a window-result identity. Do not infer a new identity key or correction/retraction policy from this note.
+
 ## Revisit trigger
 
 Reopen if analysts need a corrected rule to visibly amend or retract alerts its

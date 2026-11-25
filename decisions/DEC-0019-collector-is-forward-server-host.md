@@ -30,7 +30,7 @@ below is a historical count, not a requirement to restore any Proton sink.
 
 ## Consequences
 
-Fan-out to multiple consumers is **not available** — one consumer per sink. The backpressure path is architecturally clean, since the transport already defines window-adjustment `Control` frames, so sink slowness propagates to the endpoint as flow control rather than as silent spool growth.
+LocalStream supports independent named subscriptions under DEC-0033; the historical one-consumer-per-sink limitation does not describe the target. Forward transport credits, collector acceptance, durable append, downstream commits and retention are distinct boundaries. Credit adjustment alone does not prove durable acceptance or propagation of backpressure across the complete path. C05 verifies these properties, including independent subscribers, slow consumers, retry, expiry and crash recovery.
 
 **Ownership is resolved, implementation remains incomplete.** `CON-0016` recorded the original absence of a collector home. `DEC-0022` subsequently placed the collector in `DeltaZulu.Platform` as a separate deployable. The inspected Platform tree contains `DeltaZulu.Platform.Ingestion` as a library project, but not the required standalone collector executable. The original ownership memo is no longer open; validating and implementing its executable boundary remain engineering work.
 
@@ -43,4 +43,4 @@ Fan-out to multiple consumers is **not available** — one consumer per sink. Th
 
 ## Revisit trigger
 
-Revisit if fan-out to multiple independent consumers per sink becomes a requirement — that is the property the broker provided and the spool does not.
+Revisit if node-local subscriptions and Forward transport cannot meet measured fan-out, retention or recovery requirements without a different boundary.
