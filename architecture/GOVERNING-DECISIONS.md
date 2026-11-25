@@ -69,7 +69,7 @@ _No Decision names this repository yet._
 | [`DEC-0031`](../decisions/DEC-0031-reorder-buffer-between-proton-and-ducklake.md) | Superseded | A short event-time reorder buffer sits between Proton and DuckLake |
 | [`DEC-0032`](../decisions/DEC-0032-kql-type-versus-query-language-boundary.md) | Accepted | Keep the KQL type contract separate from query-language processing |
 | [`DEC-0033`](../decisions/DEC-0033-localstream-replaces-proton.md) | Accepted | Replace Proton streaming with LocalStream; preserve DuckLake as the read surface |
-| [`DEC-0034`](../decisions/DEC-0034-mvp-asim-tables-and-views.md) | Proposed | Select the MVP ASIM tables and views from pinned reference files |
+| [`DEC-0034`](../decisions/DEC-0034-mvp-asim-tables-and-views.md) | Accepted | Select the MVP ASIM tables and views from pinned reference files |
 
 ## Estate-wide (no single repository)
 

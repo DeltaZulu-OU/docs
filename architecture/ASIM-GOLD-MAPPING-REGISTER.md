@@ -38,4 +38,4 @@ not separate implementation tasks.
 
 Operational `AlertEvent` and `AlertEntity` views are inventoried in the
 baseline but **have not** been mapped to or certified against ASIM schemas.
-No new Gold families are implied by this page.
+[DEC-0034](../decisions/DEC-0034-mvp-asim-tables-and-views.md) approves four additional telemetry families (File Event, User Management, Registry Event and Audit Event). The current source inventory remains four families; expand the reference inventory and mappings during C10.

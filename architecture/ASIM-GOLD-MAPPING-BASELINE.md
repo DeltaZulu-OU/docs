@@ -3,6 +3,8 @@
 **Review:** 2026-11-23. **Status:** source-backed design inventory, NOT an implemented migration or claim of ASIM compliance.
 **Governing Decisions:** Accepted `DEC-0013` (ASIM-first Gold), `DEC-0012` (single schema catalogue), `DEC-0029` (event time), `DEC-0033` (LocalStream / DuckLake).
 
+**Approved target scope:** [DEC-0034](../decisions/DEC-0034-mvp-asim-tables-and-views.md) selects eight telemetry families plus two operational alert views. This baseline still inventories the four existing telemetry contracts. Extend it for File Event, User Management, Registry Event and Audit Event during C10; do not interpret approval as source implementation or conformance.
+
 ## Source revision and reference pin
 
 - Platform source: [`60d6588071eb187cddf61baa77b9991cc793e25f`](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/tree/60d6588071eb187cddf61baa77b9991cc793e25f).
