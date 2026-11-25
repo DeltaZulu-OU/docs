@@ -46,3 +46,17 @@ class GoldInventoryCheckTests(TestCase):
         docs = "".join(doc_sample(f) for f in check.EXPECTED)
         self.assertTrue(any("unexpected families" in x for x in
                             check.check(sources + code_sample("FileEvent"), docs)))
+
+    def test_explicit_constructor_is_not_ignored(self):
+        src = code_sample().replace("];", ', new ColumnDef("Extra", DuckDbType.Integer, KustoType.Int)];')
+        self.assertEqual(len(check.extract_code(src)["Dns"]), 2)
+
+    def test_unknown_column_syntax_fails(self):
+        with self.assertRaises(ValueError):
+            check.extract_code(code_sample().replace("];", ", MakeColumn()];"))
+
+    def test_catalog_registration_must_match(self):
+        catalog = "CanonicalViews { get; } = [GoldenEventContracts.Dns];"
+        check.check_catalog(catalog, {"Dns"})
+        with self.assertRaises(ValueError):
+            check.check_catalog(catalog, {"Dns", "Authentication"})

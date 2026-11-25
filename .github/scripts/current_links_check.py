@@ -14,14 +14,22 @@ from urllib.parse import unquote
 
 LINK = re.compile(r"!?(?:\[[^\]]*\])\(([^)]+)\)")
 CURRENT = [
-    "README.md", "decisions/README.md", "constraints/README.md",
-    "architecture/README.md", "architecture/NRT-PIPELINE.md",
-    "architecture/GOVERNING-DECISIONS.md",
-    "architecture/ASIM-GOLD-MAPPING-BASELINE.md",
-    "architecture/ASIM-GOLD-MAPPING-REGISTER.md",
+    "README.md", "CLAUDE.md", "decisions/README.md", "constraints/README.md",
     "roadmaps/README.md", "roadmaps/CONSISTENCY-CORRECTNESS-ROADMAP.md",
     "reports/README.md",
 ]
+HISTORICAL_ARCHITECTURE = {"PIPELINE.md", "DATA-QUALITY-MONITORING.md"}
+
+
+def maintained_paths(root: Path) -> list[str]:
+    return CURRENT + [
+        p.relative_to(root).as_posix()
+        for p in sorted((root / "architecture").rglob("*.md"))
+        if p.name not in HISTORICAL_ARCHITECTURE
+    ] + [
+        p.relative_to(root).as_posix()
+        for p in sorted((root / "decisions").glob("DEC-*.md"))
+    ]
 
 
 def links_for(root: Path, paths: list[str]) -> list[str]:
@@ -34,8 +42,18 @@ def links_for(root: Path, paths: list[str]) -> list[str]:
             continue
         # Inline Markdown links only. Reference-style links and fragments are
         # deliberately not validated; they require a Markdown parser.
+        fence = None
         for number, line in enumerate(source.read_text(encoding="utf-8").splitlines(), 1):
-            if line.lstrip().startswith("    ") or line.lstrip().startswith("```"):
+            marker = re.match(r"^ {0,3}(`{3,}|~{3,})(.*)$", line)
+            if marker:
+                token, tail = marker.groups()
+                if fence is None:
+                    fence = token
+                    continue
+                if token[0] == fence[0] and len(token) >= len(fence) and not tail.strip():
+                    fence = None
+                    continue
+            if fence is not None or line.startswith(("    ", "\t")):
                 continue
             for match in LINK.finditer(line):
                 target = match.group(1).strip().split("#", 1)[0].split("?", 1)[0]
@@ -49,7 +67,7 @@ def links_for(root: Path, paths: list[str]) -> list[str]:
 
 def main() -> int:
     root = Path(__file__).resolve().parents[2]
-    paths = CURRENT + [p.relative_to(root).as_posix() for p in sorted((root / "decisions").glob("DEC-*.md"))]
+    paths = maintained_paths(root)
     failures = links_for(root, paths)
     for failure in failures:
         print(f"::error::{failure}")

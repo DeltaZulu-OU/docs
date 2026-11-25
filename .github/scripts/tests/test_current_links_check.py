@@ -39,3 +39,14 @@ class LocalLinksTests(TestCase):
             root = Path(tmp)
             (root / "doc.md").write_text("[self](doc.md) [fragment](#top)")
             self.assertEqual(checker.links_for(root, ["doc.md"]), [])
+
+    def test_code_fences_and_indentation(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "doc.md").write_text(
+                "````text\n[code](missing.md)\n```\n[still code](missing.md)\n````\n"
+                "~~~\n[code](missing.md)\n~~~\n    [indent](missing.md)\n[real](gone.md)"
+            )
+            errors = checker.links_for(root, ["doc.md"])
+            self.assertEqual(len(errors), 1)
+            self.assertIn("gone.md", errors[0])

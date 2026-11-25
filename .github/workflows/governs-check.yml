@@ -62,7 +62,7 @@ jobs:
             # the checker as unverifiable rather than silently passing.
             git clone --depth 1 --quiet \
               "https://x-access-token:${GH_TOKEN}@github.com/DeltaZulu-OU/${repo}.git" \
-              ".governed/${repo}" || echo "CLONE_FAILED ${repo}"
+              ".governed/${repo}" 
             echo "::endgroup::"
           done < .governed-repos.txt
 

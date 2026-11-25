@@ -66,3 +66,30 @@ class GovernanceRegression(TestCase):
             Path("decisions/DEC-0001-example.md").write_text(sample("Superseded"))
             with self.assertRaises(ValueError):
                 checker.load_decisions()
+
+    def test_empty_governs_does_not_hide_missing_repository(self):
+        with fixture() as root:
+            Path("decisions/DEC-0001-example.md").write_text(
+                sample().replace("types: [ExampleType]", "types: []")
+                        .replace("paths: [src/ExampleType.cs]", "paths: []")
+            )
+            self.assertEqual(checker.verify(root / "checkout"), 1)
+
+    def test_commented_and_string_declarations_do_not_count(self):
+        with fixture() as root:
+            src = root / "src"
+            src.mkdir()
+            (src / "Example.cs").write_text('// class ExampleType {}\n/* class ExampleType {} */\n'
+                                            'class Other { string text = "class ExampleType {}"; }')
+            self.assertFalse(checker.type_is_declared(root, "ExampleType"))
+
+    def test_status_relationship_and_reciprocity(self):
+        with fixture():
+            old = Path("decisions/DEC-0001-example.md")
+            newer = Path("decisions/DEC-0002-example.md")
+            old.write_text(sample("Superseded").replace("cites: []", "cites: []\nsuperseded_by: DEC-0002"))
+            newer.write_text(sample().replace("DEC-0001", "DEC-0002"))
+            with self.assertRaises(ValueError):
+                checker.load_decisions()
+            newer.write_text(sample().replace("DEC-0001", "DEC-0002").replace("cites: []", "cites: []\nsupersedes: [DEC-0001]"))
+            self.assertEqual(len(checker.load_decisions()), 2)

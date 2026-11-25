@@ -83,14 +83,48 @@ def load_decisions() -> list[tuple[pathlib.Path, dict]]:
         out.append((path, meta))
     if not out:
         raise ValueError("no Decision files found")
-    identifiers = {meta["id"] for _, meta in out}
-    if len(identifiers) != len(out):
+    by_id = {meta["id"]: meta for _, meta in out}
+    if len(by_id) != len(out):
         raise ValueError("duplicate Decision identifiers")
+    successors = {}
     for path, meta in out:
-        for field in ("superseded_by", "rejected_by"):
+        identifier = meta["id"]
+        status = meta["status"]
+        for field, required in (("superseded_by", "Superseded"), ("rejected_by", "Rejected")):
             target = meta.get(field)
-            if target and (target not in identifiers or target == meta["id"]):
+            if target is None:
+                continue
+            if (not isinstance(target, str) or target not in by_id
+                    or target == identifier or status != required):
                 raise ValueError(f"{path}: invalid {field} target {target!r}")
+            if by_id[target]["status"] not in {"Accepted", "Superseded"}:
+                raise ValueError(f"{path}: {field} target was not accepted")
+            successors[identifier] = target
+        prior = meta.get("supersedes", [])
+        prior = [prior] if isinstance(prior, str) else prior
+        if not isinstance(prior, list) or any(not isinstance(x, str) for x in prior):
+            raise ValueError(f"{path}: invalid supersedes list")
+        for old in prior:
+            if re.fullmatch(r"D\d+", old):
+                continue  # historical PIPELINE.md aliases
+            if old not in by_id or old == identifier:
+                raise ValueError(f"{path}: invalid supersedes target {old!r}")
+            if (by_id[old]["status"] != "Superseded"
+                    or by_id[old].get("superseded_by") != identifier
+                    or status not in {"Accepted", "Superseded"}):
+                raise ValueError(f"{path}: nonreciprocal supersession of {old}")
+    for identifier, target in successors.items():
+        if by_id[identifier]["status"] == "Superseded":
+            prior = by_id[target].get("supersedes", [])
+            prior = [prior] if isinstance(prior, str) else prior
+            if identifier not in prior:
+                raise ValueError(f"{identifier}: missing reciprocal supersedes on {target}")
+        seen = {identifier}
+        while target in successors:
+            if target in seen:
+                raise ValueError(f"{identifier}: cyclic Decision relationships")
+            seen.add(target)
+            target = successors[target]
     return out
 
 
@@ -122,6 +156,20 @@ def collect() -> int:
     return 0
 
 
+# Lexical approximation: not a C# compiler or proof of namespace/build membership.
+NON_CODE = re.compile(
+    r'//[^\n]*|/\*[\s\S]*?\*/|'
+    r'\$*("{3,})[\s\S]*?\1|'
+    r'(?:\$@|@\$|@)"(?:""|[^"])*"|'
+    r'\$?"(?:\\.|[^"\\])*"|'
+    r"'(?:\\.|[^'\\])*'"
+)
+
+
+def code_only(source: str) -> str:
+    return NON_CODE.sub(lambda m: " " * len(m.group(0)), source)
+
+
 def type_is_declared(repo_root: pathlib.Path, fq_name: str) -> bool:
     """True if the type's simple name is declared somewhere in the checkout."""
     simple = fq_name.rsplit(".", 1)[-1]
@@ -133,7 +181,7 @@ def type_is_declared(repo_root: pathlib.Path, fq_name: str) -> bool:
         return False
     for source in source_root.rglob("*.cs"):
         try:
-            content = source.read_text(encoding="utf-8", errors="ignore")
+            content = code_only(source.read_text(encoding="utf-8"))
             if not pattern.search(content):
                 continue
             if "." not in fq_name:
@@ -141,7 +189,7 @@ def type_is_declared(repo_root: pathlib.Path, fq_name: str) -> bool:
             namespace = fq_name.rsplit(".", 1)[0]
             if re.search(r"\bnamespace\s+" + re.escape(namespace) + r"\s*[;{]", content):
                 return True
-        except OSError:
+        except (OSError, UnicodeError):
             continue
     return False
 
@@ -168,9 +216,6 @@ def verify(root: pathlib.Path) -> int:
     for path, meta in accepted(load_decisions()):
         governs = meta.get("governs") or {}
         repos = meta.get("repos") or []
-        if not governs.get("paths") and not governs.get("types"):
-            continue
-
         for repo in repos:
             paths = _for_repo(governs.get("paths"), repo)
             types = _for_repo(governs.get("types"), repo)
@@ -185,7 +230,8 @@ def verify(root: pathlib.Path) -> int:
 
             for governed in paths:
                 checked += 1
-                if not (repo_root / governed).exists():
+                candidate = (repo_root / governed).resolve()
+                if not candidate.is_relative_to(repo_root.resolve()) or not candidate.exists():
                     print(
                         f"::error file={path}::{meta.get('id')} governs "
                         f"{repo}/{governed}, which no longer exists"
