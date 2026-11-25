@@ -4,64 +4,152 @@
 >
 > **Rebase note (2026-11-25):** The November 13 additions below retain historical scope and status, not active tasks. Any reference to the former LogCluster DEC-0032 denotes the proposal now numbered DEC-0035; current DEC-0032 governs the KQL boundary. Consult C14/C15 and the later verification reports for current status.
 
-Updated 2026-11-13. Governing roadmap for the miner, the Parse-backed suggestion layer, and packaging. Each numbered change is a separately reviewable work item and, if submitted for review, one PR. Development may use branches without opening PRs.
+This roadmap tracks planned work for making DeltaZulu.LogCluster a maintainable parser-suggestion component while preserving the mining core as a reusable LogCluster implementation.
 
-## Principle and ordering
+## Status
 
-Correctness and baseline parity precede changing merge semantics. Rendering and parser round trips follow the merge Decision. Measure allocation and performance before changing the streaming default. Upstream option parity is demand-driven rather than a release gate.
+* **P0 — done.** `DeltaZulu.Parse` exposes the public `ILiblognormParserCatalog` / `LiblognormParserCatalog.Instance` catalog API described below.
+* **P1 — done.** `DeltaZulu.Suggester` references `DeltaZulu.Parse` (NuGet package) and `LiblognormSuggestionEngine` is now a thin adapter over `LiblognormParserCatalog.Instance`. The local `LiblognormMotifs` shim has been removed and regression tests prove suggestions come from Parse metadata and full-match validation.
+* **P2–P4** remain open.
 
-Current implementation branches are stacked, **not merged into master**. Branch status means implementation committed, not CI-verified. The pinned Perl reference fixtures and corpus-derived accuracy report are not yet complete.
+## Prioritized phases
 
-## Work items
-
-| Order | ID | Work item | Exit criterion | Status |
+| Priority | Phase | Goal | Suggested changes | Exit criteria |
 | --- | --- | --- | --- | --- |
-| 0 | 0.1 | Correct clean restore: locked restore without tracked locks; remove package mapping to undefined source | Clean clone restores/builds/tests on CI matrix | Implemented on `fix/0-1-clean-restore`; unverified |
-| 0 | 0.2 | Generate expected pattern/support pairs using pinned `logcluster.pl` commit, default upstream heuristics off; commit expected outputs only | Integration test matches fixture pairs 100% with no merge | Pending; use synthetic input unless redistribution rights verified |
-| 0 | 0.3 | Corpus invariants: no exceptions, support plus outliers equals records, strategy parity | Corpus tests fail on pre-fix master and pass after fixes | Tests committed on `test/0-3-mining-invariants`; execution pending |
-| 1 | 1.1 | Skip stale template-group keys | All previously crashing cases complete | Implemented on `fix/1-1-stale-merge-groups`; unverified |
-| 1 | 1.2 | Prevent reuse of a merge target in subsequent groups | Support conservation across corpus | Implemented on `fix/1-2-merge-target-reuse`; unverified |
-| 1 | 1.3 | Cap passes 2–3 to pass-1 record count, treat new tokens as infrequent | Growing source does not throw | Implemented on `fix/1-3-growing-stream`; unverified |
-| 1 | 1.4 | Count support per record rather than sequence number | Zero/duplicate sequence numbers counted | Implemented on `fix/1-4-support-sequence`; unverified |
-| 2 | 2.1 | Expose merge mode: none, edge, variants, all | None reaches 100% on upstream no-merge fixtures | Pending |
-| 2 | 2.2 | Compare all modes to Loghub ground truth | Accuracy report under `reports/`, with licensing review | Pending |
-| 2 | 2.3 | Decide default merge mode, following 2.2 | Governing Decision filed in `DeltaZulu-OU/docs/decisions` | Pending; no default changed |
-| 2 | 2.4 | Tighten low-diversity merging | `up`/`down` remain separate; recurring IPs still merge | Pending; choose >=3 distinct, motif gate, or per-candidate word dependency through a Decision |
-| 2 | 2.5 | Constrain edge merging | `login` and `login failed` remain separate | Pending; decide support-retaining upstream behavior or gap-range restriction |
-| 3 | 3.1 | Pick gap separator using observations with non-empty gaps | `login *{0,1}` retains its space | Pending |
-| 3 | 3.2 | Execute rendered rules with DeltaZulu.Parse against contributing lines | Every marked-executable rule round-trips | Pending; acceptance gate for parser suggestions |
-| 4 | 4.1 | BenchmarkDotNet baseline, memory diagnostics | Both strategies characterized on representative inputs | Pending |
-| 4 | 4.2 | Reuse separator strings | Allocation improvement exceeds run variance | Pending |
-| 4 | 4.3 | Review `ShouldStream` default | Decision supported by benchmarks | Pending; retain existing heuristic |
-| 4 | 4.4 | Avoid merge index with mode none; filter singletons before sorting | Peak memory improves at support 2 | Pending |
-| 4 | 4.5 | Optional word sketch before dictionary | Introduce only with a demonstrated memory-constrained corpus | Deferred |
-| 5 | 5.1 | Relative support and configurable separator | Implement only if requested | On demand |
-| 5 | 5.2 | Word classes | If implemented, count each class once per record as LogClusterC does | On demand |
-| 5 | 5.3 | Full aggregate-support merging and dump files | User demand and tests justify complexity | On demand |
-| 6 | 6.1 | Correct README roadmap link and comparison claims | Link points here; opt-in upstream behavior and sourced parity figures documented | Pending |
+| P0 (done) | Parse parser catalog contract | Make `DeltaZulu.Parse` the canonical source for liblognorm parser names, priorities, and whole-sample validators. | Add a public `ILiblognormParserCatalog` in `DeltaZulu.Parse` that exposes parser descriptors, `WordParserName`, `RestParserName`, lookup by parser name, and `IsFullMatch` validation. Keep parser IDs, parser delegates, `Npb`, dispatch details, and extraction internals private. | `DeltaZulu.Parse` publishes or otherwise exposes a consumable catalog API that the suggester can reference without duplicating parser syntax. |
+| P1 (done) | Suggester catalog integration | Replace the local motif shim with an adapter over the Parse catalog. | Add `DeltaZulu.Parse` as a project/package reference to `DeltaZulu.Suggester`; update `LiblognormSuggestionEngine` to use `LiblognormParserCatalog.Instance`; remove duplicated regex/IP/date checks once Parse validators cover the supported motifs. | `DeltaZulu.Suggester` no longer defines canonical parser names or validator logic locally; tests prove suggestions come from Parse metadata and full-match validation. |
+| P2 | Rule-rendering hardening | Use shared parser metadata consistently while keeping LogCluster mining independent. | Keep `DeltaZulu.LogCluster` dependent only on `IGapSuggestionEngine`; preserve conservative handling for unresolved internal gaps; add regression coverage for fallback-only `rest` and sample-inferable parser selection. | Core mining code remains parser-package agnostic, and rule rendering behavior is covered by tests for specific parsers, fallback parsers, and unresolved gaps. |
+| P3 | Packaging and repository workflow | Make the cross-repository dependency repeatable for development and CI. | Package reference to `DeltaZulu.Parse` is in place via `Directory.Packages.props` and `NuGet.config`. Keep restore/build instructions current for package consumers. | A clean checkout can restore, build, and test with the Parse-backed suggester in CI and local development. |
+| P4 | Expanded parser suggestions | Broaden supported parser suggestions after the catalog integration is stable. | Review `DeltaZulu.Parse` parser descriptors for additional sample-inferable motifs such as structured parsers; add confidence tests and user-facing warnings for ambiguous motifs. | New parser suggestions are data-driven from the catalog, have regression tests, and preserve human-reviewable output. |
 
-## Existing Parse integration and release work
+## Proposed Parse catalog shape
 
-| Previous ID | Description | Current interpretation | Status |
-| --- | --- | --- | --- |
-| P0 | Public Parse parser catalog | Implemented as `ParserDescriptor` and `ParserCatalog`, not old proposed `LiblognormParserDescriptor` | Done |
-| P1 | Suggester uses Parse catalog instead of local motif shim | Integrated through NuGet package and adapter | Done |
-| P2 | Parser rendering validation and warnings | Fold into 3.1–3.2, preserving `IGapSuggestionEngine` separation | Partially covered, needs 3.2 |
-| P3 | Packaging, clean restore, development workflow | 0.1 must be validated before packaging or release | Open |
-| P4 | Expanded parser motifs | Demand-driven, after verified round trips | Deferred |
+The suggester needs a metadata-only public surface from `DeltaZulu.Parse`. It does not need access to `Npb`, parser delegates, field extraction, parser IDs, or PDAG internals.
 
-## Additional previously recorded defect
+```csharp
+namespace DeltaZulu.Parse;
 
-Counter widths are inconsistent: input limits use `long`, but several support, outlier, record, observation and scoring counters use `int`. Plan a distinct counter-width fix before lifting practical corpus limits toward `int.MaxValue`; do not silently change public API types without compatibility review.
+public enum LiblognormParserSuggestionUse
+{
+    None,
+    InferFromSample,
+    FallbackOnly,
+}
 
-## Evidence and decision constraints
+public sealed record LiblognormParserDescriptor(
+    string Name,
+    int Priority,
+    LiblognormParserSuggestionUse SuggestionUse,
+    bool RequiresConfiguration)
+{
+    public bool CanInferFromSample => SuggestionUse == LiblognormParserSuggestionUse.InferFromSample;
 
-Keep Loghub samples out of this AGPL repository until their redistribution rights are established. Synthetic inputs and committed upstream-generated expected outputs are acceptable. Pin the upstream Perl commit and record command-line flags, environment and normalization used to generate fixtures. Compare sets of (pattern, support), rather than score ordering, because ranking differs intentionally.
+    public bool CanRenderWithoutConfiguration => !RequiresConfiguration;
+}
 
-For 2.3, report precision/recall or clustering accuracy per merge mode before selecting a default. No Decision is recorded yet. For 4.3, the previous 4.1s/203 MB streaming versus 5.1s/570 MB materialized measurements are a single-run hypothesis, not a baseline.
+public interface ILiblognormParserCatalog
+{
+    IReadOnlyList<LiblognormParserDescriptor> Parsers { get; }
 
-When running the latest stacked branch, include the Linux, macOS and Windows CI matrix and at least one representative production-day corpus whose redistribution is allowed. Confirm that the parity tests actually fail against the initial master before marking this track complete.
+    string WordParserName { get; }
 
-## Decision references and review
+    string RestParserName { get; }
 
-ADRs, Decisions, architecture and central roadmaps live in `DeltaZulu-OU/docs` per `CLAUDE.md`. No merge-default Decision is yet authorised without 2.2. Next review: 2026-11-16, or sooner after CI evidence or an upstream compatibility change.
+    bool TryGetParser(string name, out LiblognormParserDescriptor parser);
+
+    bool IsFullMatch(string parserName, ReadOnlySpan<char> sample);
+}
+```
+
+`DeltaZulu.Parse` can implement this as a thin public adapter over its internal parser table. `InferFromSample` identifies parsers the suggester may infer from observed gap samples, while `FallbackOnly` covers renderable fallback motifs such as `rest` that should not win sample-based recognition.
+
+---
+
+## Corrections applied on migration (2026-08-16)
+
+**`LiblognormParserDescriptor` does not exist and will not.** This roadmap
+proposes that type and an interface exposing
+`IReadOnlyList<LiblognormParserDescriptor>` / `TryGetParser`. `DeltaZulu.Parse`
+shipped **`ParserDescriptor`** instead, in `ParserCatalog.cs`. Any work planned
+against the proposed name must be re-read against the shipped one.
+
+**Counter widths remain a live defect.** `MaxRecords` and
+`TokenizedRecord.Stream` are `long`, while `DiscoverFrequentWords`,
+`MiningResult.RecordCount`, `MiningResult.OutlierCount`,
+`PatternCandidate.Support`, `GapStatistics.Observations` and
+`CandidateScorer.Score` are `int`. Above `int.MaxValue` they wrap, and
+`Math.Log(1 + recordCount)` then yields `NaN`. Widening them is scheduled work,
+not a proposal.
+
+**Motif removals are more expensive than they look.** Any plan to drop
+`v2-iptables` or `cisco-interface-spec` should know that the committed parity
+corpus covers them with 15 and 5 cases respectively — 20 cases of upstream
+coverage forfeited. An earlier count that read only the JSON rulebase syntax
+reported 1 and 0, which made the removal look nearly free.
+
+---
+
+## Corrections applied on 2026-11-13
+
+**Shipped defaults versus the mining core.** The frequent-anchor pipeline remains reusable, but the shipped merge defaults differ from unmodified Perl `logcluster.pl`. Upstream `--aggrsup` and `--wweight` are opt-in. The roadmap must not equate the algorithmic lineage with default-output parity.
+
+**P3 is a release gate and remains open.** The repository's ignored `packages.lock.json` files meant `dotnet restore --locked-mode` did not enforce a committed resolution; see `reports/2026-08-15-platform-ci-restore.md`. `DeltaZulu.Suggester` directly references `DeltaZulu.Parse` 0.1.1, making the undefined `deltazulu-github` source an active defect. A fix branch defines the feed and removes the ignore rule, but lock files, feed authentication, and clean-clone verification remain outstanding.
+
+**Counter-width inconsistency is not resolved.** `MaxRecords` is `long`, but record, support, outlier, observation and some scoring counts remain `int`. This is P5.5, not a completed fix.
+
+## Updated execution order and exit criteria
+
+P0 and P1 remain complete. P2, P3 and P4 retain their existing identities and historical design rationale. P3 moves first. Each numbered item should remain one independently reviewable change (one PR if PRs are later requested); no PRs are opened during this work.
+
+| Order | Phase | Change | Exit criterion | Status |
+| --- | --- | --- | --- | --- |
+| 1 | P3.1 | Define authenticated `deltazulu-github` feed in `NuGet.config` | Clean clone restores Parse 0.1.1 on all CI runners | Feed defined on branch; authentication and verification pending |
+| 1 | P3.2 | Track and commit `packages.lock.json` throughout solution | Locked restore succeeds for committed graph and fails on stale lock | Ignore removed on branch; generation pending |
+| 1 | P3.3 | Correct README link to centralized roadmap | Link resolves to `DeltaZulu-OU/docs/roadmaps/DeltaZulu.LogCluster-ROADMAP.md` | Pending |
+| 2 | P5.1 | Template-liveness guard for variant groups | Six previously crashing cases complete | Fix branch committed; execution pending |
+| 2 | P5.2 | Prevent targets re-entering subsequent merge groups | Conservation holds across corpus | Fix branch committed; execution pending |
+| 2 | P5.3 | Bound later stream passes and handle unknown tokens as infrequent | Growing source does not throw | Fix branch committed; execution pending |
+| 2 | P5.4 | Remove sequence guard in support counting | Zero and repeated sequence numbers counted | Fix branch committed; execution pending |
+| 2 | P5.5 | Widen record/support/outlier/observation/scoring counters | Consistently `long`, overflow and API regression tests pass | Pending |
+| 3 | P6.1 | Add merge modes none, edge, variants, all | None matches unmerged upstream patterns/support | Pending; default unchanged |
+| 3 | P6.2 | Pin Perl commit and compare expected patterns/support/outliers | 100% unmerged fixture parity; commit only expected outputs | Pending |
+| 3 | P6.3 | File reproducible parity report under `reports/` | Source commit, flags, inputs, output counts and limitations published | Pending; preliminary figures supplied |
+| 4 | P7.1 | Compare merge modes to Loghub ground-truth templates | Accuracy by mode, reproducible scripts, license compliance | Pending |
+| 4 | P7.2 | Draft and accept DEC-0032 governing defaults, diversity and edge rule | Decision accepted on evidence, revisit threshold measurable | Proposed pending evidence |
+| 4 | P7.3 | Implement chosen diversity and edge criteria | `up`/`down` and `login`/`login failed` remain distinct, recurring IPs can merge | Pending decision |
+| 5 | P2.1 | Existing rule rendering and fallback-parser hardening | No false executable claims; engine remains package-agnostic | Open |
+| 5 | P2.2 | Observe separators from non-empty gaps | `login *{0,1}` retains the separator | Pending |
+| 5 | P2.3 | DeltaZulu.Parse executable-rule round trip | Every marked-executable rule parses its contributing lines | Pending |
+| 6 | P8.1 | BenchmarkDotNet with memory diagnostics | Representative materialize and stream baseline | Pending |
+| 6 | P8.2 | Reuse separator strings | Allocation drop exceeds run variance | Pending |
+| 6 | P8.3 | Skip merge index when merging disabled; trim singletons before sort | Peak memory decreases at support 2 | Pending |
+| 6 | P8.4 | Revisit ShouldStream default | Measurement-backed Decision; current heuristic retained meanwhile | Pending |
+| 6 | P8.5 | Optional vocabulary sketch | Only if demonstrated memory pressure requires it | Deferred |
+| 7 | P4 | Existing broader Parse catalog parser suggestions | Current P4 acceptance unchanged | Pending |
+| 8 | P9 | Relative support, separator flag, line-counted word classes | Requester and parity test for each option | On demand |
+
+## Evidence, licensing and dependency order
+
+Initial, user-supplied comparison figures: 7,039/7,039 clusters without merging, approximately 86% with one merge disabled, approximately 34% at current defaults, and six crashes plus 13 support over-counts across 48 runs. These are **not independently reproduced or accepted**. Record the exact pinned Perl commit, input corpus, flags, comparator normalization, matching denominator, and per-mode results before treating them as release-quality evidence.
+
+Do not commit Loghub datasets to the AGPL project without confirming redistribution rights. Fetch datasets at test runtime where permitted, or use synthetic samples. Consult `CON-0012` for the existing license precedent. The proposed Decision is `DEC-0032`; it must not be promoted to Accepted before the P6/P7 evidence exists.
+
+P3 precedes any P5 CI acceptance, and P5 blocks releases until correctness is demonstrated. P6 precedes P7 so the Decision can cite objective parity and ground-truth accuracy. P2 follows merge semantics; P8 follows measured correctness. The single-run figures 4.1s/203MB and 5.1s/570MB do not establish a strategy default.
+
+Next review remains 2026-11-16, or earlier when code or reproducible evidence contradicts the roadmap.
+
+---
+
+## Review trigger
+
+**Next review: 2026-11-16.** Migrated to `DeltaZulu-OU/docs` on 2026-08-16 from
+its origin repository, which no longer carries a copy.
+
+Review earlier than the date above if any of these happen:
+
+- a Decision this roadmap depends on changes status in `decisions/`;
+- a phase named here completes, or is found to have been overtaken;
+- a claim in it is contradicted by the code, as several already were.
+
+A roadmap with no review date becomes an archaeological artefact that still reads
+as a commitment. That is what this section exists to prevent.
