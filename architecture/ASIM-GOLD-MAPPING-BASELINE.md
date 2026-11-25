@@ -5,6 +5,11 @@
 
 **Approved target scope:** [DEC-0034](../decisions/DEC-0034-mvp-asim-tables-and-views.md) selects eight telemetry families plus two operational alert views. This baseline still inventories the four existing telemetry contracts. Extend it for File Event, User Management, Registry Event and Audit Event during C10; do not interpret approval as source implementation or conformance.
 
+**Naming:** DEC-0013 and DEC-0034 retain singular PascalCase logical
+identifiers. The qualified `golden.*` headings below denote SQL views;
+KQL uses the unqualified names. The historical `*Activity` migration is
+not the target. No physical backing-table rename is implied.
+
 ## Source revision and reference pin
 
 - Platform source: [`60d6588071eb187cddf61baa77b9991cc793e25f`](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/tree/60d6588071eb187cddf61baa77b9991cc793e25f).

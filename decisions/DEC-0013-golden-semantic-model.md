@@ -69,6 +69,22 @@ source of inspiration does not create a dependency on Microsoft Sentinel.
    not require Microsoft's Sentinel runtime, its proprietary tables,
    unifying parser functions, or a Proton processor.
 
+### Gold view naming
+
+The approved MVP view names are recorded in
+[DEC-0034](DEC-0034-mvp-asim-tables-and-views.md). Use singular PascalCase
+ASIM family identifiers for telemetry (for example, `Dns`,
+`NetworkSession`, `ProcessEvent`), retaining the existing
+DeltaZulu operational names `AlertEvent` and `AlertEntity`.
+KQL exposes the unqualified logical names; the current SQL view namespace
+is `golden` (for example, `golden.Dns`). Gold is the architectural layer,
+not a rename of the SQL schema to `gold`. Native Sentinel table names and
+parser function names are external references, not DeltaZulu view names.
+The historical Platform ADR 0007 `*Activity` naming target is superseded
+by DEC-0013 and the approved selection in DEC-0034. This clarification
+preserves existing public names; it does not authorize renaming persisted
+relations or changing query compatibility.
+
 ## Conformance and implementation requirements
 
 A schema-mapping register must record for each Gold event family:

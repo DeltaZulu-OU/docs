@@ -72,7 +72,11 @@ not a deployment-ready schema contract.
 Gold retains one logical C#-authored field contract under
 `DEC-0012`, **ASIM-first schema naming and semantics under Accepted
 `DEC-0013`**, and documented DeltaZulu extensions where ASIM cannot
-faithfully represent source evidence. OCSF is not the Gold base.
+faithfully represent source evidence. OCSF is not the Gold base. The approved MVP is eight telemetry families
+and two operational views under [DEC-0034](../decisions/DEC-0034-mvp-asim-tables-and-views.md).
+Use singular PascalCase logical names in KQL and `golden.<Name>` for SQL
+views; Gold as an architectural layer does not rename the SQL schema.
+The archived `*Activity` migration is superseded.
 The Proton physical-schema projection requirements of
 `DEC-0028` are superseded. DuckLake mappings must preserve declared
 types, null reasons and canonical duration ticks (`CON-0014`).

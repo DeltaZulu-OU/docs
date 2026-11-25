@@ -10,6 +10,11 @@ This path is retained so previously published references continue to resolve.
 `DEC-0033` (LocalStream/Query and DuckLake). The Platform implementation
 is **not** certified ASIM-conformant.
 
+**Naming:** use the singular PascalCase identifiers selected in
+[DEC-0034](../decisions/DEC-0034-mvp-asim-tables-and-views.md), unqualified
+in KQL and under `golden` in SQL. The archived `*Activity` names are
+not the current target.
+
 ## Baseline and verification responsibilities
 
 | Purpose | Authoritative location |

@@ -45,16 +45,29 @@ physical table naming and any compatibility migration are implementation
 work under C10 and C07. The following upstream table and parser names
 identify references, not DeltaZulu runtime dependencies.
 
-| ASIM family | Upstream normalized table | Upstream unifying parser YAML stems | DeltaZulu Gold logical view | Current or candidate source coverage |
+| ASIM family | Upstream normalized table | Upstream unifying parser YAML stems | DeltaZulu KQL view | Current or candidate source coverage |
 |---|---|---|---|---|
-| DNS | ASimDnsActivityLogs | ASimDns, imDns | golden.Dns | Sysmon 22; Windows DNS Server 256/257 |
-| Network Session | ASimNetworkSessionLogs | ASimNetworkSession, imNetworkSession | golden.NetworkSession | Sysmon 3; Windows Security 5156 |
-| Process Event | ASimProcessEventLogs | ASimProcessEvent, imProcessEvent | golden.ProcessEvent | Sysmon 1; Windows Security 4688 |
-| Authentication | ASimAuthenticationEventLogs | ASimAuthentication, imAuthentication | golden.Authentication | Windows Security 4624/4625 |
-| File Event | ASimFileEventLogs | ASimFileEvent, imFileEvent | golden.FileEvent | Candidate: Sysmon 11, 23, 26; selected Windows Security events |
-| User Management | ASimUserManagementActivityLogs | ASimUserManagement, imUserManagement | golden.UserManagement | Candidate: Windows Security / Active Directory account and group changes |
-| Registry Event | ASimRegistryEventLogs | ASimRegistryEvent, imRegistryEvent | golden.RegistryEvent | Candidate: Sysmon 12, 13, 14; Windows Security 4657 |
-| Audit Event | ASimAuditEventLogs | ASimAuditEvent, imAuditEvent | golden.AuditEvent | Candidate: Windows Security and System audit events, including 1102 and service/task changes |
+| DNS | ASimDnsActivityLogs | ASimDns, imDns | `Dns` | Sysmon 22; Windows DNS Server 256/257 |
+| Network Session | ASimNetworkSessionLogs | ASimNetworkSession, imNetworkSession | `NetworkSession` | Sysmon 3; Windows Security 5156 |
+| Process Event | ASimProcessEventLogs | ASimProcessEvent, imProcessEvent | `ProcessEvent` | Sysmon 1; Windows Security 4688 |
+| Authentication | ASimAuthenticationEventLogs | ASimAuthentication, imAuthentication | `Authentication` | Windows Security 4624/4625 |
+| File Event | ASimFileEventLogs | ASimFileEvent, imFileEvent | `FileEvent` | Candidate: Sysmon 11, 23, 26; selected Windows Security events |
+| User Management | ASimUserManagementActivityLogs | ASimUserManagement, imUserManagement | `UserManagement` | Candidate: Windows Security / Active Directory account and group changes |
+| Registry Event | ASimRegistryEventLogs | ASimRegistryEvent, imRegistryEvent | `RegistryEvent` | Candidate: Sysmon 12, 13, 14; Windows Security 4657 |
+| Audit Event | ASimAuditEventLogs | ASimAuditEvent, imAuditEvent | `AuditEvent` | Candidate: Windows Security and System audit events, including 1102 and service/task changes |
+
+### Naming convention
+
+Use singular PascalCase ASIM family names under DEC-0013. The public KQL
+identifier is the unqualified name in the table; the SQL view is
+`golden.<Name>` (for example, `golden.Dns`). `GoldenSchema` in
+`SchemaConventions` is `golden`; `ApprovedViewCatalog` registers the
+unqualified `CanonicalViewDef.Name` as the Kusto table symbol. Do not
+use the historical `*Activity` names, `ASim*Logs` native table names,
+`im*`/`_Im_*` parser names, pluralized names or a new `gold` SQL namespace
+as alternative canonical identifiers. Backing table names are separate
+physical implementation details. Any compatibility alias or rename needs
+explicit migration review.
 
 The first four rows have existing C# declarations and eight declared Silver
 contributors. The last four are approved scope, not implemented contracts;
@@ -74,7 +87,9 @@ billing, subscription or ingestion-time semantics unconditionally.
 
 Keep existing AlertEvent and AlertEntity operational views under C07/C16
 and DEC-0030. These are the ninth and tenth logical views, not additional
-ASIM telemetry families. Do not equate AlertEntity with ASIM AssetEntity,
+ASIM telemetry families: KQL `AlertEvent` and `AlertEntity`, SQL
+`golden.AlertEvent` and `golden.AlertEntity`, currently backed by
+`lake.alert_events` and `lake.alert_entities` respectively. Do not equate AlertEntity with ASIM AssetEntity,
 or claim Alert Event conformance, without independent mappings. Web Session
 and DHCP Event are explicitly outside the approved MVP. Agent Event,
 external Alert Event telemetry, Asset Entity and Email Event also remain
@@ -152,7 +167,8 @@ required execution dependencies. No AI component is introduced.
   layers are visible and resolved or explicitly marked unresolved.
 - The existing C10 mapping inventory covers applicable fields, types,
   requirements, enum values, source availability and intentional deviations.
-- Catalogue checks verify the C# contracts and actual registered views;
+- Catalogue checks verify exact canonical view names, the SQL namespace,
+  KQL registration and C# contracts against the approved catalogue;
   fixtures for all eight existing contributors and every newly admitted
   contributor verify source semantics, event time and provenance. Replay
   and durable persistence remain C05/C07 gates.
@@ -191,6 +207,10 @@ semantics or compatibility. Changes require source-backed mapping and
 test evidence rather than an automatically widened catalogue.
 
 ## References
+
+- [Platform source: schema conventions](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/blob/4c5aafcdc3c2ba92e7c1c933e2c982d1516ec1fb/src/DeltaZulu.Platform.Domain/Analytics/Schema/SchemaConventions.cs)
+- [Platform source: approved KQL catalogue](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/blob/4c5aafcdc3c2ba92e7c1c933e2c982d1516ec1fb/src/DeltaZulu.Platform.Domain/Analytics/Catalog/ApprovedViewCatalog.cs)
+- [Platform source: operational view contracts](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/blob/4c5aafcdc3c2ba92e7c1c933e2c982d1516ec1fb/src/DeltaZulu.Platform.Domain/Analytics/Schema/OperationsSchemaContracts.cs)
 
 - [DEC-0013 — ASIM-first Gold](DEC-0013-golden-semantic-model.md)
 - [DEC-0033 — LocalStream and DuckLake](DEC-0033-localstream-replaces-proton.md)
