@@ -27,7 +27,7 @@ not the current target.
 
 The ASIM baseline records the **reviewed documentation** for DNS, Network
 Session, Process Event and Authentication schema version 1.0.0, including
-per-family Microsoft reference links. The baseline now pins Microsoft's tester snapshot and links the [686-entry reverse field inventory](ASIM-GOLD-TARGET-FIELDS.csv). Reconcile the tester against the published schema prose and source-specific fixtures before claiming conformance.
+per-family Microsoft reference links. The baseline now pins Microsoft's tester snapshot and links the [1,225-entry reverse field inventory](ASIM-GOLD-TARGET-FIELDS.csv). Reconcile the tester against the published schema prose and source-specific fixtures before claiming conformance.
 
 ## Unresolved mapping and quality gates
 
@@ -43,4 +43,4 @@ not separate implementation tasks.
 
 Operational `AlertEvent` and `AlertEntity` views are inventoried in the
 baseline but **have not** been mapped to or certified against ASIM schemas.
-[DEC-0034](../decisions/DEC-0034-mvp-asim-tables-and-views.md) approves four additional telemetry families (File Event, User Management, Registry Event and Audit Event). The current source inventory remains four families; expand the reference inventory and mappings during C10.
+[DEC-0034](../decisions/DEC-0034-mvp-asim-tables-and-views.md) approves four additional telemetry families (File Event, User Management, Registry Event and Audit Event). The current source inventory remains four families. The reference inventory now covers eight; the additional 539 entries require semantic mapping and source verification during C10. See [reference tooling](../tools/asim/README.md).

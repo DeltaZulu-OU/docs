@@ -1,0 +1,1008 @@
+{
+  "schema_version": 1,
+  "tool_version": "0.1.0",
+  "sources": {
+    "sentinel": {
+      "repository": "Azure/Azure-Sentinel",
+      "commit": "b2c15c11d6666b9ddf80091663e6c8009058fbcb",
+      "license": "MIT"
+    },
+    "monitor": {
+      "repository": "MicrosoftDocs/azure-monitor-docs",
+      "commit": "d2df7cc0aa1e85c13fc73bf96668f0a149b647e4",
+      "license": "CC-BY-4.0"
+    }
+  },
+  "families": {
+    "Dns": "ASimDnsActivityLogs",
+    "NetworkSession": "ASimNetworkSessionLogs",
+    "ProcessEvent": "ASimProcessEventLogs",
+    "Authentication": "ASimAuthenticationEventLogs",
+    "FileEvent": "ASimFileEventLogs",
+    "UserManagement": "ASimUserManagementActivityLogs",
+    "RegistryEvent": "ASimRegistryEventLogs",
+    "AuditEvent": "ASimAuditEventLogs"
+  },
+  "files": [
+    {
+      "source": "monitor",
+      "path": "LICENSE",
+      "blob": "a37a61c43ffa1178bfae89fb50dd7a01bfa81e32",
+      "kind": "license"
+    },
+    {
+      "source": "monitor",
+      "path": "articles/azure-monitor/reference/tables/asimauditeventlogs.md",
+      "blob": "ee5282302289448bfcb98ab21f7ae753e34fa7d0",
+      "kind": "native-table",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "monitor",
+      "path": "articles/azure-monitor/reference/tables/asimauthenticationeventlogs.md",
+      "blob": "6ed5ff81f5bc67d1a011ecb3b9cb59f3ecb14c52",
+      "kind": "native-table",
+      "family": "Authentication"
+    },
+    {
+      "source": "monitor",
+      "path": "articles/azure-monitor/reference/tables/asimdnsactivitylogs.md",
+      "blob": "dea510ba577481cf74299c65122dd46e930269bb",
+      "kind": "native-table",
+      "family": "Dns"
+    },
+    {
+      "source": "monitor",
+      "path": "articles/azure-monitor/reference/tables/asimfileeventlogs.md",
+      "blob": "41f99804bed22597b493a04809d4efa5355c4c15",
+      "kind": "native-table",
+      "family": "FileEvent"
+    },
+    {
+      "source": "monitor",
+      "path": "articles/azure-monitor/reference/tables/asimnetworksessionlogs.md",
+      "blob": "b8c538b0b8355e1100f7d421d3ef13c69015503f",
+      "kind": "native-table",
+      "family": "NetworkSession"
+    },
+    {
+      "source": "monitor",
+      "path": "articles/azure-monitor/reference/tables/asimprocesseventlogs.md",
+      "blob": "9b7a128f87e2f91cb3ad96d99c656a798b57f3b2",
+      "kind": "native-table",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "monitor",
+      "path": "articles/azure-monitor/reference/tables/asimregistryeventlogs.md",
+      "blob": "d07ad252fd451a3d9eec30c51ea89cc2af51ff66",
+      "kind": "native-table",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "monitor",
+      "path": "articles/azure-monitor/reference/tables/asimusermanagementactivitylogs.md",
+      "blob": "90b3e69b5315d180305cd5513e8ce402b1552092",
+      "kind": "native-table",
+      "family": "UserManagement"
+    },
+    {
+      "source": "sentinel",
+      "path": "ASIM/dev/ASimTester/ASimTester.csv",
+      "blob": "de261f4c8e3d41f35801c00ca830aec01cbc8c94",
+      "kind": "tester"
+    },
+    {
+      "source": "sentinel",
+      "path": "ASIM/schemas/common/ASimEnumerations.yaml",
+      "blob": "11572009492eddc9d1bcd443f49b52cbb0e39e96",
+      "kind": "schema"
+    },
+    {
+      "source": "sentinel",
+      "path": "ASIM/schemas/common/ASimEventFields.yaml",
+      "blob": "d2336d19368fea7e0064f85f8be9689bf2859e05",
+      "kind": "schema"
+    },
+    {
+      "source": "sentinel",
+      "path": "ASIM/schemas/common/ASimInspectionFields.yaml",
+      "blob": "bb734515f8127d5690430ebb431d59b89ac19f34",
+      "kind": "schema"
+    },
+    {
+      "source": "sentinel",
+      "path": "ASIM/schemas/entities/ASimActor.yaml",
+      "blob": "b8157f6c5ee5273a22c462e1ba32784581af5642",
+      "kind": "schema"
+    },
+    {
+      "source": "sentinel",
+      "path": "ASIM/schemas/entities/ASimApp.yaml",
+      "blob": "5e104fbb71cb805a40d75581bcadeb53c0d865c0",
+      "kind": "schema"
+    },
+    {
+      "source": "sentinel",
+      "path": "ASIM/schemas/entities/ASimDvc.yaml",
+      "blob": "5b3bdc860c8a820b05546f19c3d13a3611f3d2c5",
+      "kind": "schema"
+    },
+    {
+      "source": "sentinel",
+      "path": "ASIM/schemas/entities/ASimExtendedProcess.yaml",
+      "blob": "0e3c3ed837d86f57de2f587e5353fcb5b00ae892",
+      "kind": "schema"
+    },
+    {
+      "source": "sentinel",
+      "path": "ASIM/schemas/entities/ASimGroup.yaml",
+      "blob": "4870ccb4f32bab23c658d4d7bd74c29e38dd817c",
+      "kind": "schema"
+    },
+    {
+      "source": "sentinel",
+      "path": "ASIM/schemas/entities/ASimProcess.yaml",
+      "blob": "c88175cc61e2d8df52acd812f3d883308a4b851a",
+      "kind": "schema"
+    },
+    {
+      "source": "sentinel",
+      "path": "ASIM/schemas/entities/ASimSystem.yaml",
+      "blob": "1d54fba8759a2f6e0b967334b28a902add24e910",
+      "kind": "schema"
+    },
+    {
+      "source": "sentinel",
+      "path": "ASIM/schemas/entities/ASimUser.yaml",
+      "blob": "52fe623f621d8fe8919e951428985b3553b665e1",
+      "kind": "schema"
+    },
+    {
+      "source": "sentinel",
+      "path": "LICENSE",
+      "blob": "21071075c24599ee98254f702bcfc504cdc275a6",
+      "kind": "license"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Parsers/ASimAuditEvent.yaml",
+      "blob": "d43d7168a72d5c0c2ea1b366199daa87cf105be0",
+      "kind": "parser",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Parsers/imAuditEvent.yaml",
+      "blob": "d079dbc46400862c47623318a895bcd3a5d3c67d",
+      "kind": "parser",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Parsers/vimAuditEventEmpty.yaml",
+      "blob": "047af12ba948a9a40ae3e2f4b7804e64af194d69",
+      "kind": "parser",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Parsers/vimAuditEventMicrosoftSecurityEvents.yaml",
+      "blob": "dbaa2ee6e8000c4f3bb84bfd392a6409e5b4467d",
+      "kind": "parser",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Parsers/vimAuditEventMicrosoftWindowsEvents.yaml",
+      "blob": "14781e343cbc46679d8d07fd8c68ac89ed555f69",
+      "kind": "parser",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Parsers/vimAuditEventNative.yaml",
+      "blob": "bad9c7ff7af8a8f496a420be6142b551e4337746",
+      "kind": "parser",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Tests/Microsoft_Event_ASimAuditEvent_SchemaTest.csv",
+      "blob": "8337511e7d8f9793e21761535cb0feb5d3474d30",
+      "kind": "upstream-test",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Tests/Microsoft_Event_VimAuditEvent_SchemaTest.csv",
+      "blob": "4aefe83bf0373387b0b36574277ee7f8d7ea793b",
+      "kind": "upstream-test",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Tests/Microsoft_Security_Event_ASimAuditEvent_SchemaTest (1).csv",
+      "blob": "8337511e7d8f9793e21761535cb0feb5d3474d30",
+      "kind": "upstream-test",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Tests/Microsoft_Security_Event_VimAuditEvent_SchemaTest.csv",
+      "blob": "4aefe83bf0373387b0b36574277ee7f8d7ea793b",
+      "kind": "upstream-test",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Tests/Microsoft_Windows_AuditEvent_DataTest.csv",
+      "blob": "17fd787467cb2ff3dcfce2995b7b28694c12a788",
+      "kind": "upstream-test",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Tests/Microsoft_Windows_AuditEvent_SchemaTest.csv",
+      "blob": "374b11e059bb597068383f330bb1c2a63f63b7bc",
+      "kind": "upstream-test",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Tests/Microsoft_Windows_Event_ASimAuditEvent_DataTest (1).csv",
+      "blob": "06d1c346e0e0df08c01d3d76f25fde79d4ceb17d",
+      "kind": "upstream-test",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Tests/Microsoft_Windows_Event_ASimAuditEvent_SchemaTest.csv",
+      "blob": "8337511e7d8f9793e21761535cb0feb5d3474d30",
+      "kind": "upstream-test",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Tests/Microsoft_Windows_Event_VimAuditEvent_DataTest (1).csv",
+      "blob": "06d1c346e0e0df08c01d3d76f25fde79d4ceb17d",
+      "kind": "upstream-test",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuditEvent/Tests/Microsoft_Windows_Event_VimAuditEvent_SchemaTest (1).csv",
+      "blob": "8337511e7d8f9793e21761535cb0feb5d3474d30",
+      "kind": "upstream-test",
+      "family": "AuditEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuthentication/Parsers/ASimAuthentication.yaml",
+      "blob": "cdd4e5923c59845355e08b325eb871532d94cc2d",
+      "kind": "parser",
+      "family": "Authentication"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuthentication/Parsers/imAuthentication.yaml",
+      "blob": "be6a0d8349895c1bee40d06e35ae46a68f6379f5",
+      "kind": "parser",
+      "family": "Authentication"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuthentication/Parsers/vimAuthenticationEmpty.yaml",
+      "blob": "061e04889a864ef703eaabda5b54836bbf12a12c",
+      "kind": "parser",
+      "family": "Authentication"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuthentication/Parsers/vimAuthenticationMicrosoftWindowsEvent.yaml",
+      "blob": "ac177a2f4ae7656a4e70d634cc5f2b7acfb94b36",
+      "kind": "parser",
+      "family": "Authentication"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuthentication/Parsers/vimAuthenticationNative.yaml",
+      "blob": "0672a1c25b2533bd48938a24381b96f608628c40",
+      "kind": "parser",
+      "family": "Authentication"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Parsers/ASimDns.yaml",
+      "blob": "e77181e11d7b8e6920972552310390560cae3238",
+      "kind": "parser",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Parsers/imDns.yaml",
+      "blob": "9d4921fa60a1337bbcdd0660700f223eeec1653c",
+      "kind": "parser",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Parsers/vimDnsEmpty.yaml",
+      "blob": "53aa3e55e04b68bdabe6e02cf771e31f019d39ef",
+      "kind": "parser",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Parsers/vimDnsMicrosoftNXlog.yaml",
+      "blob": "25397dba435a5decf0026c9af31d11830614c986",
+      "kind": "parser",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Parsers/vimDnsMicrosoftOMS.yaml",
+      "blob": "83829605cde913a40c8052d4c9d2df97a0a09ca2",
+      "kind": "parser",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Parsers/vimDnsMicrosoftSysmon.yaml",
+      "blob": "a889e955fee48ed5fb2252d8bbf976c59a6913d3",
+      "kind": "parser",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Parsers/vimDnsMicrosoftSysmonWindowsEvent.yaml",
+      "blob": "30309eb0996a975213e9463a3641bc8de8e7987e",
+      "kind": "parser",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Parsers/vimDnsNative.yaml",
+      "blob": "cba36c490034599da09ff0c96ca0f88b38d0e7c7",
+      "kind": "parser",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Tests/Microsoft_DNS Server_Dns_DataTest_ASimDnsMicrosoftNXLog.csv",
+      "blob": "0d8aaf98ba4c9e002128112ae0e588df3a67adab",
+      "kind": "upstream-test",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Tests/Microsoft_DNS Server_Dns_DataTest_vimDnsMicrosoftNXLog.csv",
+      "blob": "f1935b333fd68802b58b1603d1044483f0b62e2d",
+      "kind": "upstream-test",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Tests/Microsoft_DNS Server_Dns_SchemaTest_ASimDnsMicrosoftNXLog.csv",
+      "blob": "784c68c2bc34198e8ec78eafba0d22cc2511def5",
+      "kind": "upstream-test",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Tests/Microsoft_DNS Server_Dns_SchemaTest_vimDnsMicrosoftNXLog.csv",
+      "blob": "784c68c2bc34198e8ec78eafba0d22cc2511def5",
+      "kind": "upstream-test",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Tests/Microsoft_Sysmon_AsimDns_DataTest.csv",
+      "blob": "4fec6d2008e0cb69f8cd94fc068733d0567a8cd3",
+      "kind": "upstream-test",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Tests/Microsoft_Sysmon_AsimDns_SchemaTest.csv",
+      "blob": "a6e45ce6c85112aa0a4b45a2809a6fcef11237e7",
+      "kind": "upstream-test",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Tests/Microsoft_Sysmon_VimDns_DataTest.csv",
+      "blob": "4fec6d2008e0cb69f8cd94fc068733d0567a8cd3",
+      "kind": "upstream-test",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Tests/Microsoft_Sysmon_VimDns_SchemaTest.csv",
+      "blob": "a6e45ce6c85112aa0a4b45a2809a6fcef11237e7",
+      "kind": "upstream-test",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Tests/Microsoft_Sysmon_Windows_Event_AsimDns_SchemaTest.csv",
+      "blob": "a6e45ce6c85112aa0a4b45a2809a6fcef11237e7",
+      "kind": "upstream-test",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimDns/Tests/Microsoft_Sysmon_Windows_Event_VimDns_SchemaTest.csv",
+      "blob": "a6e45ce6c85112aa0a4b45a2809a6fcef11237e7",
+      "kind": "upstream-test",
+      "family": "Dns"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/Parsers/ASimFileEvent.yaml",
+      "blob": "fb135feb502db3b952ef7b93f1eefb23485d2467",
+      "kind": "parser",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/Parsers/imFileEvent.yaml",
+      "blob": "caed2d02caf845493c8d1b44bed7db9e83188361",
+      "kind": "parser",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/Parsers/vimFileEventEmpty.yaml",
+      "blob": "e9a6f8287c9a7ed57bff860b5b764a3d2820f6f3",
+      "kind": "parser",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/Parsers/vimFileEventMicrosoftSecurityEvents.yaml",
+      "blob": "d391c0f0c982e6f704084b3647f785339c8248a4",
+      "kind": "parser",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/Parsers/vimFileEventMicrosoftSysmon.yaml",
+      "blob": "65b2a92d3f2bfa258b9c71d85dbb195802c24e4d",
+      "kind": "parser",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/Parsers/vimFileEventMicrosoftSysmonWindowsEvent.yaml",
+      "blob": "47f4fd53c50b10e9e5547baf87b735e9bcc0de53",
+      "kind": "parser",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/Parsers/vimFileEventMicrosoftWindowsEvents.yaml",
+      "blob": "01332a2cdb716897058bad2e1c624690db1a4fb3",
+      "kind": "parser",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/Parsers/vimFileEventNative.yaml",
+      "blob": "f83170a7816847136a969359db3417f6a178ab58",
+      "kind": "parser",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/test/Microsoft_Security_Event_ASimFileEvent_SchemaTest.csv",
+      "blob": "35544138cbbf8423aa0327d51065071e10d46f87",
+      "kind": "upstream-test",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/test/Microsoft_Security_Events_vimFileEvent_SchemaTest.csv",
+      "blob": "9a389a536abf8f9cfae5df6a0f163e466d4461e3",
+      "kind": "upstream-test",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/test/Microsoft_Sysmon_ASimFileEvent_DataTest.csv",
+      "blob": "d290bdd9bb9eee1f618728d4e6cdd81f85bc43ad",
+      "kind": "upstream-test",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/test/Microsoft_Sysmon_ASimFileEvent_SchemaTest.csv",
+      "blob": "cd7e512d91497451b3fd5d0cd66bed3263161a6f",
+      "kind": "upstream-test",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/test/Microsoft_Sysmon_VimFileEvent_DataTest.csv",
+      "blob": "d290bdd9bb9eee1f618728d4e6cdd81f85bc43ad",
+      "kind": "upstream-test",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/test/Microsoft_Sysmon_VimFileEvent_SchemaTest.csv",
+      "blob": "cd7e512d91497451b3fd5d0cd66bed3263161a6f",
+      "kind": "upstream-test",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/test/Microsoft_Sysmon_Windows_Even_VimFileEvent_DataTest.csv",
+      "blob": "d290bdd9bb9eee1f618728d4e6cdd81f85bc43ad",
+      "kind": "upstream-test",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/test/Microsoft_Sysmon_Windows_Event_ASimFileEvent_DataTest.csv",
+      "blob": "d290bdd9bb9eee1f618728d4e6cdd81f85bc43ad",
+      "kind": "upstream-test",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/test/Microsoft_Sysmon_Windows_Event_AsimFileEvent_SchemaTest.csv",
+      "blob": "cd7e512d91497451b3fd5d0cd66bed3263161a6f",
+      "kind": "upstream-test",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/test/Microsoft_Sysmon_Windows_Event_VimFileEvent_SchemaTest.csv",
+      "blob": "cd7e512d91497451b3fd5d0cd66bed3263161a6f",
+      "kind": "upstream-test",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/test/Microsoft_Windows_Events_ASimFileEvent_SchemaTest.csv",
+      "blob": "9a389a536abf8f9cfae5df6a0f163e466d4461e3",
+      "kind": "upstream-test",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimFileEvent/test/Microsoft_Windows_Events_vimFileEvent_SchemaTest.csv",
+      "blob": "35544138cbbf8423aa0327d51065071e10d46f87",
+      "kind": "upstream-test",
+      "family": "FileEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimNetworkSession/Parsers/ASimNetworkSession.yaml",
+      "blob": "cc396ab20f4ce7108db5f6c822144402b484ed31",
+      "kind": "parser",
+      "family": "NetworkSession"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimNetworkSession/Parsers/imNetworkSession.yaml",
+      "blob": "f9256f99262197601dba24539590b858b59cea14",
+      "kind": "parser",
+      "family": "NetworkSession"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimNetworkSession/Parsers/vimNetworkSessionEmpty.yaml",
+      "blob": "630263682e28e63bd9a06b82eff953fd81e793c5",
+      "kind": "parser",
+      "family": "NetworkSession"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimNetworkSession/Parsers/vimNetworkSessionMicrosoftSecurityEventFirewall.yaml",
+      "blob": "592b09d405d400a39c488479422b436cbb240efa",
+      "kind": "parser",
+      "family": "NetworkSession"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimNetworkSession/Parsers/vimNetworkSessionMicrosoftSysmon.yaml",
+      "blob": "3f79103b35410e359cc755b17086a2a5cefa35e0",
+      "kind": "parser",
+      "family": "NetworkSession"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimNetworkSession/Parsers/vimNetworkSessionMicrosoftSysmonWindowsEvent.yaml",
+      "blob": "f53487a458f3a4f792f48eca86712e7240119059",
+      "kind": "parser",
+      "family": "NetworkSession"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimNetworkSession/Parsers/vimNetworkSessionMicrosoftWindowsEventFirewall.yaml",
+      "blob": "8c8b199537906b009fab32ff365dc95e18fb06c7",
+      "kind": "parser",
+      "family": "NetworkSession"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimNetworkSession/Parsers/vimNetworkSessionNative.yaml",
+      "blob": "3e872821cf0983742f0c37ad83c0386cfd0cddeb",
+      "kind": "parser",
+      "family": "NetworkSession"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimNetworkSession/Tests/Microsoft_Sysmon_ASimNetworkSession_DataTest.csv",
+      "blob": "a65dc7c570f2ceb48c967e32401a35dc04a12ad3",
+      "kind": "upstream-test",
+      "family": "NetworkSession"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimNetworkSession/Tests/Microsoft_Sysmon_ASimNetworkSession_SchemaTest.csv",
+      "blob": "063e1e4b18e2ef70bbdec8bc6a3a70b14bfe2059",
+      "kind": "upstream-test",
+      "family": "NetworkSession"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimNetworkSession/Tests/Microsoft_Sysmon_Windows_Event_ASimNetworkSession_SchemaTest.csv",
+      "blob": "063e1e4b18e2ef70bbdec8bc6a3a70b14bfe2059",
+      "kind": "upstream-test",
+      "family": "NetworkSession"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/Parsers/ASimProcessEvent.yaml",
+      "blob": "9eba27ef2c8b539fd9a8da4e2d3feb6265d6f0f6",
+      "kind": "parser",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/Parsers/imProcessCreate.yaml",
+      "blob": "bb45fdffcdb726f6c12935c88d45ab5f2e58dd27",
+      "kind": "parser",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/Parsers/imProcessEvent.yaml",
+      "blob": "4ac2c6983b857ad900924319266d6d0aa87782de",
+      "kind": "parser",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/Parsers/imProcessTerminate.yaml",
+      "blob": "f267f32efba66a637969c0175c93110c4695e7c9",
+      "kind": "parser",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/Parsers/vimProcessCreateMicrosoftSecurityEvents.yaml",
+      "blob": "3784f34a2d96706383866158020486718eaa5f00",
+      "kind": "parser",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/Parsers/vimProcessCreateMicrosoftSysmon.yaml",
+      "blob": "2e98c4c15e4fb1e8293ceffdf4b04f25c64fdda5",
+      "kind": "parser",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/Parsers/vimProcessCreateMicrosoftSysmonWidowsEvent.yaml",
+      "blob": "388da84295ce1e8bcfdf46c361830da37530c942",
+      "kind": "parser",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/Parsers/vimProcessCreateMicrosoftWindowsEvents.yaml",
+      "blob": "e7399b584d52f807e33733a8b6d6d683dfe04072",
+      "kind": "parser",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/Parsers/vimProcessEmpty.yaml",
+      "blob": "9e143c067eeaaeb296c65099adb765f62b2aaccd",
+      "kind": "parser",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/Parsers/vimProcessEventNative.yaml",
+      "blob": "9fe4b2b4891977e3160377a7d7b1c19068dbe119",
+      "kind": "parser",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/Parsers/vimProcessTerminateMicrosoftSecurityEvents.yaml",
+      "blob": "65e37fced61c730666aac21ef92063c67ade7205",
+      "kind": "parser",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/Parsers/vimProcessTerminateMicrosoftSysmon.yaml",
+      "blob": "36ab41bba74f66f2241eea9499f85a6fa08ed9f6",
+      "kind": "parser",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/Parsers/vimProcessTerminateMicrosoftSysmonWindowsEvent.yaml",
+      "blob": "d2372a7102c4c272a9a9043b4b13bb40c7d026e5",
+      "kind": "parser",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/Parsers/vimProcessTerminateMicrosoftWindowsEvents.yaml",
+      "blob": "db988c1df74258d329658341d456885f7e20fe2b",
+      "kind": "parser",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/test/Create_MicrosoftSysmon_ASimProcessCreate_DataTest.csv",
+      "blob": "27041c4fb95a78a28f175c703b72ad6ef5922e0d",
+      "kind": "upstream-test",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/test/Create_MicrosoftSysmon_ASimProcessCreate_SchemaTest.csv",
+      "blob": "22395124af64181a6ed05073f9f06f9058522481",
+      "kind": "upstream-test",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/test/Create_MicrosoftSysmon_VimProcessCreate_DataTest.csv",
+      "blob": "27041c4fb95a78a28f175c703b72ad6ef5922e0d",
+      "kind": "upstream-test",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/test/Create_MicrosoftSysmon_VimProcessCreate_SchemaTest.csv",
+      "blob": "22395124af64181a6ed05073f9f06f9058522481",
+      "kind": "upstream-test",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/test/Create_MicrosoftSysmon_Windows_Event_ASimProcessCreate_SchemaTest.csv",
+      "blob": "2b333ec5e4d4a43998b8ea0e300f7213480f3925",
+      "kind": "upstream-test",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimProcessEvent/test/Create_MicrosoftSysmon_Windows_Event_VimProcessCreate_SchemaTest.csv",
+      "blob": "2b333ec5e4d4a43998b8ea0e300f7213480f3925",
+      "kind": "upstream-test",
+      "family": "ProcessEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/Parsers/ASimRegistryEvent.yaml",
+      "blob": "3de94ceb53dcb39e9d7e1d95c5fffa1e1a7ed9a2",
+      "kind": "parser",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/Parsers/imRegistryEvent.yaml",
+      "blob": "a785673965042803e810ec28ec63b4ae38523305",
+      "kind": "parser",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/Parsers/vimRegistryEventEmpty.yaml",
+      "blob": "a9bfaad660d50615448f3c3574b4fae96e452c44",
+      "kind": "parser",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/Parsers/vimRegistryEventMicrosoftSecurityEvent.yaml",
+      "blob": "e9a6c3fc8dece7bb9e701bae879fed2cab4c7748",
+      "kind": "parser",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/Parsers/vimRegistryEventMicrosoftSysmon.yaml",
+      "blob": "044cbc1f86d0f73ef2f83b928fe93f39b971acaa",
+      "kind": "parser",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/Parsers/vimRegistryEventMicrosoftSysmonWindowsEvent.yaml",
+      "blob": "53b1b5205a451621dddef8fdaafef6d1cae05c79",
+      "kind": "parser",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/Parsers/vimRegistryEventMicrosoftWindowsEvent.yaml",
+      "blob": "370bb8400a4e71e25a274633bdebc9f1d240dae2",
+      "kind": "parser",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/Parsers/vimRegistryEventNative.yaml",
+      "blob": "d1f7431c990238918027b838e079f9d6fc291cba",
+      "kind": "parser",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/test/Microsoft_Sysmon_AsimRegistryEvent_SchemaTest.csv",
+      "blob": "b9092f07a0a30423ef35ff6462f9deff346ae10a",
+      "kind": "upstream-test",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/test/Microsoft_Sysmon_VimRegistryEvent_DataTest.csv",
+      "blob": "8f0e8f8d35d083a0148c2d56af8d120e6b178e93",
+      "kind": "upstream-test",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/test/Microsoft_Sysmon_VimRegistryEvent_SchemaTest.csv",
+      "blob": "7101482f0efdf679ea3506bc1760fda02e5012ce",
+      "kind": "upstream-test",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/test/Microsoft_Sysmon_Windows_Event_AsimRegistryEvent_SchemaTest.csv",
+      "blob": "8405600b29bc5443d3dd713b80b1b394f66b9af4",
+      "kind": "upstream-test",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/test/Microsoft_Sysmon_Windows_Event_VimRegistryEvent_DataTest.csv",
+      "blob": "c2af032cc4d020934b98b61758c4885a9fc57b01",
+      "kind": "upstream-test",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/test/Microsoft_Sysmon_Windows_Event_VimRegistryEvent_SchemaTest.csv",
+      "blob": "8405600b29bc5443d3dd713b80b1b394f66b9af4",
+      "kind": "upstream-test",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/test/Security_Event_ASimRegistryEvent_SchemaTest.csv",
+      "blob": "7af7d46480d8f29c93d3647bd85f6dd11fec52ef",
+      "kind": "upstream-test",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/test/Security_Event_VimRegistryEvent_SchemaTest.csv",
+      "blob": "7af7d46480d8f29c93d3647bd85f6dd11fec52ef",
+      "kind": "upstream-test",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/test/Windows_Event_ASimRegistryEvent_SchemaTest.csv",
+      "blob": "7af7d46480d8f29c93d3647bd85f6dd11fec52ef",
+      "kind": "upstream-test",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/test/Windows_Event_AsimRegistryEvent_DataTest.csv",
+      "blob": "b0c52888f0ec816249b257c8fb077f3e141f529b",
+      "kind": "upstream-test",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/test/Windows_Event_VimRegistryEvent_DataTest.csv",
+      "blob": "132a0dd44cd7e11a5cd5789070d27e555c348beb",
+      "kind": "upstream-test",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimRegistryEvent/test/Windows_Event_VimRegistryEvent_SchemaTest.csv",
+      "blob": "7af7d46480d8f29c93d3647bd85f6dd11fec52ef",
+      "kind": "upstream-test",
+      "family": "RegistryEvent"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimUserManagement/Parsers/ASimUserManagement.yaml",
+      "blob": "48de88da8bda8dd29fbd3e9a44c5d8ac6c06fe27",
+      "kind": "parser",
+      "family": "UserManagement"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimUserManagement/Parsers/imUserManagement.yaml",
+      "blob": "9ad1304ea94d710ea7b8f2cea411ac7ef68fca22",
+      "kind": "parser",
+      "family": "UserManagement"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimUserManagement/Parsers/vimUserManagementEmpty.yaml",
+      "blob": "1824bfe2e02c0630744bf3ed333a71c9983d2cf5",
+      "kind": "parser",
+      "family": "UserManagement"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimUserManagement/Parsers/vimUserManagementMicrosoftSecurityEvent.yaml",
+      "blob": "a5dadf837e296b4e6edf8b4f365e1b07c8986a3b",
+      "kind": "parser",
+      "family": "UserManagement"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimUserManagement/Parsers/vimUserManagementMicrosoftWindowsEvent.yaml",
+      "blob": "6b239b41122d03503f5ff76067b17619e643e3ec",
+      "kind": "parser",
+      "family": "UserManagement"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimUserManagement/Parsers/vimUserManagementNative.yaml",
+      "blob": "0e8a98aa8e458314f5c5efbb8979bde380aab749",
+      "kind": "parser",
+      "family": "UserManagement"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimUserManagement/Tests/Security_Event_ASimUserManagement_SchemaTest.csv",
+      "blob": "ad8409b4869eb4d78865e452346866b4a29bf402",
+      "kind": "upstream-test",
+      "family": "UserManagement"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimUserManagement/Tests/Security_Event_VimUserManagement_SchemaTest.csv",
+      "blob": "ad8409b4869eb4d78865e452346866b4a29bf402",
+      "kind": "upstream-test",
+      "family": "UserManagement"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimUserManagement/Tests/Windows_Event_ASimUserManagement_SchemaTest.csv",
+      "blob": "921e80b04fe6cd3ffa81749f68da579c4e66bd34",
+      "kind": "upstream-test",
+      "family": "UserManagement"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimUserManagement/Tests/Windows_Event_VimUserManagement_SchemaTest.csv",
+      "blob": "e136fc0d2f57019745451484fad0868ded55a1bd",
+      "kind": "upstream-test",
+      "family": "UserManagement"
+    }
+  ]
+}
