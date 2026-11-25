@@ -37,7 +37,7 @@ Existing architecture documents still live in their own repositories:
 - `DeltaZulu.LocalStream/docs/LOCAL_STREAM_ARCHITECTURE.md`
 - `DeltaZulu.Parse/docs/`
 
-Per-repository documents may still describe earlier choices. Until reviewed
+All eight repository documentation indexes now point to the current estate target and consolidated roadmap. Agent, Platform and LocalStream architecture documents carry explicit authority/scope notes; see the [rebaseline report](../reports/2026-11-25-inherited-milestone-rebaseline.md). Per-repository documents may still describe earlier choices. Until reviewed
 against `DEC-0033` and the global Decision set, treat them as implementation
 references or historical plans, **not a second governing authority**. Their
 migration and source-level rebaseline remain explicit roadmap work; the target
