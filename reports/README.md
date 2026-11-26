@@ -28,3 +28,5 @@ when the answer refuted the premise that motivated the check. Reports are dated 
 | 2026-11-25 | [Build reproducibility verification](2026-11-25-build-reproducibility-verification.md) | Platform SDK/lockfile failure diagnosed and corrected; fresh restore results, LogCluster three-host locked restore/build/test verification and remaining package gates. |
 | 2026-11-25 | [Package lineage and final matrices](2026-11-25-package-lineage.md) | Final Platform test totals, estate snapshot, registry versions and consumer lock coverage. |
 | 2026-11-26 | [Detection provenance source reconciliation](2026-11-26-detection-provenance-source-reconciliation.md) | Initial pinned source observations; reuse candidates and unresolved C06/C07 integration gates; no tests executed. |
+
+[Silver observed event time verification, 26 November 2026](2026-11-26-silver-event-time.md) records the unmerged C11 correction and its integration boundary.
