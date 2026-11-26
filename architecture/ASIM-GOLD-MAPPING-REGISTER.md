@@ -44,3 +44,5 @@ not separate implementation tasks.
 Operational `AlertEvent` and `AlertEntity` views are inventoried in the
 baseline but **have not** been mapped to or certified against ASIM schemas.
 [DEC-0034](../decisions/DEC-0034-mvp-asim-tables-and-views.md) approves four additional telemetry families (File Event, User Management, Registry Event and Audit Event). The current source inventory remains four families. The reference inventory now covers eight; the additional 539 entries require semantic mapping and source verification during C10. See [reference tooling](../tools/asim/README.md).
+
+**Detection consumer contract:** DEC-0036 requires the query binding adapter to record rule-to-field dependencies, relevant mapping and schema revisions, source applicability and missing/invalid input diagnostics. This is C10 work in the existing mapping authority, not another catalogue or extra Gold view. See [detection provenance](DETECTION-PROVENANCE.md).

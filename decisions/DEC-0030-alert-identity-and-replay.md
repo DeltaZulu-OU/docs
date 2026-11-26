@@ -71,6 +71,8 @@ is the point of correcting a rule.
 
 **Open design boundary (2026-11-25):** the accepted stable identity and rule-version exclusion remain unchanged. C07 must specify canonical ordering/deduplication of evidence identifiers, stable identity versus result revision, group/window coordinates, evidence additions/removals and replay under changed rule versions. C06/DEC-0021 window semantics must be decided before selecting a window-result identity. Do not infer a new identity key or correction/retraction policy from this note.
 
+**Detection provenance (DEC-0036, accepted 2026-11-26):** persist the actual rule revision, effective policy, deployment and causal result/evidence references independently of the alert deduplication key. Do not overwrite an original alert's historical explanation on replay. C07 resolves detailed result and evidence identities with C06; the accepted alert identity and retraction boundary above are unchanged. See [DEC-0036](DEC-0036-detection-provenance.md).
+
 ## Revisit trigger
 
 Reopen if analysts need a corrected rule to visibly amend or retract alerts its

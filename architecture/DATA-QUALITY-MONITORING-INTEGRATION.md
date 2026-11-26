@@ -98,6 +98,10 @@ Gold/alert identity, idempotent sink replay, and evidence
 reconstructibility. Use hostile fixtures and actual integration
 execution; no such passing suite is established by this document.
 
+## Detection evaluation quality — 2026-11-26
+
+[DEC-0036](../decisions/DEC-0036-detection-provenance.md) extends the existing data-contract/rule-validity coverage work. C04 records scoped evaluation health, C06 provides distinct successful, incomplete and failed outcomes, and C10/C11 provide declared field and temporal applicability. The [detection provenance contract](DETECTION-PROVENANCE.md) defines denominators and diagnostic boundaries. Evaluation coverage is neither source completeness nor recall; unbound rules and unknown denominators remain visible. Artifact hashes alone do not establish execution correctness or settle DEC-0024 integrity policy.
+
 ## What contradicts, and what merely extends
 
 Nothing in DQM contradicts a Constraint or an Accepted Decision. Three points

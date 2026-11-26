@@ -39,6 +39,7 @@ explicit `governs` declarations, not semantic implementation.
 | Decision | Status | Subject |
 |---|---|---|
 | [`DEC-0033`](../decisions/DEC-0033-localstream-replaces-proton.md) | Accepted | Replace Proton streaming with LocalStream; preserve DuckLake as the read surface |
+| [`DEC-0036`](../decisions/DEC-0036-detection-provenance.md) | Accepted | Make detection provenance a first-class contract independent of alert identity |
 
 ## DeltaZulu.DurableBuffer
 
@@ -72,6 +73,7 @@ _No Decision names this repository yet._
 | [`DEC-0032`](../decisions/DEC-0032-kql-type-versus-query-language-boundary.md) | Accepted | Keep the KQL type contract separate from query-language processing |
 | [`DEC-0033`](../decisions/DEC-0033-localstream-replaces-proton.md) | Accepted | Replace Proton streaming with LocalStream; preserve DuckLake as the read surface |
 | [`DEC-0034`](../decisions/DEC-0034-mvp-asim-tables-and-views.md) | Accepted | Select the MVP ASIM tables and views from pinned reference files |
+| [`DEC-0036`](../decisions/DEC-0036-detection-provenance.md) | Accepted | Make detection provenance a first-class contract independent of alert identity |
 
 ## Estate-wide (no single repository)
 

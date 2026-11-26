@@ -114,6 +114,10 @@ and decision.
 
 C05 must distinguish Forward acceptance/credit, durable LocalStream append, subscription checkpoint and DuckLake commit. No ACK timing, independent subscriber progress or exactly-once guarantee is inferred from topology. C10 traces authoritative Agent extraction through Forward/Bronze to Silver; projection of structured fields is not necessarily reparsing. The current event-time defect remains C11. C04 and C07 retain proposed assurance and window-result questions rather than introducing implicit policies.
 
+## Detection provenance
+
+[DEC-0036](../decisions/DEC-0036-detection-provenance.md) requires a deterministic causal result contract independent of alert deduplication. Platform owns immutable rule/effective-policy, binding and deployment artifacts; Query operators provide generic causal/evidence hooks. Persist bounded result explanations and evidence references in DuckLake. The [target contract](DETECTION-PROVENANCE.md) defines logical roles and verification boundaries. C06/C07 must agree their interface before production detection/persistence implementation; C10/C11 supply mapping and temporal validity, C04 measures evaluation health, C14 identifies execution artifacts and C16 exposes authorized explanations. No new Gold views, wire contract or change to core payload opacity is implied.
+
 ## Implementation and decision status
 
 Phase one remains NRT-only; scheduled detections are deferred

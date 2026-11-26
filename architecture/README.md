@@ -16,6 +16,7 @@ implementation status. Historical imports remain preserved as evidence.
 | `NRT-PIPELINE.md` | **Current target, 23 November 2026:** LocalStream/Query instead of Proton (`DEC-0033`); ASIM-first Gold semantic model (`DEC-0013`). |
 | `ASIM-GOLD-MAPPING-BASELINE.md` | **Canonical ASIM mapping baseline**: source-inventoried Gold fields, reviewed ASIM 1.0.0 candidate mappings, pinned 686-entry tester reverse inventory and proposed fixtures; **not implemented or certified**. |
 | `ASIM-GOLD-MAPPING-REGISTER.md` | Compatibility navigation to the canonical baseline; identifies C03/C10/C11/C07 gates. Not an independent register. |
+| [DETECTION-PROVENANCE.md](DETECTION-PROVENANCE.md) | Target logical contract for causal detection results, rule revision and evidence lineage under DEC-0036; implementation open. |
 | `GOVERNING-DECISIONS.md` | Which Decisions govern which repository, generated from front-matter. |
 
 `PIPELINE.md` is left unedited so that historical citations stay stable.

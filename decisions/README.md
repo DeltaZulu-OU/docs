@@ -108,3 +108,7 @@ These conflicts are documented here rather than editing the frozen archive:
   References to DEC-0032 in the associated September 3 experiment denote
   that historical proposal; the current Accepted DEC-0032 governs ownership.
   The independent SyntaxKind findings remain relevant under CON-0021.
+
+## Detection provenance
+
+[DEC-0036](DEC-0036-detection-provenance.md) is Accepted: deterministic causal result provenance and immutable executed rule context are separate from alert identity under DEC-0030. The C06/C07 contract gate precedes production detection and persistence implementation; it does not settle pending window or correction policy.
