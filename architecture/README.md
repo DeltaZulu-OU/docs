@@ -17,6 +17,7 @@ implementation status. Historical imports remain preserved as evidence.
 | `ASIM-GOLD-MAPPING-BASELINE.md` | **Canonical ASIM mapping baseline**: source-inventoried Gold fields, reviewed ASIM 1.0.0 candidate mappings, pinned 686-entry tester reverse inventory and proposed fixtures; **not implemented or certified**. |
 | `ASIM-GOLD-MAPPING-REGISTER.md` | Compatibility navigation to the canonical baseline; identifies C03/C10/C11/C07 gates. Not an independent register. |
 | [DETECTION-PROVENANCE.md](DETECTION-PROVENANCE.md) | Target logical contract for causal detection results, rule revision and evidence lineage under DEC-0036; implementation open. |
+| [DETECTION-RESULT-CONTRACT.md](DETECTION-RESULT-CONTRACT.md) | Approved design directions; detailed C06/C07 identity, temporal and persistence contract gates remain open. |
 | `GOVERNING-DECISIONS.md` | Which Decisions govern which repository, generated from front-matter. |
 
 `PIPELINE.md` is left unedited so that historical citations stay stable.
