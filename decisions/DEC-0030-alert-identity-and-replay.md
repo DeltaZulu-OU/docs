@@ -28,23 +28,14 @@ and metadata to be read on its own terms, but related logs are **linked by
 identifier and never joined into the alert or duplicated inside it**.
 
 **The alert identity key excludes rule version.** Deduplication is on rule
-identity and the citing event identifiers, carried by the stable event identifier
-that runs from the agent through Silver, LocalStream-derived Gold, DuckLake Gold
-and alert evidence.
+identity and the citing event identifiers, carried by the resolved evidence identity preserved through Silver, LocalStream-derived Gold, DuckLake Gold and alert evidence. [DEC-0037](DEC-0037-event-identity-boundaries.md) defines source-stable, acquisition-stable, stream-occurrence-stable and unresolved scopes. Independent reacquisition is deduplicable only where source-stable identity is justified; unresolved upstream identity does not prevent distinct evidence references.
 
-**Replay never produces duplicate alerts. Replay may legitimately produce new
-alerts for old events.** These are not in tension, and the exclusion of rule
-version is what makes both true at once: replaying a corrected rule over history
-does not re-alert events that already alerted, because dedup holds on identity;
-it does alert events the previous rule missed, because those have no existing
-alert to dedup against. Surfacing a genuine detection that was previously missed
+**Replay must not produce duplicate alerts for equivalent retained evidence within its established identity scope. Replay may legitimately produce new alerts for old events.** For equivalent retained evidence, excluding rule version prevents a corrected rule from re-alerting evidence already associated with the same operational alert identity. Previously missed evidence may produce a new alert when the agreed identity and window policy permits it. Independent reacquisition without established source equivalence is outside this guarantee. Surfacing a genuine detection that was previously missed
 is the point of correcting a rule.
 
 ## Consequences
 
-- Alert storage stays proportional to detections rather than to telemetry. A rule
-  firing on a thousand events produces one alert referencing a thousand
-  identifiers, not a thousand copied rows.
+- Alert storage stays proportional to detections rather than to telemetry. For example, an aggregate detection emitting one alert on a thousand contributing events references their identifiers rather than copying a thousand rows.
 - The alert table exists only in DuckLake, with a LocalStream processing sink
   as producer rather than Proton. The Proton dual-schema requirement in
   `DEC-0028` is superseded by `DEC-0033`.
@@ -57,8 +48,7 @@ is the point of correcting a rule.
   No ordering-window guarantee survives the supersession of `DEC-0031`.
   The read path must report unresolved evidence explicitly; sink retries and
   reconciliation require integration tests.
-- The stable event identifier becomes load-bearing for two separate mechanisms —
-  dedup and evidence linkage — so weakening it breaks both at once.
+- Evidence equivalence and immutable evidence references are separate mechanisms under DEC-0037. Both must remain resolvable; a later identity reconciliation must not rewrite historical references.
 
 ## Alternatives rejected
 

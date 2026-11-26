@@ -33,3 +33,24 @@ Trace Agent and Forward event identity generation and propagation, Gold represen
 | [Checkpoint](https://github.com/DeltaZulu-OU/DeltaZulu.LocalStream/blob/222d654c15d5d32b5606fc8a11b874b472ea7995/src/DeltaZulu.LocalStream.Query/State/CheckpointManifest.cs) | Domain, range, cursor, watermark and generation | Verify crash recovery and expiry behavior |
 
 These are static observations, not executed regressions. Neither end-to-end identity loss nor a need for a wire change has been established.
+
+## Source identity capability follow-up
+
+Static inspection of Agent at `e2aac89dafc2f8499e4e4d22ebed97cec75714fe`, Forward at `19b3d000697922870742f52ba46e8b4fc3de3ee6` and Platform at `4c5aafcdc3c2ba92e7c1c933e2c982d1516ec1fb`. No runtime conformance claimed.
+
+| Input | Captured evidence | Remaining gap |
+|---|---|---|
+| Windows Event Log | MachineName, Channel, RecordId, TimeCreated, raw XML; checkpoint record number | Device namespace and log generation |
+| EVTX | Parsed event dictionary | Verify original channel/record fields and archive lineage |
+| Live ETW / ETL | Mapped event fields and timestamps | Session/trace generation and occurrence position |
+| Auditd | Records grouped by audit ID | Original host/boot namespace and assembler identity |
+| Syslog file | Parsed envelope and raw message | File generation and exact record position; buffered stream position is not a line offset |
+| TCP / FIFO syslog | Parsed envelope and raw message; TCP remote endpoint | Producer occurrence identifier |
+| CSV | Parsed row fields | File generation and row position |
+| Forward input | Sender, delivery and native record identifiers | Original acquisition identity |
+
+Forward uses contractless MessagePack serialization; optional provenance properties are precedent, not proof of mixed-version interoperability. The current same-version round-trip test does not establish old/new compatibility. Platform RawLogEnvelope has no dedicated acquisition identity; AlertRecord has nullable SourceEventId. Actual ingestion paths and consumer mappings remain to be traced.
+
+[DEC-0037](../decisions/DEC-0037-event-identity-boundaries.md) proposes identity scopes without selecting a physical wire extension. Required fixtures include independent reacquisition, identical genuine events, log clearing, audit assembly, file rotation, mixed-version relay loss, stream replay, multi-family representation and historical identity-scheme resolution.
+
+**Acceptance update (2026-11-26):** DEC-0037 is Accepted. The physical Forward contract and the source/consumer compatibility verification remain open; the preceding observations retain their original evidential status.

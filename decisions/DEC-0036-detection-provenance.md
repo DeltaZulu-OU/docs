@@ -44,7 +44,7 @@ not a dependency, conformance claim or an adoption of OCSF.
    Retain rule revision identity independently of alert deduplication.
    DEC-0030 remains binding: do not add rule version to its alert identity
    key, duplicate original telemetry in alert rows, silently retract alerts
-   or overwrite their historical explanation on replay. The detailed result,
+   or overwrite their historical explanation on replay. Apply [DEC-0037](DEC-0037-event-identity-boundaries.md) identity scopes to evidence references; preserve their basis and historical resolution. The detailed result,
    window, evidence-reference and revision keys remain C07 design work;
    DEC-0021 window/correction semantics remain Proposed.
 3. Record a bounded deterministic causal explanation for emitted results,
