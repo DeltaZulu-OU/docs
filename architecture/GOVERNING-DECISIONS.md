@@ -12,12 +12,14 @@ explicit `governs` declarations, not semantic implementation.
 |---|---|---|
 | [`DEC-0003`](../decisions/DEC-0003-tagged-encoding-normalise-or-reject.md) | Accepted | Ten-type tagged encoding; normalise-or-reject |
 | [`DEC-0032`](../decisions/DEC-0032-kql-type-versus-query-language-boundary.md) | Accepted | Keep the KQL type contract separate from query-language processing |
+| [`DEC-0038`](../decisions/DEC-0038-medallion-schema-conventions.md) | Accepted | Consolidated Medallion schema, naming and field normalization conventions |
 
 ## DeltaZulu.Parse
 
 | Decision | Status | Subject |
 |---|---|---|
 | [`DEC-0005`](../decisions/DEC-0005-agent-extraction-authoritative-for-silver.md) | Accepted | Agent extraction is authoritative for Silver |
+| [`DEC-0038`](../decisions/DEC-0038-medallion-schema-conventions.md) | Accepted | Consolidated Medallion schema, naming and field normalization conventions |
 
 ## DeltaZulu.Forward
 
@@ -28,6 +30,7 @@ explicit `governs` declarations, not semantic implementation.
 | [`DEC-0003`](../decisions/DEC-0003-tagged-encoding-normalise-or-reject.md) | Accepted | Ten-type tagged encoding; normalise-or-reject |
 | [`DEC-0019`](../decisions/DEC-0019-collector-is-forward-server-host.md) | Accepted | Collector is the Forward server host |
 | [`DEC-0037`](../decisions/DEC-0037-event-identity-boundaries.md) | Accepted | Separate event identity domains and deduplication boundaries |
+| [`DEC-0038`](../decisions/DEC-0038-medallion-schema-conventions.md) | Accepted | Consolidated Medallion schema, naming and field normalization conventions |
 
 ## DeltaZulu.LogCluster
 
@@ -42,6 +45,7 @@ explicit `governs` declarations, not semantic implementation.
 | [`DEC-0033`](../decisions/DEC-0033-localstream-replaces-proton.md) | Accepted | Replace Proton streaming with LocalStream; preserve DuckLake as the read surface |
 | [`DEC-0036`](../decisions/DEC-0036-detection-provenance.md) | Accepted | Make detection provenance a first-class contract independent of alert identity |
 | [`DEC-0037`](../decisions/DEC-0037-event-identity-boundaries.md) | Accepted | Separate event identity domains and deduplication boundaries |
+| [`DEC-0038`](../decisions/DEC-0038-medallion-schema-conventions.md) | Accepted | Consolidated Medallion schema, naming and field normalization conventions |
 
 ## DeltaZulu.DurableBuffer
 
@@ -56,6 +60,7 @@ _No Decision names this repository yet._
 | [`DEC-0014`](../decisions/DEC-0014-windows-etw-always-sysmon-recommended.md) | Accepted | Windows: ETW Kernel-Process always on; Sysmon recommended, never assumed |
 | [`DEC-0015`](../decisions/DEC-0015-uniform-derived-processkey.md) | Accepted | Uniform derived `ProcessKey` by documented precedence |
 | [`DEC-0037`](../decisions/DEC-0037-event-identity-boundaries.md) | Accepted | Separate event identity domains and deduplication boundaries |
+| [`DEC-0038`](../decisions/DEC-0038-medallion-schema-conventions.md) | Accepted | Consolidated Medallion schema, naming and field normalization conventions |
 
 ## DeltaZulu.Platform
 
@@ -78,6 +83,7 @@ _No Decision names this repository yet._
 | [`DEC-0034`](../decisions/DEC-0034-mvp-asim-tables-and-views.md) | Accepted | Select the MVP ASIM tables and views from pinned reference files |
 | [`DEC-0036`](../decisions/DEC-0036-detection-provenance.md) | Accepted | Make detection provenance a first-class contract independent of alert identity |
 | [`DEC-0037`](../decisions/DEC-0037-event-identity-boundaries.md) | Accepted | Separate event identity domains and deduplication boundaries |
+| [`DEC-0038`](../decisions/DEC-0038-medallion-schema-conventions.md) | Accepted | Consolidated Medallion schema, naming and field normalization conventions |
 
 ## Estate-wide (no single repository)
 

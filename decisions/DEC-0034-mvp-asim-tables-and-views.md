@@ -10,6 +10,8 @@ cites: [CON-0001, CON-0006, CON-0014]
 
 # DEC-0034 — Select the MVP ASIM tables and views from pinned reference files
 
+> **Consolidated conventions:** [DEC-0038](DEC-0038-medallion-schema-conventions.md) supersedes the schema and naming provisions of this decision. Remaining requirements retain their status.
+
 ## Context
 
 DEC-0013 establishes ASIM-first Gold; DEC-0012 and DEC-0033 retain a

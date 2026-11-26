@@ -1,5 +1,7 @@
 # Joint C06/C07 detection result contract
 
+> **Consolidated conventions:** [DEC-0038](../decisions/DEC-0038-medallion-schema-conventions.md) governs Medallion naming, field resolution and record-local normalization. Authentication is the first cross-platform conformance family; Windows is the first implemented contributor.
+
 Status: design directions approved by owner 2026-11-26; detailed contract and implementation verification open. Governed by [DEC-0036](../decisions/DEC-0036-detection-provenance.md), [DEC-0030](../decisions/DEC-0030-alert-identity-and-replay.md) and [DEC-0021](../decisions/DEC-0021-threshold-as-windowed-aggregate.md) (Proposed). This is not a physical schema or separate roadmap.
 
 ## Identity and replay

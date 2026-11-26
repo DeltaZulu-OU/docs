@@ -11,6 +11,8 @@ supersedes: D13
 
 # DEC-0013 — Golden semantic model and naming
 
+> **Consolidated conventions:** [DEC-0038](DEC-0038-medallion-schema-conventions.md) supersedes the schema and naming provisions of this decision. Remaining requirements retain their status.
+
 ## Context
 
 The historical architecture presented OCSF-derived semantics in an ASIM-like

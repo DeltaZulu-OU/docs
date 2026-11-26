@@ -35,7 +35,7 @@ DuckLake as durable evidence and analyst read surface. `PIPELINE.md` is a
 verbatim historical import and must be read with `PIPELINE-ERRATA.md`.
 `decisions/` holds the global Decision register, including Rejected,
 Superseded and Proposed records; only Accepted Decisions are binding.
-`DEC-0013` adopts ASIM-first Gold schemas; the four-family source inventory
+[DEC-0038](decisions/DEC-0038-medallion-schema-conventions.md) governs Medallion naming, field handling and ASIM-first Gold semantics; the four-family source inventory
 and candidate mappings are in `architecture/ASIM-GOLD-MAPPING-BASELINE.md`.
 [DEC-0036](decisions/DEC-0036-detection-provenance.md) governs detection provenance independently of alert identity; see the [target contract](architecture/DETECTION-PROVENANCE.md). All active work is tracked in the [consolidated roadmap](roadmaps/CONSISTENCY-CORRECTNESS-ROADMAP.md). Imported plans retain detail but do not constitute independent commitments.
 

@@ -1,19 +1,22 @@
 # ASIM Gold mapping register — navigation and open findings
 
+> **Consolidated conventions:** [DEC-0038](../decisions/DEC-0038-medallion-schema-conventions.md) governs Medallion naming, field resolution and record-local normalization. Authentication is the first cross-platform conformance family; Windows is the first implemented contributor.
+
 **Status:** Navigation page; not an independent mapping contract or conformance
 certificate. The canonical source-field inventory and candidate mappings are
 maintained in [ASIM-GOLD-MAPPING-BASELINE.md](ASIM-GOLD-MAPPING-BASELINE.md).
 This path is retained so previously published references continue to resolve.
 
-**Authority:** Accepted `DEC-0013` (ASIM-first Gold), `DEC-0012`
-(C# logical catalogue), `DEC-0029` (observed event time), and
+**Authority:** Accepted `DEC-0038` (consolidated schema conventions), `DEC-0029` (observed event time), and
 `DEC-0033` (LocalStream/Query and DuckLake). The Platform implementation
 is **not** certified ASIM-conformant.
 
-**Naming:** use the singular PascalCase identifiers selected in
+**Naming:** DEC-0038 retains the singular PascalCase identifiers selected in
 [DEC-0034](../decisions/DEC-0034-mvp-asim-tables-and-views.md), unqualified
 in KQL and under `golden` in SQL. The archived `*Activity` names are
 not the current target.
+
+The [normalization reference methodology](NORMALIZATION-REFERENCE-CATALOGUE.md) extends C10 to parser expressions, enumeration mappings and source-scoped aliases. The existing baseline remains the mapping authority.
 
 ## Baseline and verification responsibilities
 

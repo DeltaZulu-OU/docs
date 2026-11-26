@@ -11,6 +11,8 @@ supersedes: D12
 
 # DEC-0012 — Type-contract catalogue is the single authority, producer-agnostic
 
+> **Consolidated conventions:** [DEC-0038](DEC-0038-medallion-schema-conventions.md) supersedes the schema and naming provisions of this decision. Remaining requirements retain their status.
+
 ## Context
 
 **Settled in principle, violated in practice.** `LogicalSchemaRegistry` and `MedallionSchemaCatalog`/`SchemaObjectDef` are two authorities for one contract, and the former has no production consumers.

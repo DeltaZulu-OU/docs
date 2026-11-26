@@ -1,14 +1,16 @@
 # ASIM-first Gold mapping baseline — source inventory and candidate mappings
 
 **Review:** 2026-11-23. **Status:** source-backed design inventory, NOT an implemented migration or claim of ASIM compliance.
-**Governing Decisions:** Accepted `DEC-0013` (ASIM-first Gold), `DEC-0012` (single schema catalogue), `DEC-0029` (event time), `DEC-0033` (LocalStream / DuckLake).
+**Governing Decisions:** Accepted `DEC-0038` (consolidated schema conventions), `DEC-0029` (event time), `DEC-0033` (LocalStream / DuckLake).
 
 **Approved target scope:** [DEC-0034](../decisions/DEC-0034-mvp-asim-tables-and-views.md) selects eight telemetry families plus two operational alert views. The source inventory still covers four existing telemetry contracts. The tester inventory now covers all eight approved families; File Event, User Management, Registry Event and Audit Event are unimplemented mapping candidates. Approval and reference inventory are not source implementation or conformance.
 
-**Naming:** DEC-0013 and DEC-0034 retain singular PascalCase logical
+**Naming:** DEC-0038 retains singular PascalCase logical
 identifiers. The qualified `golden.*` headings below denote SQL views;
 KQL uses the unqualified names. The historical `*Activity` migration is
 not the target. No physical backing-table rename is implied.
+
+The field inventory below records existing source declarations, including Windows-oriented fields; it does not approve those spellings or semantics as the cross-platform target. Reconcile Authentication first using the [normalization reference methodology](NORMALIZATION-REFERENCE-CATALOGUE.md).
 
 ## Source revision and reference pin
 

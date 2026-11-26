@@ -69,10 +69,7 @@ field-by-field adaptation and the remaining conformance gaps are recorded in
 `ASIM-GOLD-MAPPING-BASELINE.md`. That document is a candidate mapping,
 not a deployment-ready schema contract.
 
-Gold retains one logical C#-authored field contract under
-`DEC-0012`, **ASIM-first schema naming and semantics under Accepted
-`DEC-0013`**, and documented DeltaZulu extensions where ASIM cannot
-faithfully represent source evidence. OCSF is not the Gold base. The approved MVP is eight telemetry families
+[DEC-0038](../decisions/DEC-0038-medallion-schema-conventions.md) consolidates the single C#-owned catalogue, layer-specific naming and field handling, ASIM-first Gold semantics and documented DeltaZulu extensions. Bronze preserves source spelling; governed Silver and Gold logical fields use PascalCase. Source aliases are explicit and record-local normalization preserves lineage. OCSF is not the Gold base. The approved MVP is eight telemetry families
 and two operational views under [DEC-0034](../decisions/DEC-0034-mvp-asim-tables-and-views.md).
 Use singular PascalCase logical names in KQL and `golden.<Name>` for SQL
 views; Gold as an architectural layer does not rename the SQL schema.
@@ -121,8 +118,7 @@ C05 must distinguish Forward acceptance/credit, durable LocalStream append, subs
 ## Implementation and decision status
 
 Phase one remains NRT-only; scheduled detections are deferred
-(`DEC-0026`). `DEC-0013` (ASIM-first Gold naming) is now
-**Accepted**, but its mappings are not yet verified as implemented.
+(`DEC-0026`). `DEC-0038` (consolidated schema conventions) is **Accepted**, but its mappings are not yet verified as implemented.
 `DEC-0021` (threshold/window semantics), `DEC-0024` (Bronze integrity),
 and `DEC-0025` (adjudication) remain Proposed. A current architecture
 description does not promote them to Accepted.

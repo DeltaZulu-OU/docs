@@ -116,3 +116,7 @@ These conflicts are documented here rather than editing the frozen archive:
 ## Event identity
 
 [DEC-0037](DEC-0037-event-identity-boundaries.md) is Accepted; it separates identity domains, establishes scoped deduplication and leaves the Forward physical contract open.
+
+## Medallion schema conventions
+
+[DEC-0038](DEC-0038-medallion-schema-conventions.md) is Accepted; it supersedes the schema and naming provisions of DEC-0012, DEC-0013 and DEC-0034 while retaining their remaining requirements and MVP scope.
