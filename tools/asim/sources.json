@@ -285,6 +285,34 @@
     },
     {
       "source": "sentinel",
+      "path": "Parsers/ASimAuthentication/Parsers/ASimAuthenticationMicrosoftWindowsEvent.yaml",
+      "blob": "460c1e6866429cf9c4d4e58716330208af97f4ea",
+      "kind": "parser",
+      "family": "Authentication"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuthentication/Parsers/ASimAuthenticationSshd.yaml",
+      "blob": "ab84c53973cd50328b4eb9bbfce9a0aa46be4ee5",
+      "kind": "parser",
+      "family": "Authentication"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuthentication/Parsers/ASimAuthenticationSu.yaml",
+      "blob": "f699735e684d5b42a1bac54d3412d620107f68d7",
+      "kind": "parser",
+      "family": "Authentication"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuthentication/Parsers/ASimAuthenticationSudo.yaml",
+      "blob": "ffae8f6bb74091238ad9227107f604370762d11e",
+      "kind": "parser",
+      "family": "Authentication"
+    },
+    {
+      "source": "sentinel",
       "path": "Parsers/ASimAuthentication/Parsers/imAuthentication.yaml",
       "blob": "be6a0d8349895c1bee40d06e35ae46a68f6379f5",
       "kind": "parser",
@@ -308,6 +336,27 @@
       "source": "sentinel",
       "path": "Parsers/ASimAuthentication/Parsers/vimAuthenticationNative.yaml",
       "blob": "0672a1c25b2533bd48938a24381b96f608628c40",
+      "kind": "parser",
+      "family": "Authentication"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuthentication/Parsers/vimAuthenticationSshd.yaml",
+      "blob": "5e5bb977ba8adf1a5684f934e6d5cb1ee7115fd6",
+      "kind": "parser",
+      "family": "Authentication"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuthentication/Parsers/vimAuthenticationSu.yaml",
+      "blob": "7246f04392ef2db124fe64c919a065e512e2fc35",
+      "kind": "parser",
+      "family": "Authentication"
+    },
+    {
+      "source": "sentinel",
+      "path": "Parsers/ASimAuthentication/Parsers/vimAuthenticationSudo.yaml",
+      "blob": "8f4faca650270a2749b300ef673512e8cce93df9",
       "kind": "parser",
       "family": "Authentication"
     },

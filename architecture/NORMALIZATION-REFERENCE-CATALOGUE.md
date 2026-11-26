@@ -1,6 +1,6 @@
 # Normalization Reference Catalogue
 
-**Status:** methodology under Accepted [DEC-0038](../decisions/DEC-0038-medallion-schema-conventions.md); extraction and conformance work open under C10/C12/C14. This document is not a second schema authority or new runtime dependency.
+**Status:** methodology under Accepted [DEC-0038](../decisions/DEC-0038-medallion-schema-conventions.md); source mapping and conformance work open under C10/C12/C14. This document is not a second schema authority or new runtime dependency.
 
 ## Reference layers
 
@@ -15,7 +15,7 @@ Microsoft Sentinel is the initial provider. The existing [mapping baseline](ASIM
 
 ## Extraction and review
 
-Extend the existing [offline reference tooling](../tools/asim/README.md), not a parallel acquisition system. Pin repository, commit, path, blob, content hash, license, parser/schema version and extractor version. Parse YAML with a format-aware reader; analyze KQL using Kusto.Language syntax trees and available source schemas. Syntax alone cannot establish binding or behavioral equivalence. Record unresolved dependencies, unknown functions and unsupported constructs; never silently approximate.
+Use the existing [offline reference tooling](../tools/asim/README.md) for pinned acquisition and metadata extraction. Inspect relevant KQL expressions and source schemas on demand, recording unresolved dependencies and unsupported constructs where they affect a mapping. Syntax alone cannot establish binding or behavioral equivalence. Do not silently approximate. A standalone AST analyser, automated dependency closure and exhaustive transformation extraction are deferred until a measured need justifies them.
 
 Classify filters, direct mappings, renames, constants, typed conversions, conditional expressions, static lookups, structured/text extraction, dynamic objects, aliases and projections. Distinguish source extraction (Agent/Parse) from Platform record-local mapping and enrichment under DEC-0005/0006. Do not copy reference parser execution into the server or implement all Kusto operators. Stateful analytics remain outside normalization.
 
@@ -23,7 +23,7 @@ Each candidate mapping records source selector/path and type, canonical target a
 
 ## Authentication first
 
-The current manifest pins Azure/Azure-Sentinel at b2c15c11d6666b9ddf80091663e6c8009058fbcb and includes the filtering Windows contributor. The following additional candidate paths and Git blobs were verified against that same revision; their contents and semantics still require review before manifest expansion.
+The current manifest pins Azure/Azure-Sentinel at b2c15c11d6666b9ddf80091663e6c8009058fbcb and includes the filtering Windows contributor. The following additional parser paths and Git blobs are included in the manifest and were verified against that same revision. Their semantic applicability requires source-specific fixtures; acquisition does not imply conformance.
 
 | File under Parsers/ASimAuthentication/Parsers | Git blob |
 |---|---|
@@ -37,7 +37,7 @@ The current manifest pins Azure/Azure-Sentinel at b2c15c11d6666b9ddf80091663e6c8
 
 Reference: [pinned Authentication parser directory](https://github.com/Azure/Azure-Sentinel/tree/b2c15c11d6666b9ddf80091663e6c8009058fbcb/Parsers/ASimAuthentication/Parsers). Linux and macOS acquisition and source coverage remain open; do not infer macOS support from Linux parsers.
 
-First reconcile operation, result, actor/target, source/reporting device, authentication method/protocol, native classification, occurrence identity and observed time. Verify actual Windows Agent output before correcting mapping mismatches. Add synthetic and captured Linux and macOS fixtures as sources become available. Test exact names, case collisions, nulls, conversion failures, native value preservation and equivalent detection semantics; do not claim platform coverage from synthetic fixtures alone.
+Start with Windows Security 4624/4625 in an end-to-end Authentication detection slice, then add logoff and OpenSSH. First reconcile operation, result, actor/target, source/reporting device, authentication method/protocol, native classification, occurrence identity and observed time. Verify actual Windows Agent output before correcting mapping mismatches. Add synthetic and captured Linux and macOS fixtures as sources become available. Test exact names, case collisions, nulls, conversion failures, native value preservation and equivalent detection semantics; do not claim platform coverage from synthetic fixtures alone.
 
 ## Completion
 
