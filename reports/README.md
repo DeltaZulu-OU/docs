@@ -32,3 +32,5 @@ when the answer refuted the premise that motivated the check. Reports are dated 
 [Silver observed event time verification, 26 November 2026](2026-11-26-silver-event-time.md) records the unmerged C11 correction and its integration boundary.
 
 [LocalStream execution validation, 27 November 2026](2026-11-27-localstream-execution-validation.md) records the pinned source audit, candidate corrections and unexecuted acceptance fixtures.
+
+[Delivery and recovery contract review, 27 November 2026](2026-11-27-delivery-recovery-contract-review.md) records pinned Forward, LocalStream and Platform observations, candidate failure scenarios and unexecuted recovery fixtures.

@@ -174,6 +174,71 @@ into a non-match. Retention expiry requires an explicit recovery/failure
 path under C05, even for a required subscription. Benchmark before
 changing the persistence engine, adding shards or a generic DAG runtime.
 
+### Delivery acceptance and checkpoint reconciliation
+
+The [delivery recovery audit](../reports/2026-11-27-delivery-recovery-contract-review.md) identifies additional Forward,
+Bronze and subscription boundaries. The following is a candidate
+protocol, not an approved physical ingest sequence or wire change.
+
+| Boundary | Evidence required before advancing |
+|---|---|
+| Forward positive ACK | Entire accepted batch recoverable at the agreed durable boundary; duplicate success only after that acceptance is known |
+| Collector append | Durable occurrence coordinates and retry reconciliation for every accepted item; partial batch completion is not whole-batch acceptance |
+| Bronze/lake subscriber | Evidence and receipt durably committed together before subscription progress advances |
+| Query input | State, source progress, timers and pending output committed together before acknowledging the consumed prefix |
+| External result delivery | Idempotent sink durably accepts the original intent; only then retire it |
+
+Credit, admission into a deduplication cache, successful decoding and
+successful durable acceptance are different states. A concurrent
+duplicate must wait or obtain a non-success outcome while the original
+acceptance is pending. Bounded memory deduplication is an optimization,
+not the durable acceptance authority. Existing transport IDs and
+retry behavior must be traced before introducing new identity fields;
+partial appends require reconciliation with an explicitly established
+retry scope. The final ACK boundary (durable spool or lake) remains C05
+design work, not resolved by this table.
+
+For query-owned subscriptions, use the committed query state as the
+authoritative recovery position, not the independently stored transport
+cursor. Represent each assigned stream namespace/topic/partition with
+its initialized inclusive last committed offset (or explicit
+uninitialized status); next read is its successor. Persist assignment
+and progress together. A newly created required consumer must record its
+intended start rather than silently adopting the earliest retained offset.
+
+| Restart observation | Candidate recovery action |
+|---|---|
+| Transport cursor equals state cursor | Read next uncommitted offset |
+| Transport cursor behind state | Reconcile cursor to verified committed progress; do not reevaluate committed state |
+| Transport cursor ahead of state | Stop normal consumption; recover missing prefix from verified retained evidence or declare incomplete scope |
+| No checkpoint or unknown stream epoch | Validate explicit initial assignment and retained range; no implicit success or state reuse |
+| Earliest retained offset exceeds required next offset | Record missing range; recover only from an approved equivalent replay source or mark affected scope incomplete |
+| State commit outcome unknown | Reopen and inspect durable transaction generation/progress/intents before advancing |
+
+Normal commits must not regress or skip an unprocessed gap. Administrative
+reset is distinct from normal commit: define authorization, audit,
+state rebuild and replay effects. A source epoch or incompatible state
+format change cannot silently inherit a previous cursor. No checkpoint
+alone proves durable evidence conservation.
+
+For sink-only consumers, the sink receipt and evidence are the
+authoritative durable outcome for replay, with a separately checkpointed
+subscription. Scope receipt identity to the stream occurrence and
+appropriate namespace, not payload equality or universal source-event
+identity. Conflicting content under an existing identity is an explicit
+error requiring reconciliation. A durable receipt must not outlive or
+misrepresent the recoverable evidence it attests to; define retention
+and rebuild behavior together. Verify actual DuckLake transactional
+configuration; do not infer a cross-store transaction.
+
+The minimum failure matrix covers admission-before-commit duplicates,
+partial append, ACK loss, credit shrink, crash after sink commit,
+retention expiry, cursor divergence, incompatible source epochs and
+separate collector lifecycle. Required subscribers do not prevent
+retention loss merely by existing. Backpressure must be bounded and
+propagate before the recoverable evidence budget is exhausted; disclose
+loss or incomplete evaluation when recovery is impossible.
+
 ## Detection provenance
 
 [DEC-0036](../decisions/DEC-0036-detection-provenance.md) requires a deterministic causal result contract independent of alert deduplication. Platform owns immutable rule/effective-policy, binding and deployment artifacts; Query operators provide generic causal/evidence hooks. Persist bounded result explanations and evidence references in DuckLake. The [target contract](DETECTION-PROVENANCE.md) defines logical roles and verification boundaries. C06/C07 must agree their interface before production detection/persistence implementation; C10/C11 supply mapping and temporal validity, C04 measures evaluation health, C14 identifies execution artifacts and C16 exposes authorized explanations. No new Gold views, wire contract or change to core payload opacity is implied.

@@ -29,6 +29,13 @@ Start with half-open event-time tumbling windows and immediate atomic detection.
 
 Platform owns binding, immutable effective deployment and artifact resolution, detection-specific interpretation and alert policy. LocalStream.Query supplies generic causal facts and references; core remains payload-opaque. Prefer normalized immutable artifacts, result revisions and typed evidence relationships; no new public Gold views. Preserve source and intermediate-result references, evidence roles, evaluated scope and bounded causal summary. Retain original content, not only digests. Detailed traces are selective and bounded; disclose truncation, redaction and expiry. Evaluate existing transactional staged output before selecting an additional coordinator. Physical DDL, storage allocation and transaction semantics remain open. See the [candidate local execution and recovery contract](NRT-PIPELINE.md#local-execution-and-recovery--candidate-contract) and [source validation](../reports/2026-11-27-localstream-execution-validation.md). Checkpoint progress, timers and output intents must share the state commit boundary; external sink acceptance is a separate idempotent protocol. Keep corrections/finalization causally ordered and never translate internal revisions into operational alert retractions.
 
+For query recovery, the committed state checkpoint is authoritative;
+subscription cursors are reconciled to it without skipping uncommitted
+evidence. See [delivery acceptance and checkpoint reconciliation](NRT-PIPELINE.md#delivery-acceptance-and-checkpoint-reconciliation).
+A delivery receipt proves only its declared durable sink outcome, not
+source equivalence or alert identity. Preserve the distinction under
+DEC-0037.
+
 ## First vertical slice and acceptance
 
 Use the existing Authentication family after verifying applicable C10/C11 mappings. Start with atomic and compound predicates, then threshold, distinct aggregation, sequence and absence. Each increment includes binding, execution, persistence, replay and negative tests. Test duplicate delivery, changed stream offsets, rule revision, changed deployment, null/absence, invalid input, window boundaries, late corrections, restart, partial writes, expiry and unauthorized evidence access. Measure mandatory provenance overhead and diagnostic budgets; no numerical limits approved. C04 quality counters distinguish evaluation units and outcomes. C16 reads persisted explanations, never reconstructs them from the current rule.
