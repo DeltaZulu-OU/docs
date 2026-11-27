@@ -48,3 +48,5 @@ when the answer refuted the premise that motivated the check. Reports are dated 
 [Documentation authority audit, 27 November 2026](2026-11-27-documentation-authority-audit.md) pins component indexes and records legacy migration boundaries.
 
 [Agent documentation reconciliation, 27 November 2026](2026-11-27-agent-documentation-reconciliation.md) records inherited requirements and conflicting claims.
+
+[Platform documentation reconciliation, 27 November 2026](2026-11-27-platform-documentation-reconciliation.md) records document classifications and pinned legacy service registrations.

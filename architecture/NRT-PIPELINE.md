@@ -323,3 +323,7 @@ The [existing roadmap qualification gates](../roadmaps/CONSISTENCY-CORRECTNESS-R
 ## Endpoint acquisition boundary
 
 See the [Agent acquisition contract](AGENT-ACQUISITION-CONTRACT.md) for endpoint extraction, state/filter ordering, local query and coverage ownership. Historical Agent topology and wire reliability claims require the documented qualification; they do not override the current estate target.
+
+## Platform responsibility boundary
+
+See the [Platform responsibility contract](PLATFORM-RESPONSIBILITY-CONTRACT.md). The pinned Platform Web composition still registers Proton alongside LocalStream ingestion; this is an implementation discrepancy under DEC-0033, not an approved fallback. Replacement-path qualification precedes removal.
