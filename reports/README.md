@@ -56,3 +56,5 @@ when the answer refuted the premise that motivated the check. Reports are dated 
 [Documentation consolidation assessment, 27 November 2026](2026-11-27-documentation-consolidation.md) records cross-specification boundaries, historical plan dispositions and the C08 closure dependency.
 
 [Repository baseline verification, 27 November 2026](2026-11-27-repository-baseline-verification.md) records eight default heads, CI, lock and SDK coverage and declared package versions.
+
+[Package lineage verification, 27 November 2026](2026-11-27-package-lineage-verification.md) records LocalStream 1.1.0 publication and qualification branch status.
