@@ -36,6 +36,30 @@ or policy remains outstanding. Only tested behavior may be called verified. `Reb
 The **Affected projects** column indicates which codebases or documentation
 need coordination, not which projects have already been modified.
 
+## Documentation-first execution boundary
+
+Owner direction (2026-11-27): complete documentation and contract
+reconciliation before modifying product code. During this pass, use
+read-only source inspection, existing CI evidence and package metadata
+to establish current behavior. Record verified defects and outstanding
+tests under their existing C identifiers; do not mark them resolved
+merely because their requirements are documented.
+
+Begin with C08 documentation authority and obsolete references, then
+C14 baseline and compatibility evidence, followed by C03/C10/C11,
+C05/C06/C07 and the remaining consolidation items. Preserve the existing
+dependency sequence and Accepted Decisions. Distinguish historical
+evidence, current source observations, candidate contracts and tested
+behavior. Obtain owner approval for unresolved policies before treating
+them as binding.
+
+Product source, tests, dependencies, build configuration and releases
+remain unchanged during this pass. Documentation-only branches in the
+central docs repository may be validated and merged directly without
+pull requests. Corrective engineering follows a separate owner-authorized
+handoff; existing runtime defects and release gates remain open until
+qualified.
+
 ## Dependency and execution sequence
 
 Execute finite consolidation obligations in this order: C08, C14, C03/C10/C11, C05/C06/C07, C12/C13/C15/C16/C17, then C04. Independent fixes may proceed in parallel. Close each item after source reconciliation, applicable regression tests and integration CI. Preserve unfinished product requirements in existing authoritative specifications before closure; do not create a second roadmap or weaken accepted release gates. The Authentication vertical slice and remaining approved Gold families are subsequent product development, except where needed to reproduce or verify existing defects. Retain pinned ASIM references and inspect parser expressions on demand; the standalone AST analyser remains suspended.
