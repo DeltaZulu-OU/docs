@@ -21,6 +21,91 @@ an explicit ordering or recoverable decision trace. Rule revision and
 deployment remain immutable provenance; operational alert deduplication
 continues to exclude rule version under DEC-0030.
 
+## Bound scalar and grouping semantics — candidate contract
+
+[DEC-0032](../decisions/DEC-0032-kql-type-versus-query-language-boundary.md)
+remains binding. The [semantic source review](../reports/2026-11-27-kql-semantic-review.md) distinguishes
+current implementation from candidate behavior.
+
+Platform binds authored KQL against the approved schema and Kusto.Language
+symbols, resolves overloads and result types, and rejects unsupported
+operators with structured diagnostics before deployment. Reuse the
+existing relational representation where its semantics suffice; do not
+assume a SQL translation or successful parse proves stream equivalence.
+LocalStream.Query receives bound operations and opaque canonical keys.
+DeltaZulu.Kql retains declared scalar representation and normalization.
+Do not introduce a second grammar, general interpreter or new package.
+
+| Semantic operation | Required distinction |
+|---|---|
+| Representation | Declared scalar type, carrier, value and loss provenance |
+| Expression comparison | Bound operator, coercion, null and string semantics |
+| Grouping | Equivalence relation over bound group coordinates |
+| Exact distinct | Bound aggregate inclusion policy and equivalence |
+| Persistent identity | Versioned canonical encoding of the applicable equivalence class |
+
+Preserve absent fields, typed nulls, conversion failures and legitimate
+empty strings as distinct provenance. Do not extend or merge the closed
+collection and conversion reason enumerations (CON-0015). A typed null
+carrier is not proof that a language-level string null is supported.
+Apply KQL predicate semantics at the bound operator boundary, not CLR
+Boolean coercion or SQL three-valued logic by assumption. Only a true
+predicate admits a row; preserve evaluation diagnostics independently
+of ordinary non-match. Unsupported or failed evaluation is not a clean
+non-match.
+
+### Initial supported surface and qualification
+
+Start with the Authentication atomic and compound predicates, typed
+literals, explicit supported comparisons and Boolean operators, then
+fixed-window grouping, count and exact distinct aggregation. The actual
+operator allowlist must follow authored rules and conformance evidence.
+Count admitted rows independently of whether a distinct operand is
+included. Distinguish exact count_distinct from approximate dcount;
+do not substitute either silently. Null inclusion, empty-input results,
+numeric promotion, string comparison and function overloads must be
+verified for each supported operation. Defer dynamic grouping,
+nonfinite real keys and other unqualified cases rather than invent
+semantics. A valid KQL construct may be unsupported in NRT.
+
+### Canonical key contract
+
+Use an explicit format version and domain, ordered tuple arity,
+stable type tags, null/value markers and unambiguous length framing.
+Encode values after the bound grouping/distinct equivalence policy,
+not before coercion. Equal values under that policy must produce equal
+bytes; unequal values must not collapse. Separate evidence identity,
+group keys and distinct operands. Use full canonical bytes for equality;
+if a digest indexes them, verify equality on collision. Never persist
+CLR hash codes, symbol references, culture-dependent formatting or
+numeric SyntaxKind values. A textual key carrier may use a reversible
+encoding of bytes; raw delimiter concatenation is insufficient.
+
+| Type family | Candidate encoding obligations |
+|---|---|
+| bool, int, long | Explicit tags and fixed-width integer representation; bound promotion first |
+| decimal | Canonical coefficient/scale for equal values, normalize signed zero |
+| real | Specify signed zero and nonfinite semantics before support; no silent lossy grouping |
+| string | Exact bound comparison semantics; preserve empty and whitespace; strict reversible encoding, no implicit case folding or Unicode normalization |
+| datetime, timespan | UTC DateTime carrier under CON-0001; signed duration ticks under CON-0014; preserve 100 ns precision |
+| guid | Explicit stable byte order, independent of CLR memory layout |
+| dynamic | Defer key support until recursive type, object order, array order, null and numeric semantics are qualified |
+
+Physical tag values, byte order and version migration are not frozen.
+Do not reuse Forward wire tags as semantic identity by assumption.
+A default KqlValue or unsupported declared type must be rejected at
+the binding/value boundary. Do not turn a conversion-loss placeholder
+into an ordinary value without the declared policy.
+
+Exact distinct membership uses canonical bytes, not digest alone.
+Represent excluded operands explicitly rather than inserting a null
+sentinel or empty byte sequence unconditionally. Budget exhaustion
+must fail or mark the affected evaluation incomplete, never switch
+to approximate counting. Keep logical group identity independent of
+transport partition. Qualify packed-library consumers across the
+supported Kusto.Language version span under CON-0021/C14; source
+recompilation alone is insufficient.
+
 ## Temporal direction — candidate contract
 
 DEC-0021 remains Proposed. The initial scope is immediate atomic

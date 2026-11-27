@@ -36,3 +36,5 @@ when the answer refuted the premise that motivated the check. Reports are dated 
 [Delivery and recovery contract review, 27 November 2026](2026-11-27-delivery-recovery-contract-review.md) records pinned Forward, LocalStream and Platform observations, candidate failure scenarios and unexecuted recovery fixtures.
 
 [Temporal execution review, 27 November 2026](2026-11-27-temporal-execution-review.md) records pinned window/watermark behavior, candidate semantics and unexecuted boundary fixtures.
+
+[KQL semantic review, 27 November 2026](2026-11-27-kql-semantic-review.md) records pinned carrier, binding and distinct-state observations and candidate conformance fixtures.
