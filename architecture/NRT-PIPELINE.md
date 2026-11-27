@@ -271,3 +271,47 @@ Source check: see the [27 November validation report](../reports/2026-11-27-loca
 LocalStream, Kql and Platform revisions, findings and unexecuted tests.
 No runtime correction, new package release or end-to-end integration is
 certified by this document update.
+
+## Resource qualification — candidate contract
+
+The [resource source review](../reports/2026-11-27-resource-qualification-review.md) defines the measurement baseline.
+Retain one bounded worker per owned execution domain and existing
+storage engines initially. Bound admission by bytes as well as records;
+account for concurrent domains, active groups/windows, distinct state,
+transaction working sets, timer entries, pending output, evidence
+manifests, retained stream bytes and disk headroom. Serialized state
+size is not a resident memory bound. Count temporary copies and database
+cache/journal overhead. No numerical defaults are approved.
+
+Use high/low admission thresholds with reserved capacity for draining,
+checkpoint reconciliation and finalization. Backpressure must propagate
+to the appropriate durable boundary; it cannot convert required evidence
+into a successful non-match. If retention expires during a stall,
+report incomplete coverage. Budget exhaustion must roll back affected
+uncommitted work or record an explicitly approved incomplete outcome;
+never silently approximate exact operators, evict required state or
+acknowledge unaccepted input. A permanently oversized item must not
+cause an invisible infinite retry loop. Define isolation and operator
+recovery before production use.
+
+Use a bounded transaction-local cache of touched logical windows and
+flush each dirty state once per commit as the first optimization
+candidate. Preserve per-event admission and causal transitions; do not
+coalesce externally observable changes without a semantic decision.
+Use a durable deadline index with bounded ordered retrieval and an
+ordered bounded outbox. Measure committed-range metadata growth;
+compact only when contiguous checkpoint and retry/reconciliation
+invariants permit it. Reclaim finalized state only after outstanding
+intents and retained-evidence obligations are discharged. No new engine,
+parallel scheduler or approximate structure is justified without measured
+need and equivalent correctness.
+
+Measure steady state, burst, sink outage, restart and retention pressure
+with realistic distributions and explicit resource limits. Report
+throughput at durable acceptance, end-to-end latency percentiles,
+queue age/bytes, allocation and peak RSS, state and disk amplification,
+transaction duration, recovery time, and incomplete coverage. Report
+hardware, runtime, storage, cache state, input seed, configuration and
+repetitions. Qualify correctness before comparing throughput; use the
+same evidence and semantic policy across variants. Acceptance targets
+require owner-approved workload and service objectives under C14.

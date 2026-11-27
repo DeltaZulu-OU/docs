@@ -328,3 +328,7 @@ Complete the [source reconciliation](../reports/2026-11-26-detection-provenance-
 | Budget exhaustion or unread evidence expiry | Explicit incomplete/failure outcome; no silent clean non-match |
 
 The legacy mediation fallback key is not the target alert identity. Verify existing state transaction implementations before selecting any new coordinator. See the source reconciliation report for pinned observations.
+
+## Resource limits and causal conservation
+
+The [resource qualification contract](NRT-PIPELINE.md#resource-qualification--candidate-contract) governs bounded execution. Mandatory evidence and exact aggregate semantics cannot be silently discarded to satisfy a budget. Distinguish serialized bytes from working-set memory; bounded optional trace truncation must be disclosed. The candidate transaction-local cache must preserve temporal admission and causal transitions.
