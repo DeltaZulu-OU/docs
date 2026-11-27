@@ -1,7 +1,6 @@
 # Constraints
 
-Facts about the world the estate does not control. Immutable: a constraint that
-turns out to be false is superseded by a new one, never edited in place.
+External facts and historical records retained under their original identifiers. Original records are immutable; the authority classification below distinguishes external facts from dated observations and internal contracts. Accepted Decisions and current specifications govern internal choices.
 
 Each constraint states what is true, how it was verified, and what it forbids or
 forces. Constraints do not choose; Decisions choose, and cite these.
@@ -36,16 +35,29 @@ collector belongs in `DeltaZulu.Platform`, and the Platform repo contains an
 `Ingestion` project; existence of the required standalone executable remains
 unverified. Do not treat `CON-0016`'s "no project or directory" wording as
 current implementation evidence. This index clarification does not silently
-reclassify or supersede the immutable Constraint; that taxonomy decision remains open.
+reclassify or supersede the immutable Constraint; the approved authority classification below resolves that taxonomy issue.
 
 ## Current interpretation and correction register (2026-11-25)
 
-The immutable records above preserve their original wording; the following qualifications govern how readers use the evidence. No Constraint has been silently renumbered or reclassified.
+The immutable records above preserve their original wording; the following qualifications govern how readers use the evidence. No original Constraint has been renumbered or edited. The owner approved the following index-level classification on 2026-11-27.
 
 | Record | Qualification / work item |
 |---|---|
 | CON-0001 | KQL UTC semantics are distinct from the chosen UTC `DateTime` carrier. `ToUniversalTime()` may resolve ambiguity, accept invalid wall times or clamp to representable limits; unconditional losslessness is false ([Microsoft API](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.touniversaltime)). C03 must verify known zone/offset, unique instant, range, and round-trip policy; reject rather than silently invent an instant. |
-| CON-0006, CON-0012–CON-0016 | Version pins, corpus state, payload opacity, duration units, enumeration ownership and collector existence mix dated observations and internal policies with external facts. Preserve originals; C02 requires owner approval for reclassification. |
+| CON-0006, CON-0012–CON-0016 | Version pins, corpus state, payload opacity, duration units, enumeration ownership and collector existence mix dated observations and internal policies with external facts. Preserve originals; use the approved classification below. |
 | CON-0019 | ACK on durable append is a target pending C05 verification, not a proved end-to-end guarantee. UDP has no delivery guarantee but scoped measurement with independent ground truth is possible. C04 tracks the reporting-policy choice under DEC-0023. |
 | CON-0020 | A digest or signed manifest is only as trustworthy as its independently protected reference and verification history. See DEC-0024 (Proposed) for deletion, rollback, key custody and restore-sampling questions. C04 remains open. |
 
+
+## Approved authority classification
+
+| Record | Current authority | Interpretation |
+|---|---|---|
+| CON-0006 | Compatibility requirement | Supported Kusto.Language span; verify current consumer compatibility under DEC-0032 and CON-0021. |
+| CON-0012 | Historical observation | Corpus availability at inspection time; recheck upstream before relying on it. |
+| CON-0013 | Architectural contract | Payload opacity is governed by DEC-0033, not an immutable external fact. |
+| CON-0014 | Contract discrepancy | Historical ticks/microseconds mismatch; resolve under DEC-0003 and DEC-0038, not by assuming either implementation is authoritative. |
+| CON-0015 | Internal type contract | Current Kql type declarations and DEC-0032 govern ownership; historical enumeration wording is not an external fact. |
+| CON-0016 | Superseded historical observation | DEC-0022 establishes collector placement; verify implementation separately. |
+
+The remaining records retain their existing interpretation, including the qualifications above. This classification changes neither accepted architectural requirements nor historical evidence.
