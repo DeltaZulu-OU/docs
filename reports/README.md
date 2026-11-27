@@ -42,3 +42,5 @@ when the answer refuted the premise that motivated the check. Reports are dated 
 [Result identity review, 27 November 2026](2026-11-27-result-identity-review.md) records pinned identity and alert persistence observations and candidate replay fixtures.
 
 [Resource qualification review, 27 November 2026](2026-11-27-resource-qualification-review.md) records source-derived complexity, allocation risks and benchmark fixtures.
+
+[Consolidated LocalStream qualification, 27 November 2026](2026-11-27-localstream-consolidated-qualification.md) reconciles the source reviews, dependencies and owner decisions.

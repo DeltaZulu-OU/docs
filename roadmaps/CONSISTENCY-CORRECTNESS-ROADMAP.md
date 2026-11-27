@@ -57,6 +57,30 @@ matrix appear in
 The Forward wire contract investigation remains in
 [the C03 audit](../reports/2026-11-23-forward-type-contract-audit.md).
 
+## LocalStream qualification dependencies
+
+The [consolidated qualification review](../reports/2026-11-27-localstream-consolidated-qualification.md) reconciles the
+November 27 source audits. This is a dependency refinement of C05/C06/C07,
+not a separate roadmap or permission to implement future product scope.
+Existing finite consolidation obligations and accepted release gates remain
+unchanged.
+
+| Gate | Existing work items | Exit evidence |
+|---|---|---|
+| Q1: reproducible baseline | C14, C03, C10, C11 | Pinned source, locked builds, carrier/mapping fixtures and observed-time exclusion |
+| Q2: delivery and state recovery | C05, C07 | ACK/credit/partial-append tests, contiguous progress, thread-affine atomic commit, crash reconciliation |
+| Q3: bound semantics | C06, C10, C11 | Reference expectations for supported predicates, grouping, canonical encoding and explicit failures |
+| Q4: joint contract approval | C06, C07 | Owner-approved temporal, identity, causal and persistence policies under DEC-0021/0036/0037 |
+| Q5: integrated execution | C05, C06, C07 | Qualified timer/state/intent transitions, durable acceptance and replay, including fault injection |
+| Q6: release qualification | C14, C04, C16 | Resource and compatibility evidence, applicable integrity/access gates and analyst navigation |
+
+Q2 and Q3 may proceed independently after their applicable baseline
+prerequisites. Existing defects may be reproduced and corrected before
+Q4; production detection implementation must not bypass Q4. Q5 requires
+Q2–Q4. Q6 is a product release gate, not a requirement to implement all
+future functionality before closing the finite consolidation roadmap.
+Do not infer closure of any C item from this review.
+
 ## Owner decision register
 
 The following are **unresolved policy questions**, not more task IDs:

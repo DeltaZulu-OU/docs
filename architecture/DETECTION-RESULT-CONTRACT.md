@@ -332,3 +332,7 @@ The legacy mediation fallback key is not the target alert identity. Verify exist
 ## Resource limits and causal conservation
 
 The [resource qualification contract](NRT-PIPELINE.md#resource-qualification--candidate-contract) governs bounded execution. Mandatory evidence and exact aggregate semantics cannot be silently discarded to satisfy a budget. Distinguish serialized bytes from working-set memory; bounded optional trace truncation must be disclosed. The candidate transaction-local cache must preserve temporal admission and causal transitions.
+
+## Qualification handoff
+
+Use the [consolidated qualification review](../reports/2026-11-27-localstream-consolidated-qualification.md) and existing C06/C07 gate before production detection execution. Semantic equivalence, transition equivalence and delivery idempotency are separate test assertions. No candidate identity, temporal or resource policy is approved by this handoff.

@@ -315,3 +315,7 @@ hardware, runtime, storage, cache state, input seed, configuration and
 repetitions. Qualify correctness before comparing throughput; use the
 same evidence and semantic policy across variants. Acceptance targets
 require owner-approved workload and service objectives under C14.
+
+## Qualification handoff
+
+The [existing roadmap qualification gates](../roadmaps/CONSISTENCY-CORRECTNESS-ROADMAP.md#localstream-qualification-dependencies) govern dependency ordering and the joint C06/C07 approval. The candidate sections above are not runtime verification or new Accepted Decisions. The [consolidated review](../reports/2026-11-27-localstream-consolidated-qualification.md) records cross-contract reconciliation and open owner policies.
