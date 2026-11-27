@@ -108,3 +108,7 @@ budgets. Physical schema, API and instrumentation mechanisms must follow
 source-backed design and tests. No new acceptance of DEC-0021, DEC-0024,
 DEC-0025 or changed DEC-0030 alert identity is implied. Scheduled detection
 remains deferred under DEC-0026.
+
+## Result identity and reconciliation
+
+The [candidate result and evidence identity contract](DETECTION-RESULT-CONTRACT.md#result-and-evidence-identity--candidate-contract) separates execution, revision, intent, reference, equivalence and operational alert domains. It specifies candidate causal evidence, replay and promotion obligations without changing DEC-0030/0036/0037. Physical persistence and changed-evidence policy remain open.

@@ -38,3 +38,5 @@ when the answer refuted the premise that motivated the check. Reports are dated 
 [Temporal execution review, 27 November 2026](2026-11-27-temporal-execution-review.md) records pinned window/watermark behavior, candidate semantics and unexecuted boundary fixtures.
 
 [KQL semantic review, 27 November 2026](2026-11-27-kql-semantic-review.md) records pinned carrier, binding and distinct-state observations and candidate conformance fixtures.
+
+[Result identity review, 27 November 2026](2026-11-27-result-identity-review.md) records pinned identity and alert persistence observations and candidate replay fixtures.

@@ -21,6 +21,96 @@ an explicit ordering or recoverable decision trace. Rule revision and
 deployment remain immutable provenance; operational alert deduplication
 continues to exclude rule version under DEC-0030.
 
+## Result and evidence identity — candidate contract
+
+The [identity source review](../reports/2026-11-27-result-identity-review.md) records implementation gaps.
+The following domains are conceptual, not approved physical schemas.
+DEC-0030, DEC-0036 and DEC-0037 remain authoritative.
+
+| Domain | Equality and lifetime |
+|---|---|
+| Artifact | Exact immutable content and artifact kind; retain resolvable bytes |
+| Effective deployment | Actual bound rule revision, parameters, exclusions, schema/mapping, engine and policy artifacts |
+| Execution transaction | One recoverable commit attempt/outcome in a state generation; input ranges or timer causes |
+| Logical result | Bound query revision/output/operator and canonical logical coordinates, including window where applicable |
+| Result revision | Immutable committed value, causal evidence and evaluation disposition within logical result |
+| Delivery intent | Exact staged change and target; retries preserve payload and identity |
+| Evidence reference | Immutable retained occurrence/representation reference, independent of later equivalence resolution |
+| Evidence equivalence | Strongest justified source/acquisition/stream scope, with historical resolution basis |
+| Operational alert | Stable rule identity and citing evidence equivalence under DEC-0030; excludes rule revision/run |
+
+Do not require logical result or revision IDs to survive arbitrary
+changes in rule, deployment or temporal policy. Semantic replay
+equivalence is a separately evaluated relation. Transaction ranges and
+processing attempts are provenance, not alert identity. Persist exact
+staged intent bytes before dispatch; immutable content must not change
+after staging. Include target in delivery identity if multiple targets
+are supported, or enforce one target explicitly. A repeated identity
+with different immutable content is a conflict, not successful dedup.
+
+Use versioned domain-separated canonical framing; reject malformed
+text or use a reversible representation. SHA-256 is a candidate
+index/identifier, not proof of content equality or execution. Resolve
+digest collisions explicitly. Never use a digest alone as evidence.
+A logical sequence number may order revisions in a generation but
+does not prove semantic equivalence across replay interleavings.
+
+### Evidence and causal explanation
+
+Store immutable references to contributing Gold representations and
+intermediate results, with role and relevant occurrence/multiplicity.
+For order-sensitive operators preserve the order required by their
+semantics. For set-based alert equivalence, a candidate is canonical
+sorting and deduplication of resolved citing identifiers; preserve
+original causal multiplicity separately. Window/group discrimination,
+role-sensitive equivalence and changed evidence policy require owner
+approval before freezing the alert key. Do not infer a universal
+source identity or use payload hashes to deduplicate real occurrences.
+
+A causal record identifies the effective deployment, logical result
+revision, operator/predicate outcome, admitted evidence, evaluated
+scope, temporal policy and completeness limitations. Preserve original
+artifact content, not merely a label or digest. Keep secrets outside
+the provenance record. Negative conditions require an explicit scope,
+bounds and completeness basis; lack of an event alone is insufficient.
+Absence and sequence remain outside the initial qualified operator
+surface. Bounded explanations may reference a durable evidence
+manifest; do not silently truncate mandatory causal references.
+If mandatory evidence cannot be retained, fail or mark evaluation
+incomplete under the approved policy. Optional traces disclose
+truncation, redaction and expiry.
+
+### Replay and identity reconciliation
+
+| Scenario | Candidate required behavior |
+|---|---|
+| Retry exact committed intent | Same target/identity/content; no duplicate durable result |
+| Same evidence, corrected rule revision | Preserve new result provenance; suppress equivalent operational alert under DEC-0030 |
+| Previously missed evidence | May emit new alert under approved identity/window policy |
+| Changed contributing evidence | Preserve immutable revisions; alert eligibility remains open |
+| Stronger evidence identity established later | Preserve historical references and basis; reconcile existing alert equivalence before creating another alert |
+| Conflicting content under same reference | Explicit integrity conflict; no silent overwrite |
+| Gold reference missing or expired | Report unresolved/expired status; reconcile where possible |
+| Rule correction changes previous match to non-match | No automatic alert retraction or historical explanation rewrite |
+
+Identity promotion is not a destructive rewrite. Record a versioned
+equivalence assertion with basis and scope; candidate lookup checks
+existing alerts under justified equivalent identifiers before creating
+a new one. Concurrent promotion and alert creation require a verified
+serialization or atomic uniqueness protocol. Do not merge identities
+on ambiguous evidence; preserve separate references and report
+unresolved equivalence. Exact physical alias/index mechanism and
+reconciliation of previously distinct alerts remain open.
+
+Persist result and evidence linkage with an idempotent acceptance
+boundary. Where Gold and result/alert commits cannot share a verified
+transaction, use explicit unresolved linkage and recoverable
+reconciliation; no implied cross-store atomicity. Operational alert
+creation and its deduplication authority must agree atomically or
+through a proven recovery protocol. An append-only writer alone
+does not establish uniqueness. Preserve original alert explanation;
+later evaluations can be retained independently without modifying it.
+
 ## Bound scalar and grouping semantics — candidate contract
 
 [DEC-0032](../decisions/DEC-0032-kql-type-versus-query-language-boundary.md)
