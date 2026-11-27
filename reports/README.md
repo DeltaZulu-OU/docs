@@ -50,3 +50,5 @@ when the answer refuted the premise that motivated the check. Reports are dated 
 [Agent documentation reconciliation, 27 November 2026](2026-11-27-agent-documentation-reconciliation.md) records inherited requirements and conflicting claims.
 
 [Platform documentation reconciliation, 27 November 2026](2026-11-27-platform-documentation-reconciliation.md) records document classifications and pinned legacy service registrations.
+
+[Remaining component reconciliation, 27 November 2026](2026-11-27-component-documentation-reconciliation.md) records the final nine document classifications and qualification boundaries.

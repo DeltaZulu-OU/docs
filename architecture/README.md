@@ -21,6 +21,7 @@ implementation status. Historical imports remain preserved as evidence.
 | [NORMALIZATION-REFERENCE-CATALOGUE.md](NORMALIZATION-REFERENCE-CATALOGUE.md) | Provider-neutral reference extraction and normalization verification methodology under DEC-0038; implementation open. |
 | [AGENT-ACQUISITION-CONTRACT.md](AGENT-ACQUISITION-CONTRACT.md) | Agent acquisition, state/filter ordering, enrichment and local query boundaries; runtime qualification open. |
 | [PLATFORM-RESPONSIBILITY-CONTRACT.md](PLATFORM-RESPONSIBILITY-CONTRACT.md) | Platform ownership, analytics, governance and management boundaries; legacy wiring qualification open. |
+| [COMPONENT-BOUNDARIES.md](COMPONENT-BOUNDARIES.md) | Parse, LogCluster, LocalStream and DurableBuffer ownership and qualification. |
 | `GOVERNING-DECISIONS.md` | Which Decisions govern which repository, generated from front-matter. |
 
 `PIPELINE.md` is left unedited so that historical citations stay stable.
