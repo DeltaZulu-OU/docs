@@ -21,9 +21,96 @@ an explicit ordering or recoverable decision trace. Rule revision and
 deployment remain immutable provenance; operational alert deduplication
 continues to exclude rule version under DEC-0030.
 
-## Temporal direction
+## Temporal direction — candidate contract
 
-Start with half-open event-time tumbling windows and immediate atomic detection. Provisional aggregate changes remain internal; operational aggregate alerts use finalized results. Specify watermark progression, idle partitions, allowed lateness and finalization using existing LocalStream policies. Missing or invalid observed time is excluded with reason under DEC-0029. Post-finalization evidence additions, removals and new-alert eligibility need explicit policy and fixtures before DEC-0021 can become Accepted. Never silently retract or overwrite an alert. No numerical lateness or latency setting is established.
+DEC-0021 remains Proposed. The initial scope is immediate atomic
+detection and fixed, epoch-aligned, half-open event-time tumbling windows.
+Threshold predicates belong in authored KQL if DEC-0021 is accepted.
+Sliding/session windows, sequence and absence require separate semantics.
+The [temporal source review](../reports/2026-11-27-temporal-execution-review.md) records current behavior and
+unexecuted conformance fixtures.
+
+### Time and window assignment
+
+Observed time is authoritative under DEC-0029. Preserve UTC 100 ns ticks;
+never substitute ingestion or processing time. Invalid or unavailable
+observed time remains in Bronze/Silver with reason and cannot contribute
+to event-time operators or watermark progress. Valid timestamps outside
+the supported window arithmetic range require explicit evaluation
+diagnostics, not clamping into a different window. Future-time plausibility
+policy is source-specific and remains open.
+
+For positive fixed duration D, epoch E and observed time t, assign
+start = E + floor((t - E)/D) * D, end = start + D.
+Use checked integer ticks and mathematical floor for pre-epoch values.
+Membership is start <= t < end. Bind only KQL expressions whose
+window alignment and type semantics are demonstrated equivalent.
+
+### Progress and completeness
+
+Track assigned source namespace/topic/partition, maximum valid observed
+event time, last activity, initialization and idle status. A candidate
+watermark is the minimum active source maximum minus configured
+out-of-orderness, bounded to the representable time range; published
+watermark is monotonic within an execution generation. It is a policy
+estimate, not proof that no older evidence can arrive.
+
+An assigned but unseen source blocks advancement by default until it
+has valid progress or an explicitly approved exclusion. Distinguish
+transport activity from valid event-time progress: invalid timestamps
+cannot advance the latter. Idle exclusion is a recorded policy decision,
+not proof of completeness. If all sources are idle or unseen, hold the
+watermark. Returning sources cannot regress it; classify their records
+against the previously committed watermark. A missing required evidence
+range is a coverage failure, not an idle source. No numerical disorder,
+idle or lateness settings are approved.
+
+### Window lifecycle and transaction order
+
+| Condition | Candidate disposition |
+|---|---|
+| Watermark absent or event time >= previous watermark, window not final | On-time update |
+| Event time < previous watermark, watermark < end + allowed lateness | Late accepted; update provisional result |
+| Watermark >= end + allowed lateness | Finalization eligible; later arrivals cannot mutate that finalized revision silently |
+| Finalization deadline unrepresentable | Reject unsupported window/policy combination explicitly |
+| No matching events | No synthetic aggregate or absence alert unless explicitly specified |
+
+Allowed lateness is nonnegative and distinct from out-of-orderness.
+At equality with the finalization deadline, the window is eligible to
+finalize. Evaluate an input against prior committed temporal progress,
+apply its admitted effects, advance progress and finalize eligible
+windows in causal order. Define equivalent behavior across microbatch
+boundaries; do not classify a record against a watermark advanced by
+later records in the same batch. The ordering of cross-partition inputs
+and idle decisions must be specified or recorded where it affects
+admission or finalization.
+
+Persist complete progress, window state, timer changes and ordered
+output intents in the same state transaction. A timer wakeup may
+reevaluate idle policy or discover due windows; it cannot invent an
+event timestamp or source range. Use a durable deadline index and
+recoverable temporal cause. Repeated timer delivery is idempotent.
+A finalization result must reference the exact immutable aggregate
+revision and evidence; do not assume a value-less finalize marker is
+sufficient without causal delivery and durable prior value.
+
+Provisional changes remain internal. Operational aggregate alerts use
+finalized results under the candidate direction. Preserve too-late
+evidence and record its evaluation disposition. Whether post-finalization
+evidence creates a correction, a new eligible result or only a diagnostic
+requires owner approval; no silent retraction or overwrite of alerts.
+State reclamation follows finalized-result durability, evidence retention
+and replay obligations, not the timer alone.
+
+### Replay and acceptance
+
+Recovery must reproduce committed progress, admitted evidence and pending
+intents. Semantic replay equivalence is conditional on equivalent
+admission and temporal decisions; identical input sets alone are not
+sufficient when late-event policy is order-sensitive. Persist or
+deterministically reconstruct relevant source order, policy revision,
+idle decisions and temporal causes. Do not require global ordering for
+operators whose declared semantics do not depend on it.
 
 ## Execution and persistence
 

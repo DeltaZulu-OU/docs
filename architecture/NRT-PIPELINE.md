@@ -239,6 +239,12 @@ retention loss merely by existing. Backpressure must be bounded and
 propagate before the recoverable evidence budget is exhausted; disclose
 loss or incomplete evaluation when recovery is impossible.
 
+The detailed [candidate temporal contract](DETECTION-RESULT-CONTRACT.md#temporal-direction--candidate-contract)
+defines window membership, source initialization, watermark progression,
+late admission, finalization and replay obligations. DEC-0021 remains
+Proposed; no default numerical policy or post-finalization alert
+behavior is approved.
+
 ## Detection provenance
 
 [DEC-0036](../decisions/DEC-0036-detection-provenance.md) requires a deterministic causal result contract independent of alert deduplication. Platform owns immutable rule/effective-policy, binding and deployment artifacts; Query operators provide generic causal/evidence hooks. Persist bounded result explanations and evidence references in DuckLake. The [target contract](DETECTION-PROVENANCE.md) defines logical roles and verification boundaries. C06/C07 must agree their interface before production detection/persistence implementation; C10/C11 supply mapping and temporal validity, C04 measures evaluation health, C14 identifies execution artifacts and C16 exposes authorized explanations. No new Gold views, wire contract or change to core payload opacity is implied.

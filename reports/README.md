@@ -34,3 +34,5 @@ when the answer refuted the premise that motivated the check. Reports are dated 
 [LocalStream execution validation, 27 November 2026](2026-11-27-localstream-execution-validation.md) records the pinned source audit, candidate corrections and unexecuted acceptance fixtures.
 
 [Delivery and recovery contract review, 27 November 2026](2026-11-27-delivery-recovery-contract-review.md) records pinned Forward, LocalStream and Platform observations, candidate failure scenarios and unexecuted recovery fixtures.
+
+[Temporal execution review, 27 November 2026](2026-11-27-temporal-execution-review.md) records pinned window/watermark behavior, candidate semantics and unexecuted boundary fixtures.
