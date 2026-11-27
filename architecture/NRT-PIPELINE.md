@@ -1,6 +1,6 @@
 # Near-real-time pipeline — LocalStream target architecture
 
-**Current target: 2026-11-23.** DEC-0033 replaces Timeplus Proton with
+**Current target: 2026-11-27.** DEC-0033 replaces Timeplus Proton with
 DeltaZulu.LocalStream and its separate Query package. This describes
 the agreed target and does not certify that every adapter is implemented.
 The prior Proton plan in `PIPELINE.md` is a historical import; see
@@ -15,7 +15,7 @@ Agent collection/parsing
      └── DeltaZulu.Forward (network transport)
                   │
                   ▼
-          Platform ingest host
+          Platform collector executable (DEC-0022)
                   │
           ├── DuckLake Bronze (write-once raw evidence)
           ├── DuckLake Silver (retained parsed records)
@@ -35,6 +35,9 @@ Agent collection/parsing
 ```
 
 This diagram is a responsibility map, not a verified deployment.
+The collector is a separate Platform deployable under DEC-0022; the diagram
+neither assigns every downstream consumer to its process nor fixes the
+physical persistence sequence.
 LocalStream is not a network transport. Forward remains inter-node
 transport; DurableBuffer is an optional edge queue. The exact ingest
 sequencing, topics, commit/ACK boundaries and end-to-end sink topology
@@ -47,7 +50,8 @@ require integration tests.
 | `DeltaZulu.LocalStream` | Payload-opaque topics, partitions, ordered offsets, replay, independent subscriptions, retention and processor hosting | Implemented primitives |
 | `DeltaZulu.LocalStream.Query` | Already-bound query operators, keyed state, event-time windows, watermarks, aggregates and result changes | Implemented primitives; not full KQL execution |
 | `DeltaZulu.LocalStream.Query.LiteDB` | Optional durable state and query-result stores | Implemented adapters; production behavior unverified |
-| KQL binding adapter | Kusto.Language parsing, schema-aware binding and mapping to approved operators | Not verified as an end-to-end path |
+| `DeltaZulu.Kql` | Declared scalar representation and normalization | Existing type library; not an expression evaluator |
+| Platform query-owning adapter | Kusto.Language binding, schema-aware planning, language semantics and mapping to approved operators | Existing compiler is SQL/DDL-oriented; stream binding not verified |
 | Lake sink adapters | Stable, idempotent persistence of Bronze/Silver/Gold and alert records | Must prove replay, crash/retry and loss handling |
 
 Core LocalStream remains KQL-independent and payload-opaque
@@ -86,11 +90,13 @@ an oracle for behavioral equivalence.
 
 ## Event time, replay and alert evidence
 
-**Verified implementation mismatch:** seven Silver contributors use an
-`EventTimestamp` helper that falls back to Bronze `ingest_time` on missing or
-unparseable source timestamps; the DNS server contributor does so explicitly.
-This contradicts DEC-0029 when such rows are used for detections. Treat as
-C11/P0 pending test-backed correction, not as an accepted event-time policy.
+**C11 Silver correction:** all eight contributors now retain missing or
+invalid observed timestamps as null with an explicit reason, as recorded in
+the [verification report](../reports/2026-11-26-silver-event-time.md) and
+consolidated roadmap. Integrated three-host CI passed according to C11.
+The downstream evaluation diagnostics and watermark exclusion remain open.
+Retain affected records in Bronze/Silver; do not substitute ingest time for
+observed time or admit them to event-time processing.
 
 Extracted event time governs Gold windows and correlation; ingest time
 remains provenance (`DEC-0029`). LocalStream delivery is at-least-once,
@@ -109,7 +115,64 @@ and decision.
 
 ### Delivery and source-lineage verification
 
-C05 must distinguish Forward acceptance/credit, durable LocalStream append, subscription checkpoint and DuckLake commit. No ACK timing, independent subscriber progress or exactly-once guarantee is inferred from topology. C10 traces authoritative Agent extraction through Forward/Bronze to Silver; projection of structured fields is not necessarily reparsing. The current event-time defect remains C11. C04 and C07 retain proposed assurance and window-result questions rather than introducing implicit policies.
+C05 must distinguish Forward acceptance/credit, durable LocalStream append, subscription checkpoint and DuckLake commit. No ACK timing, independent subscriber progress or exactly-once guarantee is inferred from topology. C10 traces authoritative Agent extraction through Forward/Bronze to Silver; projection of structured fields is not necessarily reparsing. Downstream event-time integration remains C11. C04 and C07 retain proposed assurance and window-result questions rather than introducing implicit policies.
+
+## Local execution and recovery — candidate contract
+
+The [27 November source validation](../reports/2026-11-27-localstream-execution-validation.md) identifies concrete gaps
+in the current Query and LiteDB primitives. These design corrections are
+proposed implementation directions within C05/C06/C07, not new Accepted
+Decisions or verified behavior. Preserve the existing package boundaries,
+segmented transport and optional LiteDB adapter. No new engine is justified
+without measured failure to satisfy the workload.
+
+Asynchronous bounded input acquisition and sink delivery surround a
+synchronous transaction boundary. Begin, state access, mutation, commit
+and rollback must execute on the owning thread with no suspension while
+a LiteDB transaction is open. Check transaction outcomes; a failed or
+ambiguous commit must not advance external progress. Start with exclusive
+mutation ownership per query state domain; the existing database-wide
+writer gate may serialize different domains. Dedicated thread execution
+is an alternative only if required. Do not hold database transactions open
+during network I/O, backpressure waits or lake writes.
+
+Persist operator state, contiguous committed progress for every assigned
+source topic/partition, temporal state, durable timer changes and ordered
+output intents atomically. Use a stable stream namespace/epoch where
+needed to distinguish recreated sources. A source batch may cover one
+partition at a time; the checkpoint must still represent the complete
+domain. Specify inclusive/exclusive offsets and initialization; never
+advance over unread gaps or regress on retries. Reconcile subscription
+progress against the state checkpoint before replay; prune any committed
+range ledger only after its recovery obligations are discharged.
+
+Logical group/window identity is independent of the physical input
+partition. If future parallel execution is necessary, use stable logical
+ownership rather than change grouping semantics. Platform supplies bound
+comparisons and canonical typed key encoding; Query implements generic
+operators, not KQL. Preserve UTC tick precision and distinguish grouping,
+expression equality and durable identity.
+
+Durable output sequences must preserve causality within the relevant
+domain (or explicitly defined narrower ordering scope). Fetch bounded
+pages through indexed progress, retry with the same identity and verify
+durable sink acceptance before retiring intents. A hash is not an order.
+Never claim an atomic transaction spans LocalStream state and DuckLake.
+
+Temporal/maintenance transitions must have recoverable causes without
+invented source ranges. Processing-time wakeups are not evidence of
+event-time completeness. Define assigned but unseen, idle and returning
+partitions, per-source progress, deterministic ties and lateness policy
+before finalization; use persisted decisions when required for replay.
+Missing trustworthy observed time cannot advance event-time watermarks.
+
+Bound queues, microbatch size/bytes/time, state/cardinality, timer count,
+pending outbox, evidence/provenance and replay ledgers. On exhaustion
+apply explicit backpressure or fail the affected evaluation with a
+diagnostic; never silently drop required evidence or turn incompleteness
+into a non-match. Retention expiry requires an explicit recovery/failure
+path under C05, even for a required subscription. Benchmark before
+changing the persistence engine, adding shards or a generic DAG runtime.
 
 ## Detection provenance
 
@@ -128,8 +191,7 @@ sink idempotency and checkpoint coordination, window/late-event policies,
 Gold/alert linkage, producer/sink conservation, runtime resource budgets,
 and removal or retirement of legacy Proton integration.
 
-Source check: LocalStream repository `main` at
-`16f27b44fa16bcde6e9316662b25ac85ae0d4642`. Source files show
-the core stream host, window/watermark operators and LiteDB state/result
-stores. No build, test execution or complete Platform integration
-was established by this document review.
+Source check: see the [27 November validation report](../reports/2026-11-27-localstream-execution-validation.md) for pinned
+LocalStream, Kql and Platform revisions, findings and unexecuted tests.
+No runtime correction, new package release or end-to-end integration is
+certified by this document update.

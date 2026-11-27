@@ -6,9 +6,20 @@ Status: design directions approved by owner 2026-11-26; detailed contract and im
 
 ## Identity and replay
 
-Reuse assigned detection and accepted-version IDs. Derived identities use a versioned, domain-separated, unambiguous canonical encoding and deterministic digest; SHA-256 is the initial candidate. Source identity is distinct from stream position, Gold representation identity, logical result key, immutable result revision and query change identity. A query change ID includes revision and stream offsets and cannot serve as the operational alert key. Preserve DEC-0030 rule-version exclusion and canonical citing source event identities. Verify namespace, multiplicity, ordering, duplicate evidence, null encoding, typed group keys, timestamp precision and collision handling before freezing key formats. A changed evidence set is not automatically a new operational alert.
+Reuse assigned detection and accepted-version IDs. Derived identities use a versioned, domain-separated, unambiguous canonical encoding and deterministic digest; SHA-256 is the initial candidate. Source identity is distinct from stream position, Gold representation identity, logical result key, immutable result revision and query change identity. The current query change ID includes revision and transaction range offsets and cannot serve as the operational alert key. The candidate correction separates transaction identity from semantic result/change identity: a batch range is execution metadata, not a semantic discriminator. Preserve exact causal evidence separately; do not merely remove offsets and assume that logical versions are invariant under reordered inputs. Preserve DEC-0030 rule-version exclusion and canonical citing source event identities. Verify namespace, multiplicity, ordering, duplicate evidence, null encoding, typed group keys, timestamp precision and collision handling before freezing key formats. A changed evidence set is not automatically a new operational alert.
 
 Under [DEC-0037](../decisions/DEC-0037-event-identity-boundaries.md), distinguish native record, acquisition, source-stable, delivery, batch and stream occurrence identities. Platform resolves canonical source identity at the strongest justified scope and preserves the basis; unresolved upstream identity still permits distinct evidence references. Replay deduplication is scoped to equivalent retained evidence, not arbitrary independent reacquisition. Identity promotion must preserve historical evidence references and reconcile existing alert equivalence without generating duplicates solely because the identity basis changed. Physical Forward representation remains open pending source, consumer and compatibility verification.
+
+Recovery determinism (restart preserves committed state and intents),
+semantic replay equivalence (equivalent final results/evidence under the
+same policy), and transition determinism (identical intermediate revisions)
+are distinct guarantees. Require recovery and supported semantic
+equivalence; define where transition equivalence is needed, including
+whether provisional revisions can differ under different microbatch
+boundaries or partition interleavings. Order-sensitive operators require
+an explicit ordering or recoverable decision trace. Rule revision and
+deployment remain immutable provenance; operational alert deduplication
+continues to exclude rule version under DEC-0030.
 
 ## Temporal direction
 
@@ -16,7 +27,7 @@ Start with half-open event-time tumbling windows and immediate atomic detection.
 
 ## Execution and persistence
 
-Platform owns binding, immutable effective deployment and artifact resolution, detection-specific interpretation and alert policy. LocalStream.Query supplies generic causal facts and references; core remains payload-opaque. Prefer normalized immutable artifacts, result revisions and typed evidence relationships; no new public Gold views. Preserve source and intermediate-result references, evidence roles, evaluated scope and bounded causal summary. Retain original content, not only digests. Detailed traces are selective and bounded; disclose truncation, redaction and expiry. Evaluate existing transactional staged output before selecting an additional coordinator. Physical DDL, storage allocation and transaction semantics remain open.
+Platform owns binding, immutable effective deployment and artifact resolution, detection-specific interpretation and alert policy. LocalStream.Query supplies generic causal facts and references; core remains payload-opaque. Prefer normalized immutable artifacts, result revisions and typed evidence relationships; no new public Gold views. Preserve source and intermediate-result references, evidence roles, evaluated scope and bounded causal summary. Retain original content, not only digests. Detailed traces are selective and bounded; disclose truncation, redaction and expiry. Evaluate existing transactional staged output before selecting an additional coordinator. Physical DDL, storage allocation and transaction semantics remain open. See the [candidate local execution and recovery contract](NRT-PIPELINE.md#local-execution-and-recovery--candidate-contract) and [source validation](../reports/2026-11-27-localstream-execution-validation.md). Checkpoint progress, timers and output intents must share the state commit boundary; external sink acceptance is a separate idempotent protocol. Keep corrections/finalization causally ordered and never translate internal revisions into operational alert retractions.
 
 ## First vertical slice and acceptance
 
@@ -40,5 +51,11 @@ Complete the [source reconciliation](../reports/2026-11-26-detection-provenance-
 | Crash after staged output commit, before external write | Recover exact pending intent |
 | Crash after external write, before delivery confirmation | Idempotent sink retry; no duplicate result or alert |
 | Missing or ambiguous source identity | Explicit unresolved lineage; no invented stable identity |
+| Same group/window from multiple transport partitions | One logical aggregate under the applicable domain |
+| Replay with different batch boundaries | Agreed semantic equivalence; transition differences only where permitted |
+| Assigned but unseen or returning idle partition | Explicit completeness/lateness policy; no fabricated time progress |
+| Timer wakeup without new input | Recoverable cause; no fabricated source offset or watermark |
+| Multiple pending corrections and finalization | Causal materialization despite retry/restart |
+| Budget exhaustion or unread evidence expiry | Explicit incomplete/failure outcome; no silent clean non-match |
 
 The legacy mediation fallback key is not the target alert identity. Verify existing state transaction implementations before selecting any new coordinator. See the source reconciliation report for pinned observations.

@@ -30,3 +30,5 @@ when the answer refuted the premise that motivated the check. Reports are dated 
 | 2026-11-26 | [Detection provenance source reconciliation](2026-11-26-detection-provenance-source-reconciliation.md) | Initial pinned source observations; reuse candidates and unresolved C06/C07 integration gates; no tests executed. |
 
 [Silver observed event time verification, 26 November 2026](2026-11-26-silver-event-time.md) records the unmerged C11 correction and its integration boundary.
+
+[LocalStream execution validation, 27 November 2026](2026-11-27-localstream-execution-validation.md) records the pinned source audit, candidate corrections and unexecuted acceptance fixtures.
