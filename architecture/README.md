@@ -72,3 +72,5 @@ references or historical plans, **not a second governing authority**. Their
 migration and source-level rebaseline remain explicit roadmap work; the target
 narrative above does not imply the LocalStream integration is implemented.
 
+
+The [consolidation assessment](../reports/2026-11-27-documentation-consolidation.md) distinguishes the completed inventory pass from outstanding C08 implementation and historical milestone verification.

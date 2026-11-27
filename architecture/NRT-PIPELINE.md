@@ -327,3 +327,7 @@ See the [Agent acquisition contract](AGENT-ACQUISITION-CONTRACT.md) for endpoint
 ## Platform responsibility boundary
 
 See the [Platform responsibility contract](PLATFORM-RESPONSIBILITY-CONTRACT.md). The pinned Platform Web composition still registers Proton alongside LocalStream ingestion; this is an implementation discrepancy under DEC-0033, not an approved fallback. Replacement-path qualification precedes removal.
+
+### Topology interpretation
+
+The topology above describes logical responsibilities, not a required physical commit sequence or a positive ACK boundary. C05/C07 qualify acceptance, evidence persistence and subscriber progress independently; the candidate recovery contract governs that qualification.

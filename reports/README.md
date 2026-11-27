@@ -52,3 +52,5 @@ when the answer refuted the premise that motivated the check. Reports are dated 
 [Platform documentation reconciliation, 27 November 2026](2026-11-27-platform-documentation-reconciliation.md) records document classifications and pinned legacy service registrations.
 
 [Remaining component reconciliation, 27 November 2026](2026-11-27-component-documentation-reconciliation.md) records the final nine document classifications and qualification boundaries.
+
+[Documentation consolidation assessment, 27 November 2026](2026-11-27-documentation-consolidation.md) records cross-specification boundaries, historical plan dispositions and the C08 closure dependency.

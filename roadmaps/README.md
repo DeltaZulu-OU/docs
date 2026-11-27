@@ -20,3 +20,5 @@ Proton-specific tasks are retired under DEC-0033. Scheduled detection is deferre
 Historical relative references to files not migrated here are not current links. Known relocated ADR/roadmap links have been repaired; missing originals must be recovered from the origin repository's history rather than guessed.
 
 The no-fallback Forward contract remains in the historical Forward plan and DEC-0022's explicit fixture-only NDJSON boundary.
+
+The [consolidation assessment](../reports/2026-11-27-documentation-consolidation.md) records the surviving work groups and evidence boundaries. Historical phase status is not current verification. At milestone closure, replace active roadmap navigation with permanent specifications or the dated completion report; retain historical evidence without creating a successor work table.
