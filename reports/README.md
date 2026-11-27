@@ -58,3 +58,5 @@ when the answer refuted the premise that motivated the check. Reports are dated 
 [Repository baseline verification, 27 November 2026](2026-11-27-repository-baseline-verification.md) records eight default heads, CI, lock and SDK coverage and declared package versions.
 
 [Package lineage verification, 27 November 2026](2026-11-27-package-lineage-verification.md) records LocalStream 1.1.0 publication and qualification branch status.
+
+[Dependency compatibility qualification](2026-11-28-dependency-compatibility-qualification.md) records advisory verification and corrective test gates.
