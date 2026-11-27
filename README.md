@@ -43,6 +43,14 @@ and candidate mappings are in `architecture/ASIM-GOLD-MAPPING-BASELINE.md`.
 repository. Regenerate it with `python3 .github/scripts/governing_index.py --write`;
 CI checks for drift with `--check`.
 
+## Documentation authority and conflict handling
+
+The [architecture authority register](architecture/README.md#authority-and-conflict-handling)
+defines how to resolve competing specifications and source observations.
+Local component documentation is an implementation reference, not an
+independent policy authority. Record discrepancies in dated reports and
+the existing roadmap; do not silently rewrite historical evidence.
+
 ## Constraints versus Decisions
 
 A **Constraint** is a fact: something true about a dependency, a format, a

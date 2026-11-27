@@ -13,7 +13,7 @@ implementation status. Historical imports remain preserved as evidence.
 | `PIPELINE-ERRATA.md` | Where Wave 0 verification found `PIPELINE.md`'s claims refuted, understated, mis-cited or unverified. |
 | `DATA-QUALITY-MONITORING.md` | DQM rev. 2, 16 August 2026. Metrics, measurement points M0–M17 plus the external MX and MZ, and the eight quality planes. **Imported verbatim.** |
 | `DATA-QUALITY-MONITORING-INTEGRATION.md` | What the DQM import changes about planned work. Its inventory has nine rows but **ten named provenance properties**; LocalStream replaces historical Proton dependencies. |
-| `NRT-PIPELINE.md` | **Current target, 23 November 2026:** LocalStream/Query instead of Proton (`DEC-0033`); consolidated Medallion schema conventions (`DEC-0038`). |
+| `NRT-PIPELINE.md` | **Current target, updated 27 November 2026:** LocalStream/Query instead of Proton (`DEC-0033`); consolidated Medallion schema conventions (`DEC-0038`). |
 | `ASIM-GOLD-MAPPING-BASELINE.md` | **Canonical ASIM mapping baseline**: source-inventoried Gold fields, reviewed ASIM 1.0.0 candidate mappings, pinned 1,225-entry tester reverse inventory and proposed fixtures; **not implemented or certified**. |
 | `ASIM-GOLD-MAPPING-REGISTER.md` | Compatibility navigation to the canonical baseline; identifies C03/C10/C11/C07 gates. Not an independent register. |
 | [DETECTION-PROVENANCE.md](DETECTION-PROVENANCE.md) | Target logical contract for causal detection results, rule revision and evidence lineage under DEC-0036; implementation open. |
@@ -30,6 +30,29 @@ only to understand earlier reasoning.
 Its D1–D21 register has been seeded into `decisions/` as `DEC-0001`–`DEC-0021`
 under global numbering, which resolves the Agent-0014/Platform-0014 collision by
 giving each decision a number that means one thing estate-wide.
+
+## Authority and conflict handling
+
+| Record | Authority |
+|---|---|
+| Applicable Constraints | External facts within their stated version and scope; supersede if refuted |
+| Accepted Decisions | Binding estate policy, subject to explicit supersession |
+| Current architecture | Target contract interpreting Accepted Decisions; candidate sections require approval |
+| Component source and tests | Observed implementation at a pinned revision; tests qualify only their exercised scope |
+| Consolidated roadmap | Work, dependencies and open approvals, not independent architectural policy |
+| Dated reports and archives | Historical evidence, not current implementation or binding policy |
+
+If a target narrative conflicts with an Accepted Decision, correct the
+narrative or seek a new Decision. If source conflicts with policy, record
+the discrepancy and qualification requirement under its existing C item.
+Do not treat source presence, a green build or an existence check as
+proof of deployed behavior. Proposed Decisions and candidate contracts
+must not be promoted by documentation edits alone.
+
+The [27 November authority audit](../reports/2026-11-27-documentation-authority-audit.md) pins all eight component
+documentation indexes and identifies the remaining legacy Proton source
+inventory. Local documents remain implementation references until
+individually reconciled; no blanket migration or deletion is implied.
 
 ## Per-repo architecture — pending migration
 
