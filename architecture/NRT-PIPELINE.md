@@ -319,3 +319,7 @@ require owner-approved workload and service objectives under C14.
 ## Qualification handoff
 
 The [existing roadmap qualification gates](../roadmaps/CONSISTENCY-CORRECTNESS-ROADMAP.md#localstream-qualification-dependencies) govern dependency ordering and the joint C06/C07 approval. The candidate sections above are not runtime verification or new Accepted Decisions. The [consolidated review](../reports/2026-11-27-localstream-consolidated-qualification.md) records cross-contract reconciliation and open owner policies.
+
+## Endpoint acquisition boundary
+
+See the [Agent acquisition contract](AGENT-ACQUISITION-CONTRACT.md) for endpoint extraction, state/filter ordering, local query and coverage ownership. Historical Agent topology and wire reliability claims require the documented qualification; they do not override the current estate target.

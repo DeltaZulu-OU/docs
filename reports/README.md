@@ -46,3 +46,5 @@ when the answer refuted the premise that motivated the check. Reports are dated 
 [Consolidated LocalStream qualification, 27 November 2026](2026-11-27-localstream-consolidated-qualification.md) reconciles the source reviews, dependencies and owner decisions.
 
 [Documentation authority audit, 27 November 2026](2026-11-27-documentation-authority-audit.md) pins component indexes and records legacy migration boundaries.
+
+[Agent documentation reconciliation, 27 November 2026](2026-11-27-agent-documentation-reconciliation.md) records inherited requirements and conflicting claims.
