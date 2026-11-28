@@ -60,3 +60,5 @@ when the answer refuted the premise that motivated the check. Reports are dated 
 [Package lineage verification, 27 November 2026](2026-11-27-package-lineage-verification.md) records LocalStream 1.1.0 publication and qualification branch status.
 
 [Dependency compatibility qualification](2026-11-28-dependency-compatibility-qualification.md) records advisory verification and corrective test gates.
+
+[DuckDB conversion qualification and deferred precision findings](2026-11-28-duckdb-conversion-qualification.md) records pinned provider source, Windows regression evidence and the owner's deferral of further precision workarounds.
