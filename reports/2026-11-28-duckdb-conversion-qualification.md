@@ -18,7 +18,7 @@ Owner direction, 28 November: document precision findings internally and defer f
 | [46160505985](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/actions/runs/46160505985) | Native result projection | 65/65 |
 | [46160616132](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/actions/runs/46160616132) | Extended qualification and full Platform regression, Windows | 76/76 targeted; 1422/1422 full regression; locked restore and audit passed, no vulnerable packages reported by configured sources across 13 projects |
 
-Characterisation tests record observed behaviour; a passing characterisation test does not establish lossless conversion. Cross-platform candidate qualification and production-specific persistence checks are not established by these Windows runs.
+Characterisation tests record observed behaviour; a passing characterisation test does not establish lossless conversion. Cross-platform candidate qualification is documented below. Passing conversion and regression tests does not by itself establish lossless production persistence for all KQL temporal values.
 
 ## Deferred findings
 
@@ -53,6 +53,16 @@ DuckDbRawLogSubscriber and LocalStreamBronzeWriter bind ingest timestamps throug
 
 Native JSON preserves tested wide/narrow decimal tokens and nulls; non-finite floating values are rejected as invalid strict JSON, and nested INET/non-string-keyed maps are rejected conservatively. Existing projection tests cover duplicate names, quoted identifiers, ordering and single execution in the tested data-only path. Developer-mode EXPLAIN ANALYZE re-execution remains a separate Platform concern, not a provider precision defect.
 
+## Three-platform candidate qualification and direct integration
+
+The final pre-cleanup candidate `91f5a962ca5e7cce52175d599ebc7d8131c50d18` passed [workflow run 46171447930](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/actions/runs/46171447930) on Ubuntu, Windows and macOS. Each host completed locked restore, configured-source direct/transitive vulnerability audit, unchanged lock graph verification, 76 targeted scalar/result conversion tests, Release solution build and 1,422 full regression tests. Across the three hosts, 4,494 test executions passed (228 targeted plus 4,266 full regressions), with no reported failed or skipped tests. The run does not establish zero compiler/analyser warnings; warnings including CS8524 and CA1873 had appeared during qualification.
+
+The temporary `.github/workflows/duckdb-conversion-qualification.yml` was deleted in [cleanup commit 55bde60f](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/commit/55bde60f71bf4f083b02201999b9e2df0e0d7d6d). The cleaned candidate retained the production corrections, lockfiles, scalar conversion and result projection regressions. GitHub comparison before integration reported 17 commits ahead and zero behind `master`, and no temporary workflow in the resulting diff. The `master` ref was then advanced non-forcibly from `d6b3a435466d57317e4c70a26948ea5d68075675` to `55bde60f71bf4f083b02201999b9e2df0e0d7d6d`; subsequent comparison confirmed the branch and `master` were identical.
+
+Permanent CI was triggered at the integrated commit: [Unit Tests run 46179453486](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/actions/runs/46179453486) and [Push on master run 46179452888](https://github.com/DeltaZulu-OU/DeltaZulu.Platform/actions/runs/46179452888). Both were **in progress at the evidence checkpoint**; their eventual outcomes must be verified before the post-integration gate is marked passed. The permanent Unit Tests workflow covers three-host locked restore, unchanged lockfiles, Release build and regression tests, but does not itself run the explicit vulnerability audit performed by candidate qualification.
+
+This closes the scoped *branch integration action*, not all Platform dependency qualification. DB02/DB06 100 ns vs microsecond limitations, provider-side precision behaviour, KQL datetime and dynamic semantics, complete C03 and estate-wide C14 remain open under the owner's documented deferral. No additional DuckDB.NET workaround, package publication, issue or pull request was introduced.
+
 ## Next gate
 
-Proceed with cross-platform locked restore/build/test qualification of the existing candidate, without new precision fixes. Remove temporary qualification infrastructure after successful qualification, verify permanent CI after integration, and resume the dependency roadmap. C03 and C14 remain open; deferred precision findings are not closed or accepted as a permanent KQL contract. No upstream issue, PR or package publication was made.
+Three-host candidate qualification and direct integration are complete. Verify the outcomes of the two permanent master workflows cited above before marking post-integration CI qualified. Then resume Kql and the remaining dependency roadmap without new precision fixes. C03 and C14 remain open; deferred precision findings are not closed or accepted as a permanent KQL contract. No upstream issue, PR or package publication was made.
